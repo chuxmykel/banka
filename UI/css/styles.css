@@ -92,7 +92,7 @@ header {
 }
 
 .page-body {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 130px);
   text-align: center;
   padding: 15px;
 }
@@ -208,7 +208,7 @@ input::placeholder {
 footer {
   padding: 18px;
   position: absolute;
-  bottom: 0;
+  bottom: -50px;
   width: 100%;
   color: #e1e5f2;
   text-align: center;
@@ -315,7 +315,7 @@ footer {
   .body-image img {
     float: right;
     width: 400px;
-    height: 500px;
+    height: 470px;
   }
 
   .box {
