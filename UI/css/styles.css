@@ -205,6 +205,106 @@ input::placeholder {
   text-decoration: none;
 }
 
+.profile {
+  padding: 0;
+}
+
+.profile-header {
+  padding: 1px;
+  margin: 0 auto;
+  background-image: linear-gradient(to bottom right, #a69cacab, #f1dac4ab); 
+}
+
+#user-photo {
+  width: 150px;
+  height: 150px;
+  margin: 15px auto;
+  border: 2px solid #161b33;
+  border-radius: 50%; 
+  overflow: hidden;
+}
+
+#user-photo img {
+  width: 150px;
+  height: 150px;
+  display: block;
+}
+
+#user-name {
+  color: #161b33;
+}
+
+.tab {
+  overflow: hidden;
+  background-color: inherit;
+}
+
+.tab button {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #474973;
+  color: #161b33;
+  font-size: 16px;
+  width: 32%;
+  height: 35px;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tab button:last-child {
+  border-right: none;
+}
+
+.tab button:hover {
+  background: rgba(255, 255, 255, 0.212);
+  border-bottom: 2px solid #474973;
+}
+
+.tab button.active {
+  background-color: #a69cac;
+  border-bottom: 3px solid #0d0c1d;
+}
+
+button::-moz-focus-inner { 
+  border: 0; 
+}
+
+.tabcontent {
+  margin-top: 5px;
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
+}
+
+.profile-item {
+  background: #a69cac;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 10px;
+  margin: 0 0 15px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-label {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  color: #161b33;
+  margin-left: 5px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.item-content {
+  font-size: 16px;
+  color: #474973;
+  margin-left: 5px;
+  display: flex;
+  justify-content: flex-start;
+}
+
 footer {
   padding: 18px;
   position: absolute;
@@ -215,7 +315,6 @@ footer {
   background-color: #161b33;
   height: 50px;
 }
-
 
 @media only screen and (min-width: 768px) {
   .header-links {
@@ -234,7 +333,7 @@ footer {
     background-color: #1b263b;
     border: 2px solid #778da9;
     border-radius: 50px;
-    width: 80px;
+    width: 120px;
     height: 45px;
     transition: .5s;
   }
@@ -262,6 +361,31 @@ footer {
   .forgot-p {
     display: block;
   }
+
+  #user-photo {
+    width: 180px;
+    height: 180px;
+  }
+  
+  #user-photo img {
+    width: 180px;
+    height: 180px;
+    display: block;
+  }
+
+  .profile-item {
+    margin-bottom: 10px;
+    height: 70px;
+    padding: 20px;
+  }
+
+  .item-label {
+    font-size: 15px;
+  }
+  
+  .item-content {
+    font-size: 18px;
+  }
 }
 
 @media only screen and (min-width: 1000px) {
@@ -281,7 +405,7 @@ footer {
     background-color: #1b263b;
     border: 2px solid #778da9;
     border-radius: 50px;
-    width: 80px;
+    width: 120px;
     height: 45px;
     transition: .5s;
   }
@@ -329,5 +453,29 @@ footer {
   .forgot-p {
     display: block;
   }
-}
 
+  #user-photo {
+    width: 200px;
+    height: 200px;
+  }
+  
+  #user-photo img {
+    width: 200px;
+    height: 200px;
+    display: block;
+  }
+
+  .profile-item {
+    margin-bottom: 5px;
+    overflow: auto;
+  }
+
+  .item-label {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  
+  .item-content {
+    font-size: 17px;
+  }
+}
