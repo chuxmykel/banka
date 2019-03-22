@@ -205,7 +205,8 @@ input::placeholder {
   text-decoration: none;
 }
 
-.profile {
+.profile,
+.admin {
   padding: 0;
 }
 
@@ -250,6 +251,10 @@ input::placeholder {
   outline: none;
   cursor: pointer;
   transition: 0.2s;
+}
+
+.admin .tab button {
+  width: 48%;
 }
 
 .tab button:last-child {
@@ -583,5 +588,14 @@ footer {
     text-align: center;
     margin: 10% auto auto auto;
     width: 60%;
+  }
+
+  .admin .tab {
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .admin .tab button {
+    width: 10%;
   }
 }
