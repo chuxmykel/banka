@@ -287,6 +287,27 @@ button::-moz-focus-inner {
   flex-direction: column;
 }
 
+.transaction-item {
+  background: #a69cac;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 10px;
+  margin: 0 0 15px 0;
+  display: flex;
+}
+
+.transaction-item i.debit{
+  color: red;
+}
+
+.transaction-item i.credit{
+  color: green;
+}
+
+.transaction-item.item-content{
+  margin-right: 10px;
+}
+
 .item-label {
   text-transform: uppercase;
   font-size: 14px;
