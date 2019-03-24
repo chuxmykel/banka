@@ -72,7 +72,7 @@ header {
   text-decoration: none;
   font-size: 18px;
   color: #a69cac;
-  border-bottom: 1px solid #e1e5f2;
+  border-bottom: 1px solid #a69cac;
   border-radius: 1px;
   display: block;
   transition: 0.3s;
@@ -88,7 +88,8 @@ header {
 
 #page {
   position: relative;
-  transition: margin-right .5s;
+  transition: margin .5s;
+
 }
 
 .page-body {
@@ -195,7 +196,6 @@ input::placeholder {
 
 .submit-btn:hover{
   background-color: #1b263b;
-  
 }
 
 .forgot-p {
@@ -316,12 +316,12 @@ button::-moz-focus-inner {
   font-size: 18px;
 }
 
-.transaction-item i.debit{
-  color: red;
+.credit {
+  color: green;
 }
 
-.transaction-item i.credit{
-  color: green;
+.debit {
+  color: red;
 }
 
 .transaction-item.item-content{
@@ -404,6 +404,69 @@ button::-moz-focus-inner {
   cursor: pointer;
 }
 
+.admin-item {
+  background: #a69cac;
+  height: 140px;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 10px;
+  margin: 0 0 15px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-btn {
+  height: 45px;
+  width: 100%;
+  color: #a69cac;
+  background-color: #161b33;
+  border: 1px solid #0d1b2a;
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: .5s;
+}
+
+.admin-btn:hover{
+  color: #161b33;
+  background-color: #474973;
+}
+
+.accounts {
+  background: #a69cac;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 10px;
+  margin: 0 0 15px 0;
+}
+
+.accounts .item-label {
+  margin-bottom: 3px;
+}
+
+.accounts .item-content {
+  margin-bottom: 5px;
+}
+
+.accounts .active {
+  color: green;
+  text-transform: uppercase;
+}
+
+.accounts .dormant {
+  color: red;
+  text-transform: uppercase;
+}
+
+.accounts .balance {
+  color: green;
+  font-size: 20px;
+}
+
+.accounts .balance-dormant{
+  font-size: 20px;
+  color: red;
+}
+
 footer {
   padding: 18px;
   position: absolute;
@@ -414,6 +477,10 @@ footer {
   background-color: #161b33;
   height: 50px;
 }
+
+/*############### END OF MOBILE RULES ##################*/
+
+/*############### MEDIUM SCREEN RULES ##################*/
 
 @media only screen and (min-width: 768px) {
   .header-links {
@@ -474,7 +541,7 @@ footer {
 
   .profile-item {
     margin-bottom: 10px;
-    height: 70px;
+    height: auto;
     padding: 20px;
   }
 
@@ -492,6 +559,10 @@ footer {
     width: 70%;
   }
 }
+
+/*############### END OF MEDIUM RULES ##################*/
+
+/*############### LARGE SCREEN RULES ##################*/
 
 @media only screen and (min-width: 1000px) {
   .header-links {
@@ -572,6 +643,7 @@ footer {
 
   .profile-item {
     margin-bottom: 5px;
+    height: auto;
     overflow: auto;
   }
 
@@ -590,12 +662,16 @@ footer {
     width: 60%;
   }
 
-  .admin .tab {
-    display: flex;
-    justify-content: flex-start;
+  .admin-item {
+    flex-direction: row;
+    height: auto;
+  }
+
+  .admin-item .item-content {
+    flex: 1;
   }
   
-  .admin .tab button {
-    width: 10%;
+  .admin-btn {
+    margin-bottom: 5px;
   }
 }
