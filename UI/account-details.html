@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Kumar+One+Outline" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>banka</title>
+  </head>
+  <body>
+    <div id="mySidebar" class="sidebar">
+      <a class="nav-link" href="./index.html"><p>home</p></a>
+      <a class="nav-link" href="./account-details.html"><p>Dashboard</p></a>
+      <a class="nav-link" href="./accounts.html"><p>Accounts</p></a>
+    </div>
+    <div id="page">
+      <header>
+        <div class="header-logo">
+          <p class="logo">b<span>ank</span>a</p>
+        </div>
+        <div class="header-links">
+          <a class="nav-link" href="./index.html"><p>home</p></a>
+          <a class="nav-link" href="./admin.html"><p>Dashboard</p></a>
+          <a class="nav-link" href="./accounts.html"><p>Accounts</p></a>
+        </div>
+        <div id="hamburger-menu">☰</div>
+      </header>
+      <div class="page-body profile">
+        <div class="profile-header">
+          <div id="user-photo">
+              <img src="https://via.placeholder.com/200/474973/a69cac">
+          </div>
+          <h2 id="user-name">Mr. Name Placeholder</h2>
+          <div class="tab">
+            <button id="profile" class="tablinks" onclick="displayInfo(event, 'profile-tab')">Profile</button>
+            <button class="tablinks" onclick="displayInfo(event, 'transaction-tab')">Transactions</button>
+            <button class="tablinks" onclick="displayInfo(event, 'account-tab')">Accounts</button>
+          </div>
+        </div>
+        <div id="profile-tab" class="tabcontent">
+          <div class="profile-item">
+            <span class="item-label">BVN:</span>
+            <span class="item-content">0000000000</span>
+          </div>
+          <div class="profile-item">
+            <span class="item-label">Email: </span>
+            <span class="item-content">test@test.com</span>
+          </div>
+          <div class="profile-item">
+            <span class="item-label">Phone: </span>
+            <span class="item-content">00000000000</span>
+          </div>
+          <div class="profile-item">
+            <span class="item-label">Address:</span>
+            <span class="item-content">No. 4 Lorem ipsum dolor sit amet, consectetur</span>
+          </div>
+        </div>
+        
+        <div id="transaction-tab" class="tabcontent">
+          <div class="transaction-item">
+            <i class="fa fa-long-arrow-up debit"></i>
+            <span class="item-content">-NGN 4,000 | 7:15pm | 8-11-2011</span>
+          </div>
+          <div class="transaction-item">
+            <i class="fa fa-long-arrow-down credit"></i>
+            <span class="item-content">NGN 204,000 | 12:15pm | 3-09-2011</span>
+          </div>
+          <div class="transaction-item">
+            <i class="fa fa-long-arrow-down credit"></i>
+            <span class="item-content">NGN 12,000 | 11:45am | 22-07-2011</span>
+          </div>
+          <div class="transaction-item">
+            <i class="fa fa-long-arrow-up debit"></i>
+            <span class="item-content">-NGN 9,000 | 9:29am | 2-05-2011</span>
+          </div>
+          <div class="transaction-item">
+            <i class="fa fa-long-arrow-down credit"></i>
+            <span class="item-content">NGN 45,000 | 3:02pm | 28-12-2010</span>
+          </div>
+        </div>
+        
+        <div id="account-tab" class="tabcontent">
+          <div class="account-item">
+            <div class="acct">
+              <span class="item-label">Savings Account:</span>
+              <span class="item-content">0000000000</span>
+            </div>
+            <div class="acct bal">
+              <span class="item-label">Account Balance:</span>
+              <span class="item-content">NGN 12,345.67</span>
+            </div>
+          </div>
+          <div class="account-item">
+            <div class="acct">
+              <span class="item-label">Current Account:</span>
+              <span class="item-content">0000000000</span>
+            </div>
+            <div class="acct bal">
+              <span class="item-label">Account Balance:</span>
+              <span class="item-content">NGN 123,456.78</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p>Copyright &copy; banka 2019</p>
+      </footer>
+    </div>
+    <script src="js/main.js"></script>
+    <script src="js/createAccount.js"></script>
+  </body>
+</html>

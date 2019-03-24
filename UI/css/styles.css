@@ -433,10 +433,11 @@ button::-moz-focus-inner {
 
 .accounts {
   background: #a69cac;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: auto;
   padding: 10px;
-  margin: 0 0 15px 0;
+  margin: 0 0 30px 0;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
 }
 
 .accounts .item-label {
@@ -465,6 +466,60 @@ button::-moz-focus-inner {
 .accounts .balance-dormant{
   font-size: 20px;
   color: red;
+}
+
+.accounts .admin-btn {
+  color: #a69cac;
+}
+
+.accounts-flex {
+  display: flex;
+}
+
+.account-details {
+  flex: 3;
+}
+
+.account-operations {
+  flex: 1;
+}
+
+.account-operations button {
+  height: 45px;
+  width: 100%;
+  color: #ffffff;
+  font-size: 15px;
+  background-color: #ff0000;
+  border: 1px solid #ff0000;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: .3s;
+}
+
+.account-operations button:hover {
+  height: 45px;
+  width: 100%;
+  color: #ffffff;
+  font-size: 15px;
+  background-color: #cc0000;
+  border: 1px solid #cc0000;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
+}
+
+.modal-content p {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.danger {
+  background-color: #ff0000;
+  border-color: #ff0000;
+  color: #ffffff;
+}
+
+.danger:hover {
+  background-color: #810505;
 }
 
 footer {
@@ -673,5 +728,11 @@ footer {
   
   .admin-btn {
     margin-bottom: 5px;
+  }
+
+  .accounts .admin-btn {
+    width: 25%;
+    float: right;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
   }
 }
