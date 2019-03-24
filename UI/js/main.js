@@ -8,14 +8,16 @@ const openNav = () => {
 		open = 0;
 		return closeNav();
 	} 
-	sideBar.style.width = '120px';
-	page.style.marginRight = '120px';
+	sideBar.style.width = '180px';
+	page.style.marginRight = '180px';
+	page.style.marginLeft = '-180px';
 	open = 1;
 }
   
 const closeNav = () => {
 	sideBar.style.width = '0';
 	page.style.marginRight= '0';
+	page.style.marginLeft = '0';
 }
 
 const displayInfo = (evt, tabName) => {
