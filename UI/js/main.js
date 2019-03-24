@@ -37,6 +37,17 @@ const displayInfo = (evt, tabName) => {
 	evt.currentTarget.className += ' active';
 }
 
+const changeStatus = (checked) => {
+  const status = document.getElementById('status')
+  if(!checked) {
+    status.style.color = '#474973';
+    status.innerText = 'Staff';
+  } else {
+    status.style.color = '#ff0000';
+    status.innerText = 'Admin';
+  }
+};
+
 hamburger.addEventListener('click', openNav);
 document.getElementById('profile-tab').style.display = 'block';
 document.getElementById('profile').className += ' active';
