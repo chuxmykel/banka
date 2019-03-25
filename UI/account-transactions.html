@@ -11,7 +11,7 @@
   <body>
     <div id="mySidebar" class="sidebar">
       <a class="nav-link" href="./index.html"><p>home</p></a>
-      <a class="nav-link" href="./admin.html"><p>Dashboard</p></a>
+      <a class="nav-link" href="./staff.html"><p>Dashboard</p></a>
     </div>
     <div id="page">
       <header>
@@ -20,7 +20,7 @@
         </div>
         <div class="header-links">
           <a class="nav-link" href="./index.html"><p>home</p></a>
-          <a class="nav-link" href="./admin.html"><p>Dashboard</p></a>
+          <a class="nav-link" href="./staff.html"><p>Dashboard</p></a>
         </div>
         <div id="hamburger-menu">☰</div>
       </header>
@@ -41,6 +41,7 @@
               </div>
               <div class="account-operations">
                 <button class="transaction">Transaction</button>
+                <button class="delete">Delete</button>
               </div>
             </div>
             <span><button class="admin-btn" onclick="location.href='account-details.html'">View Account Details</button></span>
@@ -60,6 +61,7 @@
               </div>
               <div class="account-operations">
                 <button class="transaction">Transaction</button>
+                <button class="delete">Delete</button>
               </div>
             </div>
             <span><button class="admin-btn" onclick="location.href='account-details.html'">View Account Details</button></span>
@@ -79,6 +81,7 @@
               </div>
               <div class="account-operations">
                 <button class="transaction">Transaction</button>
+                <button class="delete">Delete</button>
               </div>
             </div>
             <span><button class="admin-btn" onclick="location.href='account-details.html'">View Account Details</button></span>
@@ -98,6 +101,7 @@
               </div>
               <div class="account-operations">
                 <button class="transaction">Transaction</button>
+                <button class="delete">Delete</button>
               </div>
             </div>
             <span><button class="admin-btn" onclick="location.href='account-details.html'">View Account Details</button></span>
@@ -117,6 +121,7 @@
               </div>
               <div class="account-operations">
                 <button class="transaction">Transaction</button>
+                <button class="delete">Delete</button>
               </div>
             </div>
             <span><button class="admin-btn" onclick="location.href='account-details.html'">View Account Details</button></span>
@@ -127,19 +132,27 @@
         <div class="modal-content">
           <span class="close">&times;</span>
           <form action="" method="">
-                <div class="form-segment">
-                  <div class="form-label"><label>Amount</label></div>
-                  <input class="form-input" type="text" name="amount" placeholder="Enter Transaction Amount">
-                </div>
-                <div class="form-segment">
-                  <div class="form-label"><label>Transaction type</label></div>
-                  <select class="form-input">
-                    <option value="credit">Credit</option>
-                    <option value="debit">Debit</option>
-                  </select> 
-                </div>
-                <button id="confirm" class="submit-btn">Confirm Transaction</button>
-              </form>
+            <div class="form-segment">
+              <div class="form-label"><label>Amount</label></div>
+              <input class="form-input" type="text" name="amount" placeholder="Enter Transaction Amount">
+            </div>
+            <div class="form-segment">
+              <div class="form-label"><label>Transaction type</label></div>
+              <select class="form-input">
+                <option value="credit">Credit</option>
+                <option value="debit">Debit</option>
+              </select> 
+            </div>
+            <button id="confirm" class="submit-btn">Confirm Transaction</button>
+          </form>
+        </div>
+      </div>
+      <div id="delete-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Are you sure you want to delete the account? This can not be undone</p>
+          <button id="del-confirm" class="submit-btn danger">Delete</button>
+          <button id="cancel" class="submit-btn">Cancel</button>
         </div>
       </div>
       <footer>
