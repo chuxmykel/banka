@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Kumar+One+Outline" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>banka</title>
+  </head>
+  <body>
+    <div id="mySidebar" class="sidebar">
+      <a class="nav-link" href="./index.html"><p>home</p></a>
+      <a class="nav-link" href="#"><p>Users</p></a>
+    </div>
+    <div id="page">
+      <header>
+        <div class="header-logo">
+          <p class="logo">b<span>ank</span>a</p>
+        </div>
+        <div class="header-links">
+          <a class="nav-link" href="./index.html"><p>home</p></a>
+          <a class="nav-link" href="#"><p>Users</p></a>
+        </div>
+        <div id="hamburger-menu">☰</div>
+      </header>
+      <div class="page-body admin">
+        <div class="profile-header">
+          <div id="user-photo">
+              <img src="https://i.ibb.co/6nwndKp/kenneth.jpg">
+          </div>
+          <h2 id="user-name">Mr. Kenneth C. Godwin</h2>
+          <div class="tab">
+            <button id="profile" class="tablinks" onclick="displayInfo(event, 'profile-tab')">Profile</button>
+            <button class="tablinks" onclick="displayInfo(event, 'user-accounts-tab')">User Accounts</button>
+          </div>
+        </div>
+        <div id="profile-tab" class="tabcontent">
+          <div class="profile-item">
+            <span class="item-label">Designation:</span>
+            <span class="item-content">Staff</span>
+          </div>
+          <div class="profile-item">
+            <span class="item-label">Email: </span>
+            <span class="item-content">kenny_g@gmail.com</span>
+          </div>
+          <div class="profile-item">
+            <span class="item-label">Phone: </span>
+            <span class="item-content">08102587413</span>
+          </div>
+          <div class="profile-item">
+            <span class="item-label">Address:</span>
+            <span class="item-content">No. 10, Olufeyisan St. Iyanoworo</span>
+          </div>
+        </div>
+        
+        <div id="user-accounts-tab" class="tabcontent">
+          <div class="admin-item">
+            <span class="item-content"><button class="admin-btn" onclick="location.href='user-accounts.html'">View all User Accounts</button></span>
+            <span class="item-content"><button class="admin-btn" onclick="location.href='account-transactions.html'">Account Transactions</button></span>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p>Copyright &copy; banka 2019</p>
+      </footer>
+    </div>
+    <script src="js/main.js"></script>
+  </body>
+</html>

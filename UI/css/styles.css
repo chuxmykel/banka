@@ -585,12 +585,29 @@ button::-moz-focus-inner {
 
 .danger {
   background-color: #ff0000;
-  border-color: #ff0000;
+  /* border-color: #ff0000; */
   color: #ffffff;
 }
 
 .danger:hover {
   background-color: #810505;
+}
+
+.staff .transaction {
+  height: 45px;
+  width: 100%;
+  color: #f1dac4ab;
+  background-color: #137a29;
+  border: 1px solid #137a29;
+  border-radius: 10px;
+  margin-top: 10px;
+  transition: .5s;
+  padding: 5px;
+}
+
+.staff .transaction:hover{
+  background-color: #137a29d0;
+  border-color: green;
 }
 
 footer {
