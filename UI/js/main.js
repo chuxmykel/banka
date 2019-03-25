@@ -38,7 +38,7 @@ const displayInfo = (evt, tabName) => {
 }
 
 const changeStatus = (checked) => {
-  const status = document.getElementById('status')
+  const status = document.getElementById('status');
   if(!checked) {
     status.style.color = '#474973';
     status.innerText = 'Staff';

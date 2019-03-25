@@ -7,9 +7,7 @@ const length = btn.length;
 
 
 for (let index = 0; index < length; index++) {
-  btn[index].onclick = function(){
-    deleteAcct(index);
-  }
+  btn[index].onclick = () => deleteAcct(index);
 }
 
 const deleteAcct = (i) => {
