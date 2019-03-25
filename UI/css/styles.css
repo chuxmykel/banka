@@ -190,6 +190,17 @@ input::placeholder {
   float: left;
 }
 
+.account-operations .switch {
+  margin-left: 25%;
+  margin: 10px 0 0 25%;
+}
+
+.account-operations .item-label {
+  color: #ff000069;
+  font-size: 12px;
+  font-style: italic;
+}
+
 .switch input {
   opacity: 0;
   width: 0;
@@ -467,11 +478,10 @@ button::-moz-focus-inner {
 
 .admin-item {
   background: #a69cac;
-  height: 140px;
+  height: auto;
   border-radius: 5px;
   overflow: auto;
   padding: 10px;
-  margin: 0 0 15px 0;
   display: flex;
   flex-direction: column;
 }
@@ -795,5 +805,9 @@ footer {
     width: 25%;
     float: right;
     box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
+  }
+
+  .account-operations .switch {
+    margin: 20px 0 0 25%;
   }
 }
