@@ -24,6 +24,18 @@ class Auth {
   }
 
   /**
+  * @method verifyPassword
+  * @description Verifies if the user password is valid by comparing
+  * it against the stored hashed password
+  * @param {string} plainTextPassword - The plain text password to be verified
+  * @param {string} hashedPassword - Stored hashed password to compare against
+  * @returns {boolean} Booelean indicating success or failure
+  */
+  verifyPassword(plainTextPassword, hashedPassword) {
+    return bcrypt.compareSync(plainTextPassword, hashedPassword);
+  }
+
+  /**
   * @method generateToken
   * @description Generates a token for the user
   * @param {string} payload - The user payload for generating the token
@@ -32,6 +44,17 @@ class Auth {
   generateToken(payload) {
     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
     return token;
+  }
+
+  /**
+  * @method verifyToken
+  * @description verifies the given token
+  * @param {string} token - The token to be verified
+  * @returns {object} The payload of the token
+  */
+  verifyToken(token) {
+    const decoded = jwt.verify(token, secretKey);
+    return decoded;
   }
 }
 
