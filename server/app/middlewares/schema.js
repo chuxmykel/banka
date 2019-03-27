@@ -23,6 +23,20 @@ class Schema {
     };
     return Joi.validate(user, schema);
   }
+
+  /**
+  * @method loginSchema
+  * @description Validates the login details from a post request
+  * @param {object} login - The login object to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  loginSchema(login) {
+    const schema = {
+      email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+      password: Joi.string().min(5).max(30).required(),
+    };
+    return Joi.validate(login, schema);
+  }
 }
 
 const schema = new Schema();

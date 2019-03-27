@@ -5,8 +5,8 @@ const router = express.Router();
 
 // Home
 router.get('/', (req, res) => res.status(301).redirect('api/v1'));
-router.get('/v1', (req, res) => res.json({
-  status: 200,
+router.get('/v1', (req, res) => res.status(200).json({
+  status: res.statusCode,
   message: 'Welcome to banka API version 1',
 }));
 

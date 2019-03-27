@@ -10,15 +10,21 @@ class Exists {
   * @method emailExists
   * @description Verifies if the user email already exists
   * @param {*} email - The email to be verified
+  * @param {*} returnUser - A boolean value specifying if the user object should be returned
   * @returns {boolean} a boolean value indicating weather the email exist or not
   */
-  emailExists(email) {
-    let emailExists;
+  emailExists(email, returnUser) {
+    let emailExists = false;
+    let userDetails;
     users.forEach((user) => {
       if (user.email === email) {
+        userDetails = user;
         emailExists = true;
       }
     });
+    if (returnUser) {
+      return { userDetails, emailExists };
+    }
     return emailExists;
   }
 }
