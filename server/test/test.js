@@ -30,7 +30,7 @@ describe('User Sign Up Tests', () => {
         });
     });
 
-    it('Should return error 400 if firstname is ommited', (done) => {
+    it('Should return 400 if firstname is ommited', (done) => {
       const user = {
         lastname: 'Ngwobia',
         email: 'coolemail1@testmail.com',
@@ -258,6 +258,61 @@ describe('Account Creation Tests', () => {
       chai.request(app)
         .post(`${apiEndPoint}accounts`)
         .send(input)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+  });
+});
+
+describe('Account Status change Tests', () => {
+  describe(`PATCH ${apiEndPoint}accounts/:accountNumber`, () => {
+    it('Should edit account status successfully', (done) => {
+      const login = {
+        email: 'kenny_g@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+
+          chai.request(app)
+            .patch(`${apiEndPoint}accounts/5823642528`)
+            .set('Authorization', token)
+            .send({ status: 'dormant' })
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('object');
+              res.body.data.should.have.property('status');
+              done();
+            });
+        });
+    });
+
+    it('Should return 400 if new account status isn\'t specified', (done) => {
+      chai.request(app)
+        .patch(`${apiEndPoint}accounts/5823642528`)
+        .send({})
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+
+    it('Should return 400 if wrong status details are provided', (done) => {
+      chai.request(app)
+        .patch(`${apiEndPoint}accounts/5823642528`)
+        .send({ status: 'domant' })
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.a('object');

@@ -77,23 +77,27 @@ class UserController {
       });
     }
 
-    req.user = {
+    const user = {
       id: userDetails.id,
       firstname: userDetails.firstName,
       lastname: userDetails.lastName,
       email: userDetails.email,
     };
 
-    const token = Auth.generateToken(req.user);
+    if (userDetails.type !== 'client') {
+      user.isAdmin = userDetails.isAdmin;
+      user.type = userDetails.type;
+    }
 
+    const token = Auth.generateToken(user);
     return res.status(200).send({
       status: 200,
       data: {
         token,
-        id: req.user.id,
-        firstName: req.user.firstname,
-        lastName: req.user.lastname,
-        email: req.user.email,
+        id: user.id,
+        firstName: user.firstname,
+        lastName: user.lastname,
+        email: user.email,
       },
     });
   }

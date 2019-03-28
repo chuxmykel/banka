@@ -1,5 +1,3 @@
-import users from '../models/accounts';
-
 /**
  * @class AccountNumber
  * @description Contains methods to generate random account numbers

@@ -71,6 +71,28 @@ class InputValidator {
     }
     return next();
   }
+
+  /**
+  * @method validateStatus
+  * @description Validates the account status passed in from the request body
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @param {function} next - The next function to point to the next middleware
+  * @returns {function} next() - The next function
+  */
+  validateStatus(req, res, next) {
+    const type = { ...req.body };
+    const validate = Schema.editAccountSchema(type);
+    const { error } = validate;
+
+    if (error) {
+      return res.status(400).send({
+        status: res.statusCode,
+        error: error.details[0].message,
+      });
+    }
+    return next();
+  }
 }
 
 const inputValidator = new InputValidator();

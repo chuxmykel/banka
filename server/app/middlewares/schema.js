@@ -161,7 +161,7 @@ class Schema {
   }
 
   /**
-  * @method loginSchema
+  * @method createAccountSchema
   * @description Validates the account details from a post request
   * @param {object} account - The account object to be validated
   * @returns {object} An object specifying weather the input was valid or not.
@@ -201,6 +201,40 @@ class Schema {
                 break;
               case 'any.required':
                 err.message = 'initialDeposit is required';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+    };
+    return Joi.validate(account, schema);
+  }
+
+  /**
+  * @method editAccountSchema
+  * @description Validates the account status from a post request
+  * @param {object} account - The account object to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  editAccountSchema(account) {
+    const schema = {
+      status: Joi.string().min(6).max(7).required()
+        .regex(/^active$|^dormant$/)
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'any.empty':
+                err.message = 'status cannot be empty!';
+                break;
+              case 'string.min':
+              case 'string.max':
+              case 'string.regex.base':
+                err.message = 'Account \'status\' can only be \'active\' or \'dormant\'';
+                break;
+              case 'any.required':
+                err.message = 'status is required';
                 break;
               default:
                 break;

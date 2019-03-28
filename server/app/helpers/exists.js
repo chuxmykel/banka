@@ -1,4 +1,5 @@
 import users from '../models/users';
+import accounts from '../models/accounts';
 
 /**
  * @class Exists
@@ -8,7 +9,7 @@ import users from '../models/users';
 class Exists {
   /**
   * @method emailExists
-  * @description Verifies if the user email already exists
+  * @description Verifies if the user email exists
   * @param {*} email - The email to be verified
   * @param {*} returnUser - A boolean value specifying if the user object should be returned
   * @returns {boolean} a boolean value indicating weather the email exist or not
@@ -26,6 +27,29 @@ class Exists {
       return { userDetails, emailExists };
     }
     return emailExists;
+  }
+
+  /**
+  * @method accountExists
+  * @description Verifies if the user account exists
+  * @param {*} accountNumber - The accountNumber to be verified
+  * @param {*} returnAccount - A boolean value specifying if the account object should be returned
+  * @returns {boolean} a boolean value indicating weather the account exists or not
+  * @returns {object} the account object
+  */
+  accountExists(accountNumber, returnAccount) {
+    let accountExists = false;
+    let accountDetails;
+    accounts.forEach((account) => {
+      if (account.accountNumber === accountNumber) {
+        accountDetails = account;
+        accountExists = true;
+      }
+    });
+    if (returnAccount) {
+      return { accountDetails, accountExists };
+    }
+    return accountExists;
   }
 }
 
