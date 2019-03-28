@@ -1,5 +1,6 @@
 import express from 'express';
 import userRoutes from './users';
+import accountRoutes from './accounts';
 
 const router = express.Router();
 
@@ -12,5 +13,5 @@ router.get('/v1', (req, res) => res.status(200).json({
 
 // Routes
 router.use('/v1/auth', userRoutes);
-
+router.use('/v1/accounts', accountRoutes);
 export default router;
