@@ -5,7 +5,7 @@ import Exists from '../helpers/exists';
 /**
  * @class UserController
  * @description Contains methods for each user related endpoint
- * @exports UserController
+ * @exports userController
  */
 class UserController {
   /**

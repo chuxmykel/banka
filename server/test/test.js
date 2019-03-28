@@ -139,7 +139,7 @@ describe('User Login tests', () => {
         });
     });
 
-    it('Should return 401 if wrong email is provided', (done) => {
+    it('Should deny access if wrong email is provided', (done) => {
       const login = {
         email: 'kcmykirl@gmail.com',
         password: 'password',
@@ -151,14 +151,15 @@ describe('User Login tests', () => {
           res.should.have.status(401);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
+          res.body.error.should.equal('Authentication Failed');
           done();
         });
     });
 
-    it('Should return 401 if wrong password is provided', (done) => {
+    it('Should deny access if wrong password is provided', (done) => {
       const login = {
         email: 'kcmykairl@gmail.com',
-        password: 'passwod',
+        password: 'passweod',
       };
       chai.request(app)
         .post(`${userEndPoint}signin`)
@@ -167,6 +168,7 @@ describe('User Login tests', () => {
           res.should.have.status(401);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
+          res.body.error.should.equal('Authentication Failed');
           done();
         });
     });
@@ -193,6 +195,69 @@ describe('User Login tests', () => {
       chai.request(app)
         .post(`${userEndPoint}signin`)
         .send(login)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+  });
+});
+
+describe('Account Creation Tests', () => {
+  describe(`POST ${apiEndPoint}accounts`, () => {
+    it('Should create an account successfully', (done) => {
+      const login = {
+        email: 'kcmykairl@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+          const input = {
+            type: 'current',
+            initialDeposit: 50000.35,
+          };
+          chai.request(app)
+            .post(`${apiEndPoint}accounts`)
+            .set('Authorization', token)
+            .send(input)
+            .end((err, res) => {
+              res.should.have.status(201);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('object');
+              done();
+            });
+        });
+    });
+
+    it('Should return 400 if account type isn\'t specified', (done) => {
+      const input = {
+        initialDeposit: 50000.00,
+      };
+      chai.request(app)
+        .post(`${apiEndPoint}accounts`)
+        .send(input)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+
+    it('Should return 400 if initial deposit isn\'t specified', (done) => {
+      const input = {
+        type: 'current',
+      };
+      chai.request(app)
+        .post(`${apiEndPoint}accounts`)
+        .send(input)
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.a('object');
