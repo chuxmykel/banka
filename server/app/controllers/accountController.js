@@ -1,5 +1,6 @@
 import accounts from '../models/accounts';
 import AccountNumber from '../helpers/accountNumber';
+import Exists from '../helpers/exists';
 
 /**
  * @class AccountController
@@ -40,6 +41,39 @@ class AccountController {
         email: req.user.email,
         type: account.type,
         openingBalance: account.balance,
+      },
+    });
+  }
+
+  /**
+  * @method changeAccountStatus
+  * @description Activates or deactivates a bank account
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  changeAccountStatus(req, res) {
+    const { status } = req.body;
+
+    const {
+      accountDetails,
+      accountExists,
+    } = Exists.accountExists(parseInt(req.params.accountNumber, 10), true);
+
+    if (!accountExists) {
+      return res.status(404).json({
+        status: res.statusCode,
+        error: `Account with account number ${req.params.accountNumber} does not exist`,
+      });
+    }
+
+    accountDetails.status = status;
+
+    return res.status(200).json({
+      status: res.statusCode,
+      data: {
+        accountNumber: accountDetails.accountNumber,
+        status: accountDetails.status,
       },
     });
   }

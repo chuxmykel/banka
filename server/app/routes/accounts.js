@@ -10,4 +10,9 @@ accountRoutes.post('/',
   AuthenticateUser.verifyUser,
   AccountController.createAccount);
 
+accountRoutes.patch('/:accountNumber',
+  InputValidator.validateStatus,
+  AuthenticateUser.verifyStaff,
+  AccountController.changeAccountStatus);
+
 export default accountRoutes;
