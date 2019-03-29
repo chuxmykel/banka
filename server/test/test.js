@@ -272,7 +272,7 @@ describe('Account Status change Tests', () => {
   describe(`PATCH ${apiEndPoint}accounts/:accountNumber`, () => {
     it('Should edit account status successfully', (done) => {
       const login = {
-        email: 'kenny_g@gmail.com',
+        email: 'chukwudi.m@gmail.com',
         password: 'password',
       };
 
@@ -318,6 +318,57 @@ describe('Account Status change Tests', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('error');
           done();
+        });
+    });
+  });
+});
+
+describe('Account Delete Tests', () => {
+  describe(`DELETE ${apiEndPoint}accounts/:accountNumber`, () => {
+    it('Should should delete an account successfully', (done) => {
+      const login = {
+        email: 'chukwudi.m@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+          const accountNumber = 7456321485;
+
+          chai.request(app)
+            .delete(`${apiEndPoint}accounts/${accountNumber}`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.have.property('message');
+              done();
+            });
+        });
+    });
+
+    it('Should return 404 if account does not exist', (done) => {
+      const login = {
+        email: 'chukwudi.m@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+          const accountNumber = 7456321485;
+
+          chai.request(app)
+            .delete(`${apiEndPoint}accounts/${accountNumber}`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(404);
+              done();
+            });
         });
     });
   });
