@@ -17,7 +17,7 @@ class AccountController {
   */
   createAccount(req, res) {
     const { type, initialDeposit } = req.body;
-    const id = accounts.length + 1;
+    const id = accounts[accounts.length - 1].id + 1;
     const owner = req.user.id;
     const accountNumber = AccountNumber.generateAccountNumber(id, owner, type);
 
@@ -75,6 +75,33 @@ class AccountController {
         accountNumber: accountDetails.accountNumber,
         status: accountDetails.status,
       },
+    });
+  }
+
+  /**
+  * @method deleteAccount
+  * @description Deletes an account
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  deleteAccount(req, res) {
+    const {
+      accountExists,
+      accountIndex,
+    } = Exists.accountExists(parseInt(req.params.accountNumber, 10), true);
+
+    if (!accountExists) {
+      return res.status(404).json({
+        status: res.statusCode,
+        error: `Account with account number ${req.params.accountNumber} does not exist`,
+      });
+    }
+
+    accounts.splice(accountIndex, 1);
+    return res.status(200).send({
+      status: res.statusCode,
+      message: 'Account successfully deleted',
     });
   }
 }

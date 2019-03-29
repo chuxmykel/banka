@@ -1,5 +1,4 @@
 import Auth from '../auth/auth';
-import { isNullOrUndefined } from 'util';
 
 /**
  * @class AuthenticateUser
@@ -79,7 +78,7 @@ class AuthenticateUser {
 
       if (!req.user.isAdmin) {
         return res.status(403).send({
-          status: 403,
+          status: res.statusCode,
           error: 'You are not authorized to view this endpoint',
         });
       }
@@ -87,7 +86,7 @@ class AuthenticateUser {
       return next();
     } catch (error) {
       return res.status(401).send({
-        status: 401,
+        status: res.statusCode,
         error: 'Authentication Failed',
       });
     }

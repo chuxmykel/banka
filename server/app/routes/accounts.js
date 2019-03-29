@@ -12,7 +12,11 @@ accountRoutes.post('/',
 
 accountRoutes.patch('/:accountNumber',
   InputValidator.validateStatus,
-  AuthenticateUser.verifyStaff,
+  AuthenticateUser.verifyAdmin,
   AccountController.changeAccountStatus);
+
+accountRoutes.delete('/:accountNumber',
+  AuthenticateUser.verifyAdmin,
+  AccountController.deleteAccount);
 
 export default accountRoutes;
