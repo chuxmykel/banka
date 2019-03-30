@@ -245,6 +245,40 @@ class Schema {
     };
     return Joi.validate(account, schema);
   }
+
+  /**
+  * @method transactionSchema
+  * @description Validates the amount from a post request
+  * @param {object} amount - The figure to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  transactionSchema(amount) {
+    const schema = {
+      amount: Joi.number().greater(999).required()
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'any.empty':
+                err.message = 'amount cannot be empty!';
+                break;
+              case 'number.base':
+                err.message = 'amount must be a number!';
+                break;
+              case 'number.greater':
+                err.message = 'deposits should be at least NGN 1000';
+                break;
+              case 'any.required':
+                err.message = 'amount is required';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+    };
+    return Joi.validate(amount, schema);
+  }
 }
 
 const schema = new Schema();
