@@ -16,8 +16,8 @@ const transactions = [
     accountNumber: 3032548765,
     cashier: 2,
     amount: 4000.00,
-    oldBalance: 25300.33,
-    newBalance: 21300.33,
+    oldBalance: 33522.56,
+    newBalance: 37522.56,
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const transactions = [
     cashier: 2,
     amount: 300000.00,
     oldBalance: 255000.86,
-    newBalance: 33522.56,
+    newBalance: 555000.86,
   },
 ];
 
