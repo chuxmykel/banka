@@ -71,7 +71,7 @@ class UserController {
     }
 
     if (!Auth.verifyPassword(login.password, userDetails.password)) {
-      return res.status(401).send({
+      return res.status(401).json({
         status: 401,
         error: 'Authentication Failed',
       });
@@ -90,7 +90,7 @@ class UserController {
     }
 
     const token = Auth.generateToken(user);
-    return res.status(200).send({
+    return res.status(200).json({
       status: 200,
       data: {
         token,
