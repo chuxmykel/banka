@@ -380,7 +380,7 @@ describe('Account Tests', () => {
 
 describe('Transaction Tests', () => {
   describe(`POST ${apiEndPoint}transactions/:accountNumber/credit`, () => {
-    it('Should credit an account status successfully', (done) => {
+    it('Should credit an account successfully', (done) => {
       const login = {
         email: 'chukwudi.m@gmail.com',
         password: 'password',
@@ -424,7 +424,62 @@ describe('Transaction Tests', () => {
 
     it('Should return 400 if non integer characters are provided', (done) => {
       chai.request(app)
-        .patch(`${apiEndPoint}accounts/5823642528`)
+        .post(`${apiEndPoint}transactions/5823642528/credit`)
+        .send({ amount: 'do521' })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+  });
+  describe(`POST ${apiEndPoint}transactions/:accountNumber/debit`, () => {
+    it('Should debit an account successfully', (done) => {
+      const login = {
+        email: 'chukwudi.m@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+
+          chai.request(app)
+            .post(`${apiEndPoint}transactions/5823642528/debit`)
+            .set('Authorization', token)
+            .send({ amount: 2000 })
+            .end((err, res) => {
+              res.should.have.status(201);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('object');
+              res.body.data.should.have.property('transactionId');
+              res.body.data.should.have.property('cashier');
+              res.body.data.should.have.property('transactionType');
+              res.body.data.should.have.property('accountBalance');
+              done();
+            });
+        });
+    });
+
+    it('Should return 400 if amount isn\'t specified', (done) => {
+      chai.request(app)
+        .post(`${apiEndPoint}transactions/5823642528/debit`)
+        .send({})
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+
+    it('Should return 400 if non integer characters are provided', (done) => {
+      chai.request(app)
+        .post(`${apiEndPoint}transactions/5823642528/debit`)
         .send({ amount: 'do521' })
         .end((err, res) => {
           res.should.have.status(400);
