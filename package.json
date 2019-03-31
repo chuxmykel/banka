@@ -10,7 +10,8 @@
     "build": "npm run clean && npm run build-server",
     "start": "node ./build/app.js",
     "dev": "nodemon --exec babel-node server/app.js",
-    "nyc": "nyc --reporter=lcov npm run test && nyc report --reporter=text-lcov | coveralls"
+    "nyc": "nyc --reporter=lcov npm run test && nyc report --reporter=text-lcov | coveralls",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
