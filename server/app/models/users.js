@@ -1,7 +1,5 @@
 import Auth from '../auth/auth';
 import users from './data/users';
-import Exists from '../helpers/exists';
-
 
 /**
  * @exports
@@ -11,7 +9,7 @@ class User {
   /**
    * @param {*} data
    * @param {*} res
-   * @returns { object } office object
+   * @returns { object } user object
    */
   create(data) {
     const user = {
@@ -29,7 +27,7 @@ class User {
 
   /**
    * @param {*} data
-   * @returns { object } office object
+   * @returns { object } user object
    */
   login(data) {
     const user = {
