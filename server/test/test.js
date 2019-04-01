@@ -8,6 +8,7 @@ chai.use(chaiHttp);
 
 const apiEndPoint = '/api/v1/';
 const userEndPoint = `${apiEndPoint}auth/`;
+const randomToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiQ2h1a3d1ZGkiLCJsYXN0bmFtZSI6Ik5nd29iaWEiLCJvdGhlcm5hbWUiOiJNaWtlIiwiZW1haWwiOiJuZ3dvYmlhY2h1a3d1ZGlAZ21haWwuY29tIiwicGhvbmVOdW1iZXIiOiIwNzA2MDg1NDc3MyIsInBhc3Nwb3J0VXJsIjoiaHR0cHM6Ly9nbWFpbC5jb20vcGFzc3BvcnQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTExNzYzMzYsImV4cCI6MTU1MTE3OTkzNn0.ewoovxp-otFQ58E2Ez7wWTfGyFwoeJX7CY_nBL6r06c';
 
 describe('Authentication Tests', () => {
   describe('User Sign Up Tests', () => {
@@ -33,7 +34,7 @@ describe('Authentication Tests', () => {
 
       it('Should return 400 if firstname is ommited', (done) => {
         const user = {
-          lastname: 'Ngwobia',
+          lastName: 'Ngwobia',
           email: 'coolemail1@testmail.com',
           password: 'pA55w0rd',
         };
@@ -50,7 +51,7 @@ describe('Authentication Tests', () => {
 
       it('Should return 400 if lastname is ommited', (done) => {
         const user = {
-          firstname: 'Chukwudi',
+          firstName: 'Chukwudi',
           email: 'coolemail2@testmail.com',
           password: 'pA55w0rd',
         };
@@ -67,9 +68,27 @@ describe('Authentication Tests', () => {
 
       it('Should return 400 if email is ommited', (done) => {
         const user = {
+          firstName: 'Chukwudi',
+          lastName: 'Ngwobia',
+          password: 'pA55w0rd',
+        };
+        chai.request(app)
+          .post(`${userEndPoint}signup`)
+          .send(user)
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a('object');
+            res.body.should.have.property('error');
+            done();
+          });
+      });
+
+      it('Should return 400 if email key is provided without value', (done) => {
+        const user = {
           firstname: 'Chukwudi',
           lastname: 'Ngwobia',
           password: 'pA55w0rd',
+          email: '',
         };
         chai.request(app)
           .post(`${userEndPoint}signup`)
@@ -203,6 +222,113 @@ describe('Authentication Tests', () => {
             done();
           });
       });
+    });
+  });
+});
+
+describe('Protected Routes Tests', () => {
+  describe('POST requests to staff protected routes by users', () => {
+    it('Should return 403 if token is for user and not staff', (done) => {
+      const login = {
+        email: 'kcmykairl@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+
+          chai.request(app)
+            .post(`${apiEndPoint}transactions/5823642528/debit`)
+            .set('Authorization', token)
+            .send({ amount: 2000 })
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
+  });
+  describe('POST requests to admin protected routes by staff', () => {
+    it('Should return 403 if token is for staff and not admin', (done) => {
+      const login = {
+        email: 'kenny_g@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+          const accountNumber = 7456321485;
+
+          chai.request(app)
+            .delete(`${apiEndPoint}accounts/${accountNumber}`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
+  });
+  describe('POST requests to user protected routes', () => {
+    it('Should return 401 if user token is invalid', (done) => {
+      const token = `Bearer ${randomToken}`;
+      const input = {
+        type: 'current',
+        initialDeposit: 50000.35,
+      };
+
+      chai.request(app)
+        .post(`${apiEndPoint}accounts`)
+        .set('Authorization', token)
+        .send(input)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+  });
+  describe('POST requests to staff protected routes', () => {
+    it('Should return 401 if staff token is invalid', (done) => {
+      const token = `Bearer ${randomToken}`;
+
+      chai.request(app)
+        .post(`${apiEndPoint}transactions/5823642528/credit`)
+        .set('Authorization', token)
+        .send({ amount: 2000 })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+  });
+  describe('PATCH requests to admin protected routes', () => {
+    it('Should return 401 if admin token is invalid', (done) => {
+      const token = `Bearer ${randomToken}`;
+
+      chai.request(app)
+        .patch(`${apiEndPoint}accounts/5823642528`)
+        .set('Authorization', token)
+        .send({ status: 'dormant' })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.should.be.a('object');
+          res.body.should.have.property('error');
+          done();
+        });
     });
   });
 });
