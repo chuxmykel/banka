@@ -323,6 +323,30 @@ describe('Account Tests', () => {
             done();
           });
       });
+
+      it('Should return 404 if account does not exist', (done) => {
+        const login = {
+          email: 'chukwudi.m@gmail.com',
+          password: 'password',
+        };
+
+        chai.request(app)
+          .post(`${userEndPoint}signin`)
+          .send(login)
+          .end((loginErr, loginRes) => {
+            const token = `Bearer ${loginRes.body.data.token}`;
+            const accountNumber = 6456321487;
+
+            chai.request(app)
+              .patch(`${apiEndPoint}accounts/${accountNumber}`)
+              .set('Authorization', token)
+              .send({ status: 'dormant' })
+              .end((err, res) => {
+                res.should.have.status(404);
+                done();
+              });
+          });
+      });
     });
   });
 

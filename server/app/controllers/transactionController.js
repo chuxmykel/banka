@@ -1,5 +1,4 @@
 import transactions from '../models/transactions';
-import Exists from '../helpers/exists';
 
 /**
  * @class TransactionController
@@ -15,40 +14,13 @@ class TransactionController {
   * @returns {object} JSON API Response
   */
   creditAccount(req, res) {
-    const { amount } = req.body;
-    const { accountNumber } = req.params;
-
-    const {
-      accountDetails,
-      accountExists,
-    } = Exists.accountExists(parseInt(accountNumber, 10), true);
-
-    if (!accountExists) {
-      return res.status(404).json({
-        status: res.statusCode,
-        error: `Account with account number ${accountNumber} does not exist`,
-      });
-    }
-
-    const transaction = {
-      id: transactions.length + 1,
-      createdOn: new Date(),
-      type: 'credit',
-      accountNumber: parseInt(accountNumber, 10),
-      cashier: req.user.id,
-      amount: parseFloat(amount),
-      oldBalance: accountDetails.balance,
-      newBalance: parseFloat((accountDetails.balance + parseFloat(amount)).toFixed(2)),
-    };
-
-    accountDetails.balance = transaction.newBalance;
-    transactions.push(transaction);
+    const transaction = transactions.create(req, res, 'credit');
 
     return res.status(201).json({
       status: res.statusCode,
       data: {
         transactionId: transaction.id,
-        accountNumber,
+        accountNumber: transaction.accountNumber,
         amount: transaction.amount,
         cashier: transaction.cashier,
         transactionType: transaction.type,
@@ -65,40 +37,13 @@ class TransactionController {
   * @returns {object} JSON API Response
   */
   debitAccount(req, res) {
-    const { amount } = req.body;
-    const { accountNumber } = req.params;
-
-    const {
-      accountDetails,
-      accountExists,
-    } = Exists.accountExists(parseInt(accountNumber, 10), true);
-
-    if (!accountExists) {
-      return res.status(404).json({
-        status: res.statusCode,
-        error: `Account with account number ${accountNumber} does not exist`,
-      });
-    }
-
-    const transaction = {
-      id: transactions.length + 1,
-      createdOn: new Date(),
-      type: 'debit',
-      accountNumber: parseInt(accountNumber, 10),
-      cashier: req.user.id,
-      amount: parseFloat(amount),
-      oldBalance: accountDetails.balance,
-      newBalance: parseFloat((accountDetails.balance - parseFloat(amount)).toFixed(2)),
-    };
-
-    accountDetails.balance = transaction.newBalance;
-    transactions.push(transaction);
+    const transaction = transactions.create(req, res, 'debit');
 
     return res.status(201).json({
       status: res.statusCode,
       data: {
         transactionId: transaction.id,
-        accountNumber,
+        accountNumber: transaction.accountNumber,
         amount: transaction.amount,
         cashier: transaction.cashier,
         transactionType: transaction.type,

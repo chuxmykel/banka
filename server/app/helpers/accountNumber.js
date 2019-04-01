@@ -7,14 +7,10 @@ class AccountNumber {
   /**
   * @method generateAccountNumber
   * @description generates a pseudorandom account number
-  * @param {integer} id - The id of the account
-  * @param {integer} ownerId - The owner id
-  * @param {string} type - A that is either savings or current
   * @returns {integer} the generated account number
   */
-  generateAccountNumber(id, ownerId, type) {
-    const typeToNo = type === 'savings' ? '00' : '000';
-    let numberString = `${id}${typeToNo}${ownerId}`;
+  generateAccountNumber() {
+    let numberString = '';
 
     while (numberString.length < 10) {
       numberString += Math.floor(Math.random() * 10);

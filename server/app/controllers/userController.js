@@ -17,9 +17,6 @@ class UserController {
   */
   signUp(req, res) {
     const userInput = { ...req.body };
-    const id = users.length + 1;
-    const type = 'client';
-    const hashedPassword = Auth.hashPassword(userInput.password);
 
     if (Exists.emailExists(userInput.email, false)) {
       return res.status(422).json({
@@ -28,18 +25,10 @@ class UserController {
       });
     }
 
-    const user = {
-      id,
-      firstName: userInput.firstName,
-      lastName: userInput.lastName,
-      email: userInput.email,
-      type,
-      password: hashedPassword,
-    };
+    const user = users.create(userInput);
 
-    const token = Auth.generateToken({ email: user.email, type });
+    const token = Auth.generateToken({ email: user.email, type: user.type });
 
-    users.push(user);
     return res.status(201).json({
       status: res.statusCode,
       data: {
@@ -63,33 +52,16 @@ class UserController {
     const login = { ...req.body };
     const { userDetails, emailExists } = Exists.emailExists(login.email, true);
 
-    if (!emailExists) {
+    if (!emailExists || !Auth.verifyPassword(login.password, userDetails.password)) {
       return res.status(401).json({
         status: res.statusCode,
         error: 'Authentication Failed',
       });
     }
 
-    if (!Auth.verifyPassword(login.password, userDetails.password)) {
-      return res.status(401).json({
-        status: 401,
-        error: 'Authentication Failed',
-      });
-    }
-
-    const user = {
-      id: userDetails.id,
-      firstname: userDetails.firstName,
-      lastname: userDetails.lastName,
-      email: userDetails.email,
-    };
-
-    if (userDetails.type !== 'client') {
-      user.isAdmin = userDetails.isAdmin;
-      user.type = userDetails.type;
-    }
-
+    const user = users.login(userDetails);
     const token = Auth.generateToken(user);
+
     return res.status(200).json({
       status: 200,
       data: {
