@@ -1,30 +1,49 @@
-const users = [
-  {
-    id: 1,
-    firstName: 'Chukwudi',
-    lastName: 'Michael',
-    email: 'chukwudi.m@gmail.com',
-    password: '$2b$10$3is2HCw9T/s5g.GFgX243OulG2MXgyowJAMUNn1kv0FWG.5ACezz6',
-    type: 'staff',
-    isAdmin: true,
-  },
-  {
-    id: 2,
-    firstName: 'Kenneth',
-    lastName: 'Godwin',
-    email: 'kenny_g@gmail.com',
-    password: '$2b$10$otH1SPxDOZ4oMbj6t/o7O.YQN040kTRBjzKuXDkRSvb4T8SHFFNum',
-    type: 'staff',
-    isAdmin: false,
-  },
-  {
-    id: 3,
-    firstName: 'Kelechi',
-    lastName: 'Ngwobia',
-    email: 'kcmykairl@gmail.com',
-    password: '$2b$10$QKV9Nl/myenEwd9wgaltpuuEfIBL2mY9HCA16D/o70YjOBMhXjazy',
-    type: 'client',
-  },
-];
+import Auth from '../auth/auth';
+import users from './data/users';
+import Exists from '../helpers/exists';
 
-export default users;
+
+/**
+ * @exports
+ * @class User
+ */
+class User {
+  /**
+   * @param {*} data
+   * @param {*} res
+   * @returns { object } office object
+   */
+  create(data) {
+    const user = {
+      id: users.length + 1,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      type: 'client',
+      password: Auth.hashPassword(data.password),
+    };
+
+    users.push(user);
+    return user;
+  }
+
+  /**
+   * @param {*} data
+   * @returns { object } office object
+   */
+  login(data) {
+    const user = {
+      id: data.id,
+      firstname: data.firstName,
+      lastname: data.lastName,
+      email: data.email,
+    };
+    if (data.type !== 'client') {
+      user.isAdmin = data.isAdmin;
+      user.type = data.type;
+    }
+    return user;
+  }
+}
+
+export default new User();

@@ -1,31 +1,64 @@
-const accounts = [
-  {
-    id: 1,
-    accountNumber: 3032548765,
-    createdOn: new Date(),
-    owner: 3,
-    type: 'savings',
-    status: 'active',
-    balance: 3522.56,
-  },
-  {
-    id: 2,
-    accountNumber: 5823642528,
-    createdOn: new Date(),
-    owner: 1,
-    type: 'current',
-    status: 'active',
-    balance: 785722.35,
-  },
-  {
-    id: 3,
-    accountNumber: 7456321485,
-    createdOn: new Date(),
-    owner: 2,
-    type: 'savings',
-    status: 'active',
-    balance: 3522.28,
-  },
-];
+import accounts from './data/accounts';
+import AccountNumber from '../helpers/accountNumber';
 
-export default accounts;
+
+/**
+ * @exports
+ * @class Account
+ */
+class Account {
+/**
+  * @method create
+  * @description Adds a user's bank account to the data structure
+  * @param {object} data - The Request Body data
+  * @param {object} req - The Request Object
+  * @returns {object} JSON API Response
+  */
+  create(data, req) {
+    const account = {
+      id: accounts[accounts.length - 1].id + 1,
+      accountNumber: AccountNumber.generateAccountNumber(),
+      createdOn: new Date(),
+      owner: req.user.id,
+      type: data.type,
+      status: 'draft',
+      balance: parseFloat(data.initialDeposit, 10),
+    };
+
+    accounts.push(account);
+    return account;
+  }
+
+  /**
+  * @method getOne
+  * @description returns the account details if it the account number exists
+  * @param {*} accountNumber - The accountNumber
+  * @returns {object} the account details
+  */
+  getOne(accountNumber) {
+    let accountExists = false;
+    let accountDetails;
+    let accountIndex;
+    accounts.forEach((account) => {
+      if (account.accountNumber === accountNumber) {
+        accountExists = true;
+        accountDetails = account;
+        accountIndex = accounts.indexOf(account);
+      }
+    });
+    return { accountDetails, accountExists, accountIndex };
+  }
+
+  /**
+  * @method delete
+  * @description Deletes an account
+  * @param {object} index - The Response Object
+  * @returns {object} JSON API Response
+  */
+  delete(index) {
+    accounts.splice(index, 1);
+  }
+}
+
+const account = new Account();
+export default account;
