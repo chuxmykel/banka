@@ -1,3 +1,4 @@
+import moment from 'moment';
 import accounts from './accounts';
 import transactions from './data/transactions';
 
@@ -10,17 +11,17 @@ class Transaction {
   * @method create
   * @description Creates a new transaction object and adds it to the data structure
   * @param {object} req - The Request Object
-  * @param {object} res - The Response Object
   * @param {string} type - A string representing the type of transaction
   * @returns {object} JSON API Response
   */
-  create(req, res, type) {
-    const { accountDetails } = accounts
-      .getOne(parseInt(req.params.accountNumber, 10), res);
+  create(req, type) {
+    const { accountDetails, accountExists } = accounts
+      .getOne(parseInt(req.params.accountNumber, 10));
 
+    if (!accountExists) { return false; }
     const transaction = {
       id: transactions.length + 1,
-      createdOn: new Date(),
+      createdOn: moment().format(),
       type,
       accountNumber: parseInt(req.params.accountNumber, 10),
       cashier: req.user.id,
@@ -31,7 +32,7 @@ class Transaction {
         .toFixed(2)) : parseFloat((accountDetails
         .balance - parseFloat(req.body.amount)).toFixed(2)),
     };
-
+    if (transaction.newBalance < 0) { return 'insufficient funds'; }
     accountDetails.balance = transaction.newBalance;
     transactions.push(transaction);
     return transaction;

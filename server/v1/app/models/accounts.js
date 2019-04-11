@@ -1,3 +1,4 @@
+import moment from 'moment';
 import accounts from './data/accounts';
 import AccountNumber from '../helpers/accountNumber';
 
@@ -18,7 +19,7 @@ class Account {
     const account = {
       id: accounts[accounts.length - 1].id + 1,
       accountNumber: AccountNumber.generateAccountNumber(),
-      createdOn: new Date(),
+      createdOn: moment().format(),
       owner: req.user.id,
       type: data.type,
       status: 'draft',
