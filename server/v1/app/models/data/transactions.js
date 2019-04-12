@@ -1,7 +1,9 @@
+import moment from 'moment';
+
 const transactions = [
   {
     id: 1,
-    createdOn: new Date(),
+    createdOn: moment().format(),
     type: 'credit',
     accountNumber: 3032548765,
     cashier: 2,
@@ -11,7 +13,7 @@ const transactions = [
   },
   {
     id: 2,
-    createdOn: new Date(),
+    createdOn: moment().format(),
     type: 'debit',
     accountNumber: 3032548765,
     cashier: 2,
@@ -21,7 +23,7 @@ const transactions = [
   },
   {
     id: 3,
-    createdOn: new Date(),
+    createdOn: moment().format(),
     type: 'credit',
     accountNumber: 7456321485,
     cashier: 2,

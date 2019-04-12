@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../app';
+import app from '../../app';
 
 chai.should();
 
@@ -559,6 +559,30 @@ describe('Transaction Tests', () => {
             });
         });
     });
+    it('Should return a 404 error if account number does not exist', (done) => {
+      const login = {
+        email: 'chukwudi.m@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+
+          chai.request(app)
+            .post(`${apiEndPoint}transactions/5258525852/credit`)
+            .set('Authorization', token)
+            .send({ amount: 2000 })
+            .end((err, res) => {
+              res.should.have.status(404);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
 
     it('Should return 400 if amount isn\'t specified', (done) => {
       chai.request(app)
@@ -610,6 +634,56 @@ describe('Transaction Tests', () => {
               res.body.data.should.have.property('cashier');
               res.body.data.should.have.property('transactionType');
               res.body.data.should.have.property('accountBalance');
+              done();
+            });
+        });
+    });
+
+    it('Should return a 404 error if account number does not exist', (done) => {
+      const login = {
+        email: 'chukwudi.m@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+
+          chai.request(app)
+            .post(`${apiEndPoint}transactions/5258525852/debit`)
+            .set('Authorization', token)
+            .send({ amount: 2000 })
+            .end((err, res) => {
+              res.should.have.status(404);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
+
+    it('Should return a 400 error if there isn\t sufficient funds in the account to debit', (done) => {
+      const login = {
+        email: 'chukwudi.m@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data.token}`;
+
+          chai.request(app)
+            .post(`${apiEndPoint}transactions/5823642528/debit`)
+            .set('Authorization', token)
+            .send({ amount: 200000000 })
+            .end((err, res) => {
+              res.should.have.status(400);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
               done();
             });
         });

@@ -14,8 +14,13 @@ class TransactionController {
   * @returns {object} JSON API Response
   */
   creditAccount(req, res) {
-    const transaction = transactions.create(req, res, 'credit');
-
+    const transaction = transactions.create(req, 'credit');
+    if (!transaction) {
+      return res.status(404).json({
+        status: res.statusCode,
+        error: 'sorry, the account number does not exist',
+      });
+    }
     return res.status(201).json({
       status: res.statusCode,
       data: {
@@ -37,8 +42,20 @@ class TransactionController {
   * @returns {object} JSON API Response
   */
   debitAccount(req, res) {
-    const transaction = transactions.create(req, res, 'debit');
-
+    // add a try catch block to make sure you can't debit more than you have
+    const transaction = transactions.create(req, 'debit');
+    if (!transaction) {
+      return res.status(404).json({
+        status: res.statusCode,
+        error: 'sorry, the account number does not exist',
+      });
+    }
+    if (transaction === 'insufficient funds') {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: transaction,
+      });
+    }
     return res.status(201).json({
       status: res.statusCode,
       data: {
