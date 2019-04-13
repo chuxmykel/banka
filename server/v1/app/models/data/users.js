@@ -27,6 +27,14 @@ const users = [
     password: Auth.hashPassword('password'),
     type: 'client',
   },
+  {
+    id: 4,
+    firstName: 'Chuks',
+    lastName: 'Michael',
+    email: 'ngwobiachukwudi@gmail.com',
+    password: Auth.hashPassword('password'),
+    type: 'client',
+  },
 ];
 
 export default users;

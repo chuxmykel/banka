@@ -8,7 +8,7 @@ const accounts = [
     owner: 3,
     type: 'savings',
     status: 'active',
-    balance: 3522.56,
+    balance: 25675.56,
   },
   {
     id: 2,
@@ -27,6 +27,15 @@ const accounts = [
     type: 'savings',
     status: 'active',
     balance: 3522.28,
+  },
+  {
+    id: 4,
+    accountNumber: 6124785432,
+    createdOn: moment().format(),
+    owner: 4,
+    type: 'savings',
+    status: 'active',
+    balance: 253687.45,
   },
 ];
 
