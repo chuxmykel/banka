@@ -133,10 +133,6 @@ header {
   background: #133253;
 }
 
-.body-image {
-  display: none;
-}
-
 .box h2{
   font-size: 18px;
   margin-left: 0;
@@ -511,6 +507,15 @@ button::-moz-focus-inner {
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
 }
 
+.user-accounts {
+  background: #a69cac;
+  border-radius: 10px;
+  overflow: auto;
+  padding: 10px;
+  margin: 0 0 30px 0;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
+}
+
 .accounts .item-label {
   margin-bottom: 3px;
 }
@@ -519,12 +524,14 @@ button::-moz-focus-inner {
   margin-bottom: 5px;
 }
 
-.accounts .active {
+.accounts .active,
+.user-accounts .active {
   color: green;
   text-transform: uppercase;
 }
 
-.accounts .dormant {
+.accounts .dormant,
+.user-accounts .dormant {
   color: red;
   text-transform: uppercase;
 }
@@ -540,6 +547,7 @@ button::-moz-focus-inner {
 }
 
 .accounts .admin-btn {
+  width: 100% !important;
   color: #a69cac;
 }
 
@@ -555,7 +563,7 @@ button::-moz-focus-inner {
   flex: 1;
 }
 
-.account-operations button {
+.account-operations .delete {
   height: 45px;
   width: 100%;
   color: #ffffff;
@@ -568,14 +576,16 @@ button::-moz-focus-inner {
   transition: .3s;
 }
 
-.account-operations button:hover {
+.account-operations .details {
   height: 45px;
   width: 100%;
-  color: #ffffff;
+  color: #a69cac;
   font-size: 15px;
-  background-color: #cc0000;
-  border: 1px solid #cc0000;
+  background-color: #161b33;
+  border: 1px solid #161b33;
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
 .modal-content p {
@@ -585,7 +595,6 @@ button::-moz-focus-inner {
 
 .danger {
   background-color: #ff0000;
-  /* border-color: #ff0000; */
   color: #ffffff;
 }
 
@@ -595,12 +604,13 @@ button::-moz-focus-inner {
 
 .staff .transaction {
   height: 45px;
-  width: 100%;
-  color: #f1dac4ab;
-  background-color: #137a29;
-  border: 1px solid #137a29;
+  width: 50%;
+  color: #c0c0c0;
+  font-size: 20px;
+  background-color: #161b33;
+  border: 1px solid #161b33;
   border-radius: 10px;
-  margin-top: 10px;
+  margin: 0 0 10px 0;
   transition: .5s;
   padding: 5px;
 }
@@ -700,6 +710,12 @@ footer {
     text-align: center;
     margin: 20% auto;
     width: 70%;
+  }
+
+  .accounts {
+    width: 30%;
+    display: inline-block;
+    margin: 15px;
   }
 }
 
@@ -820,11 +836,35 @@ footer {
 
   .accounts .admin-btn {
     width: 25%;
-    float: right;
     box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
   }
 
   .account-operations .switch {
     margin: 20px 0 0 25%;
+  }
+
+  .accounts {
+    width: 22%;
+    display: inline-block;
+    margin: 15px;
+  }
+  .user-accounts {
+    width: 30%;
+    display: inline-block;
+    margin: 15px;
+  }
+
+  .account-operations .delete {
+    width: 45%;
+    float: right;
+  }
+  
+  .account-operations .details {
+    width: 45%;
+    float: left;
+  }
+
+  .staff .transaction {
+    width: 35%;
   }
 }

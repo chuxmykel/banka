@@ -1,4 +1,4 @@
-const btn = document.getElementsByClassName('transaction');
+const btn = document.getElementById('transaction');
 const delBtn = document.getElementsByClassName('delete');
 const modal = document.getElementById('myModal');
 const delModal = document.getElementById('delete-modal');
@@ -7,15 +7,14 @@ const deleteClose = document.getElementsByClassName('close')[1];
 const confirm = document.getElementById('confirm');
 const delConfirm = document.getElementById('del-confirm');
 const cancelDelete = document.getElementById('cancel');
-const length = btn.length;
+const length = delBtn.length;
 
-
+btn.onclick = () => transact();
 for (let index = 0; index < length; index++) {
-  btn[index].onclick = () => transact(index);
   delBtn[index].onclick = () => deleteAcct(index);
 }
 
-const transact = (i) => {
+const transact = () => {
   modal.style.display = "block";
 
   confirm.addEventListener('click', () => {
@@ -35,9 +34,6 @@ window.onclick = (event) => {
 
 ///////////////////////////////////////////////////
 
-for (let index = 0; index < length; index++) {
-  
-}
 
 const deleteAcct = (i) => {
   delModal.style.display = "block";
