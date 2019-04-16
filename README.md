@@ -51,22 +51,14 @@ Babel then transpiles your ES6+ files to ES5 for environment compatibility
 
 ## Features
 
-* User (client) can sign up.
-* User (client) can login.
-* User (client) can create an account.
-* User (client) can view account transaction history.
-* User (client) can view a specific account transaction.
-* Staff (cashier) can debit user (client) account.
-* Staff (cashier) can credit user (client) account.
-* Admin/staff can view all user accounts.
-* Admin/staff can view a specific user account.
-* Admin/staff can activate or deactivate an account.
-* Admin/staff can delete a specific user account.
-* Admin can create staff and admin user accounts.
-* User can reset password.
-* Integrate real time email notification upon credit/debit transaction on user account.
-* User can upload a photo to their profile.
-
+* [User (client) can sign up](https://a-bank.herokuapps.com/api/v1/auth/signup)
+* [User (client) can login](https://a-bank.herokuapps.com/api/v1/auth/signin)
+* [User (client) can create an account](https://a-bank.herokuapps.com/api/v1/accounts)
+* [Staff (cashier) can debit user (client) account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/debit)
+* [Staff (cashier) can credit user (client) account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/credit)
+* [Admin/staff can activate or deactivate an account](https://a-bank.herokuapps.com/api/v1/accounts/1234567890)
+* [Admin/staff can delete a specific user account](https://a-bank.herokuapps.com/api/v1/accounts/1234567890)
+* [Integrate real time email notification upon credit/debit transaction on user account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/credit)
 
 ## Licensing
 
