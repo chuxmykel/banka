@@ -65,6 +65,7 @@ header {
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 80px;
+  text-transform: capitalize;
 }
 
 .sidebar a {
@@ -656,6 +657,16 @@ footer {
   height: 50px;
 }
 
+#mySidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  border: none;
+  float: right;
+}
+
 /*############### END OF MOBILE RULES ##################*/
 
 /*############### MEDIUM SCREEN RULES ##################*/
@@ -898,5 +909,21 @@ footer {
 
   .staff .transaction {
     width: 35%;
+  }
+
+  #hamburger-menu,
+  .sidebar,
+  .sidebar a {
+    display: none;
+  }
+
+  #mySidebar {
+    width: 0;
+    display: none;
+  }
+
+  #page {
+    margin-right: 0;
+    /* margin-left: -180px; */
   }
 }

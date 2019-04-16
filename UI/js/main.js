@@ -1,23 +1,24 @@
 const hamburger = document.getElementById('hamburger-menu');
 const page = document.getElementById('page');
 const sideBar = document.getElementById('mySidebar');
-let open = 0;
+// let open = 0;
 
 const openNav = () => {
-	if (open === 1) {
-		open = 0;
-		return closeNav();
-	} 
+	// if (open === 1) {
+	// 	open = 0;
+	// 	return closeNav();
+	// } 
 	sideBar.style.width = '180px';
-	page.style.marginRight = '180px';
-	page.style.marginLeft = '-180px';
-	open = 1;
+	// page.style.marginRight = '180px';
+	// page.style.marginLeft = '-180px';
+	// open = 1;
 }
   
 const closeNav = () => {
+
 	sideBar.style.width = '0';
-	page.style.marginRight= '0';
-	page.style.marginLeft = '0';
+	// page.style.marginRight= '0';
+	// page.style.marginLeft = '0';
 }
 
 const displayInfo = (evt, tabName) => {
