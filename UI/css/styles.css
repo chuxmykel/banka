@@ -109,6 +109,31 @@ header {
   color: #0d1b2a;
 }
 
+.landing-page {
+  padding: 0 0 20px 0;
+}
+
+.body-image {
+  height: 350px;
+  width: 100%;
+  background: linear-gradient(#1f2d747a,#161b335a), url('../img/banka.jpg') no-repeat center center fixed;
+  background-size: cover;
+  Padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-image h1{
+  font-size: 4rem;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.body-text{
+  margin-top: 20px;
+}
+
 .box {
   max-width: calc(100vw - 50px);
   margin: 20px auto auto;
@@ -717,6 +742,12 @@ footer {
     display: inline-block;
     margin: 15px;
   }
+
+  .landing-page img {
+    margin: -10px !important;
+    width: 100%;
+    height: 450px;
+  }
 }
 
 /*############### END OF MEDIUM RULES ##################*/
@@ -758,23 +789,24 @@ footer {
   }
 
   .landing-page {
-    display: flex;
+    padding: 20px 0 20px 0;
   }
+
+  .body-image {
+    margin-top: -20px;
+    height: 400px;
+    background: linear-gradient(#1f2d747a,#161b335a), url('../img/banka.jpg') no-repeat center center fixed;
+    background-size: cover;
+    Padding: 20px;
+  }
+
+  .body-image h1 {
+    font-size: 5rem;
+  }
+
 
   .body-text {
-    order: 2;
-    flex: 3;
-  }
-  .body-image {
-    order: 1;
-    display: block;
-    flex: 1;
-  }
-
-  .body-image img {
-    float: right;
-    width: 400px;
-    height: 470px;
+    margin-top: 10px;
   }
 
   .box {
