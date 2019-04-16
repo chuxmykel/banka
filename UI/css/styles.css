@@ -616,8 +616,8 @@ button::-moz-focus-inner {
 }
 
 .staff .transaction:hover{
-  background-color: #137a29d0;
-  border-color: green;
+  background-color: #474973;
+  border-color: #474973;
 }
 
 footer {
