@@ -65,6 +65,7 @@ header {
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 80px;
+  text-transform: capitalize;
 }
 
 .sidebar a {
@@ -109,6 +110,31 @@ header {
   color: #0d1b2a;
 }
 
+.landing-page {
+  padding: 0 0 20px 0;
+}
+
+.body-image {
+  height: 350px;
+  width: 100%;
+  background: linear-gradient(#1f2d747a,#161b335a), url('../img/banka.jpg') no-repeat center center fixed;
+  background-size: cover;
+  Padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-image h1{
+  font-size: 4rem;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.body-text{
+  margin-top: 20px;
+}
+
 .box {
   max-width: calc(100vw - 50px);
   margin: 20px auto auto;
@@ -131,10 +157,6 @@ header {
 .page-body #start:hover {
   color: #e0e0e0;
   background: #133253;
-}
-
-.body-image {
-  display: none;
 }
 
 .box h2{
@@ -259,6 +281,7 @@ input:checked + .slider:before {
   height: 45px;
   width: 100%;
   color: #a69cac;
+  font-size: 18px;
   background-color: #0d0c1d;
   border: 1px solid #0d1b2a;
   border-radius: 10px;
@@ -511,6 +534,15 @@ button::-moz-focus-inner {
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
 }
 
+.user-accounts {
+  background: #a69cac;
+  border-radius: 10px;
+  overflow: auto;
+  padding: 10px;
+  margin: 0 0 30px 0;
+  box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
+}
+
 .accounts .item-label {
   margin-bottom: 3px;
 }
@@ -519,12 +551,14 @@ button::-moz-focus-inner {
   margin-bottom: 5px;
 }
 
-.accounts .active {
+.accounts .active,
+.user-accounts .active {
   color: green;
   text-transform: uppercase;
 }
 
-.accounts .dormant {
+.accounts .dormant,
+.user-accounts .dormant {
   color: red;
   text-transform: uppercase;
 }
@@ -540,6 +574,7 @@ button::-moz-focus-inner {
 }
 
 .accounts .admin-btn {
+  width: 100% !important;
   color: #a69cac;
 }
 
@@ -555,7 +590,7 @@ button::-moz-focus-inner {
   flex: 1;
 }
 
-.account-operations button {
+.account-operations .delete {
   height: 45px;
   width: 100%;
   color: #ffffff;
@@ -568,14 +603,16 @@ button::-moz-focus-inner {
   transition: .3s;
 }
 
-.account-operations button:hover {
+.account-operations .details {
   height: 45px;
   width: 100%;
-  color: #ffffff;
+  color: #a69cac;
   font-size: 15px;
-  background-color: #cc0000;
-  border: 1px solid #cc0000;
+  background-color: #161b33;
+  border: 1px solid #161b33;
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
 .modal-content p {
@@ -585,7 +622,6 @@ button::-moz-focus-inner {
 
 .danger {
   background-color: #ff0000;
-  /* border-color: #ff0000; */
   color: #ffffff;
 }
 
@@ -595,19 +631,20 @@ button::-moz-focus-inner {
 
 .staff .transaction {
   height: 45px;
-  width: 100%;
-  color: #f1dac4ab;
-  background-color: #137a29;
-  border: 1px solid #137a29;
+  width: 50%;
+  color: #c0c0c0;
+  font-size: 20px;
+  background-color: #161b33;
+  border: 1px solid #161b33;
   border-radius: 10px;
-  margin-top: 10px;
+  margin: 0 0 10px 0;
   transition: .5s;
   padding: 5px;
 }
 
 .staff .transaction:hover{
-  background-color: #137a29d0;
-  border-color: green;
+  background-color: #474973;
+  border-color: #474973;
 }
 
 footer {
@@ -619,6 +656,16 @@ footer {
   text-align: center;
   background-color: #161b33;
   height: 50px;
+}
+
+#mySidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  border: none;
+  float: right;
 }
 
 /*############### END OF MOBILE RULES ##################*/
@@ -701,6 +748,18 @@ footer {
     margin: 20% auto;
     width: 70%;
   }
+
+  .accounts {
+    width: 30%;
+    display: inline-block;
+    margin: 15px;
+  }
+
+  .landing-page img {
+    margin: -10px !important;
+    width: 100%;
+    height: 450px;
+  }
 }
 
 /*############### END OF MEDIUM RULES ##################*/
@@ -742,23 +801,24 @@ footer {
   }
 
   .landing-page {
-    display: flex;
+    padding: 20px 0 20px 0;
   }
+
+  .body-image {
+    margin-top: -20px;
+    height: 400px;
+    background: linear-gradient(#1f2d747a,#161b335a), url('../img/banka.jpg') no-repeat center center fixed;
+    background-size: cover;
+    Padding: 20px;
+  }
+
+  .body-image h1 {
+    font-size: 5rem;
+  }
+
 
   .body-text {
-    order: 2;
-    flex: 3;
-  }
-  .body-image {
-    order: 1;
-    display: block;
-    flex: 1;
-  }
-
-  .body-image img {
-    float: right;
-    width: 400px;
-    height: 470px;
+    margin-top: 10px;
   }
 
   .box {
@@ -820,11 +880,51 @@ footer {
 
   .accounts .admin-btn {
     width: 25%;
-    float: right;
     box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.911);
   }
 
   .account-operations .switch {
     margin: 20px 0 0 25%;
+  }
+
+  .accounts {
+    width: 22%;
+    display: inline-block;
+    margin: 15px;
+  }
+  .user-accounts {
+    width: 30%;
+    display: inline-block;
+    margin: 15px;
+  }
+
+  .account-operations .delete {
+    width: 45%;
+    float: right;
+  }
+  
+  .account-operations .details {
+    width: 45%;
+    float: left;
+  }
+
+  .staff .transaction {
+    width: 35%;
+  }
+
+  #hamburger-menu,
+  .sidebar,
+  .sidebar a {
+    display: none;
+  }
+
+  #mySidebar {
+    width: 0;
+    display: none;
+  }
+
+  #page {
+    margin-right: 0;
+    /* margin-left: -180px; */
   }
 }
