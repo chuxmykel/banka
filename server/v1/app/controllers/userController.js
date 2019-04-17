@@ -10,35 +10,38 @@ import Exists from '../helpers/exists';
 class UserController {
   /**
   * @method signUp
-  * @description Adds a user to the data structure
+  * @description Adds a user to the database
   * @param {object} req - The Request Object
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  signUp(req, res) {
-    const userInput = { ...req.body };
-
-    if (Exists.emailExists(userInput.email, false)) {
-      return res.status(422).json({
-        status: 422,
-        error: 'email is already taken',
+  async signUp(req, res) {
+    try {
+      const response = await users.create(req.body);
+      const user = response.rows[0];
+      const token = Auth.generateToken({ id: user.id, email: user.email });
+      return res.status(201).json({
+        status: res.statusCode,
+        data: [{
+          token,
+          id: user.id,
+          firstName: user.firstname,
+          lastName: user.lastname,
+          email: user.email,
+        }],
+      });
+    } catch (error) {
+      if (error.code === '23505') {
+        return res.status(422).json({
+          status: res.statusCode,
+          error: 'email is already taken',
+        });
+      }
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
       });
     }
-
-    const user = users.create(userInput);
-
-    const token = Auth.generateToken({ email: user.email, type: user.type });
-
-    return res.status(201).json({
-      status: res.statusCode,
-      data: {
-        token,
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      },
-    });
   }
 
   /**

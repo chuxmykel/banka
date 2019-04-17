@@ -27,7 +27,12 @@ describe('Authentication Tests', () => {
             res.should.have.status(201);
             res.body.should.be.a('object');
             res.body.should.have.property('data');
-            res.body.data.should.be.a('object');
+            res.body.data.should.be.a('array');
+            res.body.data[0].should.have.property('token');
+            res.body.data[0].should.have.property('id');
+            res.body.data[0].should.have.property('firstName');
+            res.body.data[0].should.have.property('lastName');
+            res.body.data[0].should.have.property('email');
             done();
           });
       });
