@@ -15,7 +15,7 @@ const queryString = `
     id SERIAL PRIMARY KEY,
     account_number BIGINT UNIQUE NOT NULL,
     createdon TIMESTAMP NOT NULL,
-    owner INTEGER REFERENCES users(id),
+    client_id INTEGER REFERENCES users(id),
     type VARCHAR(7) NOT NULL,
     status VARCHAR(7) DEFAULT 'draft',
     balance NUMERIC(200, 2) DEFAULT 0.00

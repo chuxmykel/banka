@@ -14,7 +14,7 @@ const queryString = `
          ('Chisom', 'Peperenpe', 'peperenpe@gmail.com', '${Auth.hashPassword('password')}'),
          ('Victor', 'Godwin', 'vog@gmail.com', '${Auth.hashPassword('password')}');
          
-  INSERT INTO accounts(account_number, createdon, owner, type, status, balance) 
+  INSERT INTO accounts(account_number, createdon, client_id, type, status, balance) 
   VALUES(1758964523, '${moment(new Date())}', 3, 'savings', 'active', 800000.58),
         (7596841530, '${moment(new Date())}', 7, 'current', 'active', 50000.56),
         (3254125869, '${moment(new Date())}', 5, 'current', 'dormant', 25000.25),
