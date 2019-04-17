@@ -281,6 +281,7 @@ input:checked + .slider:before {
   height: 45px;
   width: 100%;
   color: #a69cac;
+  font-size: 18px;
   background-color: #0d0c1d;
   border: 1px solid #0d1b2a;
   border-radius: 10px;
@@ -769,11 +770,6 @@ footer {
   .header-links {
     margin-top: -35px;
     float: right;
-    padding-bottom: 5px;
-  }
-
-  .header-links .a-nav {
-    font-size: 19px;
   }
 
   .nav-link {
