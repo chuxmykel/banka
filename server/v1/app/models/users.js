@@ -1,5 +1,5 @@
 import Auth from '../auth/auth';
-import users from './data/users';
+import db from '../migrations/db';
 
 /**
  * @exports
@@ -8,21 +8,20 @@ import users from './data/users';
 class User {
   /**
    * @param {*} data
-   * @param {*} res
    * @returns { object } user object
    */
   create(data) {
-    const user = {
-      id: users.length + 1,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      type: 'client',
-      password: Auth.hashPassword(data.password),
-    };
+    const queryText = `INSERT INTO users (firstname, lastname, email,
+      password) VALUES ($1, $2, $3, $4) RETURNING id, firstname, lastname, email;`;
 
-    users.push(user);
-    return user;
+    const {
+      firstName, lastName, email, password,
+    } = data;
+
+    const hashedPassword = Auth.hashPassword(password);
+    const values = [firstName, lastName, email, hashedPassword];
+    const response = db.query(queryText, values);
+    return response;
   }
 
   /**

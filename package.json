@@ -4,7 +4,7 @@
   "description": "A light-weight core banking application.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha server/v1/test/test.js --require @babel/register --exit",
+    "test": "export NODE_ENV=test && npm run migrations && mocha server/v1/test/test.js --require @babel/register --exit",
     "clean": "rm -rf build && mkdir build",
     "build-server": "babel -d ./build ./server",
     "build": "npm run clean && npm run build-server",
