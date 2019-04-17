@@ -769,6 +769,11 @@ footer {
   .header-links {
     margin-top: -35px;
     float: right;
+    padding-bottom: 5px;
+  }
+
+  .header-links .a-nav {
+    font-size: 19px;
   }
 
   .nav-link {
