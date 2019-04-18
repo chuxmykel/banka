@@ -13,20 +13,26 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  createAccount(req, res) {
-    const account = accounts.create(req.body, req);
-
-    return res.status(201).json({
-      status: res.statusCode,
-      data: {
-        accountNumber: account.accountNumber,
-        firstName: req.user.firstname,
-        lastName: req.user.lastname,
-        email: req.user.email,
-        type: account.type,
-        openingBalance: account.balance,
-      },
-    });
+  async createAccount(req, res) {
+    try {
+      const { rows } = await accounts.create(req.body, req);
+      return res.status(201).json({
+        status: res.statusCode,
+        data: [{
+          accountNumber: rows[0].account_number,
+          firstName: req.user.firstname,
+          lastName: req.user.lastname,
+          email: req.user.email,
+          type: rows[0].type,
+          openingBalance: rows[0].balance,
+        }],
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
+      });
+    }
   }
 
   /**

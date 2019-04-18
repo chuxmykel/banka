@@ -1,33 +1,28 @@
 import moment from 'moment';
 import accounts from './data/accounts';
 import AccountNumber from '../helpers/accountNumber';
+import db from '../migrations/db';
 
 
 /**
- * @exports
+ * @exports account
  * @class Account
  */
 class Account {
 /**
   * @method create
-  * @description Adds a user's bank account to the data structure
+  * @description Adds a user's bank account to the database
   * @param {object} data - The Request Body data
   * @param {object} req - The Request Object
   * @returns {object} JSON API Response
   */
   create(data, req) {
-    const account = {
-      id: accounts[accounts.length - 1].id + 1,
-      accountNumber: AccountNumber.generateAccountNumber(),
-      createdOn: moment().format(),
-      owner: req.user.id,
-      type: data.type,
-      status: 'draft',
-      balance: parseFloat(data.initialDeposit, 10),
-    };
-
-    accounts.push(account);
-    return account;
+    const queryText = `INSERT INTO accounts(account_number, createdon, client_id,
+      type, status, balance) VALUES ($1, $2, $3, $4, $5, $6) RETURNING account_number, type, balance;`;
+    const values = [AccountNumber.generateAccountNumber(), moment(new Date()),
+      req.user.id, data.type, 'draft', parseFloat(data.initialDeposit, 10)];
+    const response = db.query(queryText, values);
+    return response;
   }
 
   /**
