@@ -1,6 +1,5 @@
 import users from '../models/users';
 import Auth from '../auth/auth';
-import Exists from '../helpers/exists';
 
 /**
  * @class UserController
@@ -51,29 +50,28 @@ class UserController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  signIn(req, res) {
-    const login = { ...req.body };
-    const { userDetails, emailExists } = Exists.emailExists(login.email, true);
+  async signIn(req, res) {
+    const { email, password } = req.body;
+    const response = await users.find(email);
 
-    if (!emailExists || !Auth.verifyPassword(login.password, userDetails.password)) {
+    if (response.rowCount < 1 || !Auth.verifyPassword(password, response.rows[0].password)) {
       return res.status(401).json({
         status: res.statusCode,
         error: 'Authentication Failed',
       });
     }
-
-    const user = users.login(userDetails);
+    const user = { ...response.rows[0] };
     const token = Auth.generateToken(user);
 
     return res.status(200).json({
       status: 200,
-      data: {
+      data: [{
         token,
         id: user.id,
         firstName: user.firstname,
         lastName: user.lastname,
         email: user.email,
-      },
+      }],
     });
   }
 }

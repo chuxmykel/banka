@@ -158,8 +158,12 @@ describe('Authentication Tests', () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('data');
-            res.body.data.should.be.a('object');
-            res.body.data.should.have.property('token');
+            res.body.data.should.be.a('array');
+            res.body.data[0].should.have.property('token');
+            res.body.data[0].should.have.property('id');
+            res.body.data[0].should.have.property('firstName');
+            res.body.data[0].should.have.property('lastName');
+            res.body.data[0].should.have.property('email');
             done();
           });
       });
@@ -243,7 +247,7 @@ describe('Protected Routes Tests', () => {
         .post(`${userEndPoint}signin`)
         .send(login)
         .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data.token}`;
+          const token = `Bearer ${loginRes.body.data[0].token}`;
 
           chai.request(app)
             .post(`${apiEndPoint}transactions/5823642528/debit`)
@@ -269,7 +273,7 @@ describe('Protected Routes Tests', () => {
         .post(`${userEndPoint}signin`)
         .send(login)
         .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data.token}`;
+          const token = `Bearer ${loginRes.body.data[0].token}`;
           const accountNumber = 7456321485;
 
           chai.request(app)
@@ -351,7 +355,7 @@ describe('Account Tests', () => {
           .post(`${userEndPoint}signin`)
           .send(login)
           .end((loginErr, loginRes) => {
-            const token = `Bearer ${loginRes.body.data.token}`;
+            const token = `Bearer ${loginRes.body.data[0].token}`;
             const input = {
               type: 'current',
               initialDeposit: 50000.35,
@@ -406,7 +410,7 @@ describe('Account Tests', () => {
     describe(`PATCH ${apiEndPoint}accounts/:accountNumber`, () => {
       it('Should edit account status successfully', (done) => {
         const login = {
-          email: 'chukwudi.m@gmail.com',
+          email: 'ngwobiachukwudi@gmail.com',
           password: 'password',
         };
 
@@ -414,7 +418,7 @@ describe('Account Tests', () => {
           .post(`${userEndPoint}signin`)
           .send(login)
           .end((loginErr, loginRes) => {
-            const token = `Bearer ${loginRes.body.data.token}`;
+            const token = `Bearer ${loginRes.body.data[0].token}`;
 
             chai.request(app)
               .patch(`${apiEndPoint}accounts/5823642528`)
@@ -457,7 +461,7 @@ describe('Account Tests', () => {
 
       it('Should return 404 if account does not exist', (done) => {
         const login = {
-          email: 'chukwudi.m@gmail.com',
+          email: 'ngwobiachukwudi@gmail.com',
           password: 'password',
         };
 
@@ -465,7 +469,7 @@ describe('Account Tests', () => {
           .post(`${userEndPoint}signin`)
           .send(login)
           .end((loginErr, loginRes) => {
-            const token = `Bearer ${loginRes.body.data.token}`;
+            const token = `Bearer ${loginRes.body.data[0].token}`;
             const accountNumber = 6456321487;
 
             chai.request(app)
@@ -485,7 +489,7 @@ describe('Account Tests', () => {
     describe(`DELETE ${apiEndPoint}accounts/:accountNumber`, () => {
       it('Should should delete an account successfully', (done) => {
         const login = {
-          email: 'chukwudi.m@gmail.com',
+          email: 'ngwobiachukwudi@gmail.com',
           password: 'password',
         };
 
@@ -493,7 +497,7 @@ describe('Account Tests', () => {
           .post(`${userEndPoint}signin`)
           .send(login)
           .end((loginErr, loginRes) => {
-            const token = `Bearer ${loginRes.body.data.token}`;
+            const token = `Bearer ${loginRes.body.data[0].token}`;
             const accountNumber = 7456321485;
 
             chai.request(app)
@@ -509,7 +513,7 @@ describe('Account Tests', () => {
 
       it('Should return 404 if account does not exist', (done) => {
         const login = {
-          email: 'chukwudi.m@gmail.com',
+          email: 'ngwobiachukwudi@gmail.com',
           password: 'password',
         };
 
@@ -517,7 +521,7 @@ describe('Account Tests', () => {
           .post(`${userEndPoint}signin`)
           .send(login)
           .end((loginErr, loginRes) => {
-            const token = `Bearer ${loginRes.body.data.token}`;
+            const token = `Bearer ${loginRes.body.data[0].token}`;
             const accountNumber = 7456321485;
 
             chai.request(app)
@@ -537,7 +541,7 @@ describe('Transaction Tests', () => {
   describe(`POST ${apiEndPoint}transactions/:accountNumber/credit`, () => {
     it('Should credit an account successfully', (done) => {
       const login = {
-        email: 'chukwudi.m@gmail.com',
+        email: 'kenny_g@gmail.com',
         password: 'password',
       };
 
@@ -545,7 +549,7 @@ describe('Transaction Tests', () => {
         .post(`${userEndPoint}signin`)
         .send(login)
         .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data.token}`;
+          const token = `Bearer ${loginRes.body.data[0].token}`;
 
           chai.request(app)
             .post(`${apiEndPoint}transactions/5823642528/credit`)
@@ -566,7 +570,7 @@ describe('Transaction Tests', () => {
     });
     it('Should return a 404 error if account number does not exist', (done) => {
       const login = {
-        email: 'chukwudi.m@gmail.com',
+        email: 'kenny_g@gmail.com',
         password: 'password',
       };
 
@@ -574,7 +578,7 @@ describe('Transaction Tests', () => {
         .post(`${userEndPoint}signin`)
         .send(login)
         .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data.token}`;
+          const token = `Bearer ${loginRes.body.data[0].token}`;
 
           chai.request(app)
             .post(`${apiEndPoint}transactions/5258525852/credit`)
@@ -616,7 +620,7 @@ describe('Transaction Tests', () => {
   describe(`POST ${apiEndPoint}transactions/:accountNumber/debit`, () => {
     it('Should debit an account successfully', (done) => {
       const login = {
-        email: 'chukwudi.m@gmail.com',
+        email: 'kenny_g@gmail.com',
         password: 'password',
       };
 
@@ -624,7 +628,7 @@ describe('Transaction Tests', () => {
         .post(`${userEndPoint}signin`)
         .send(login)
         .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data.token}`;
+          const token = `Bearer ${loginRes.body.data[0].token}`;
 
           chai.request(app)
             .post(`${apiEndPoint}transactions/5823642528/debit`)
@@ -646,7 +650,7 @@ describe('Transaction Tests', () => {
 
     it('Should return a 404 error if account number does not exist', (done) => {
       const login = {
-        email: 'chukwudi.m@gmail.com',
+        email: 'kenny_g@gmail.com',
         password: 'password',
       };
 
@@ -654,7 +658,7 @@ describe('Transaction Tests', () => {
         .post(`${userEndPoint}signin`)
         .send(login)
         .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data.token}`;
+          const token = `Bearer ${loginRes.body.data[0].token}`;
 
           chai.request(app)
             .post(`${apiEndPoint}transactions/5258525852/debit`)
@@ -671,7 +675,7 @@ describe('Transaction Tests', () => {
 
     it('Should return a 400 error if there isn\t sufficient funds in the account to debit', (done) => {
       const login = {
-        email: 'chukwudi.m@gmail.com',
+        email: 'kenny_g@gmail.com',
         password: 'password',
       };
 
@@ -679,7 +683,7 @@ describe('Transaction Tests', () => {
         .post(`${userEndPoint}signin`)
         .send(login)
         .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data.token}`;
+          const token = `Bearer ${loginRes.body.data[0].token}`;
 
           chai.request(app)
             .post(`${apiEndPoint}transactions/5823642528/debit`)

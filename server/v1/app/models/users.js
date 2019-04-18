@@ -25,21 +25,13 @@ class User {
   }
 
   /**
-   * @param {*} data
+   * @param {*} email
    * @returns { object } user object
    */
-  login(data) {
-    const user = {
-      id: data.id,
-      firstname: data.firstName,
-      lastname: data.lastName,
-      email: data.email,
-    };
-    if (data.type !== 'client') {
-      user.isAdmin = data.isAdmin;
-      user.type = data.type;
-    }
-    return user;
+  find(email) {
+    const query = 'SELECT * FROM users WHERE email=$1';
+    const response = db.query(query, [email]);
+    return response;
   }
 }
 

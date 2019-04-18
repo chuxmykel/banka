@@ -33,7 +33,7 @@ class Schema {
   loginSchema(login) {
     const schema = {
       email: Joi.string().email({ minDomainAtoms: 2 }).required(),
-      password: Joi.string().min(8).max(30).required(),
+      password: Joi.string().min(5).max(30).required(),
     };
     return Joi.validate(login, schema);
   }
@@ -55,13 +55,13 @@ class Schema {
 
   /**
   * @method editAccountSchema
-  * @description Validates the account status from a post request
+  * @description Validates the account status from a patch request
   * @param {object} account - The account object to be validated
   * @returns {object} An object specifying weather the input was valid or not.
   */
   editAccountSchema(account) {
     const schema = {
-      status: Joi.string().min(6).max(7).required()
+      status: Joi.string().required()
         .regex(/^active$|^dormant$/),
     };
     return Joi.validate(account, schema);
@@ -75,7 +75,7 @@ class Schema {
   */
   transactionSchema(amount) {
     const schema = {
-      amount: Joi.number().greater(999).required(),
+      amount: Joi.number().required(),
     };
     return Joi.validate(amount, schema);
   }

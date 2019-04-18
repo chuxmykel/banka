@@ -76,7 +76,7 @@ class AuthenticateUser {
 
       req.user = decoded;
 
-      if (!req.user.isAdmin) {
+      if (!req.user.isadmin) {
         return res.status(403).send({
           status: res.statusCode,
           error: 'You are not authorized to view this endpoint',
