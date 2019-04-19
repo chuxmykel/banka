@@ -434,8 +434,9 @@ describe('Account Tests', () => {
                 res.should.have.status(200);
                 res.body.should.be.a('object');
                 res.body.should.have.property('data');
-                res.body.data.should.be.a('object');
-                res.body.data.should.have.property('status');
+                res.body.data.should.be.a('array');
+                res.body.data[0].should.have.property('accountNumber');
+                res.body.data[0].should.have.property('status');
                 done();
               });
           });

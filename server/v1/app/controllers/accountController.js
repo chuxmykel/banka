@@ -42,27 +42,31 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  changeAccountStatus(req, res) {
-    const { status } = req.body;
-    const { accountExists, accountDetails } = accounts
-      .getOne(parseInt(req.params.accountNumber, 10), res);
+  async changeAccountStatus(req, res) {
+    try {
+      const accountNumber = parseInt(req.params.accountNumber, 10);
+      const response = await accounts.updateStatus(accountNumber, req.body.status);
+      if (response.rowCount < 1) {
+        return res.status(404).json({
+          status: res.statusCode,
+          error: `Account with account number ${accountNumber} does not exist`,
+        });
+      }
 
-    if (accountExists === false) {
-      return res.status(404).json({
+      const account = response.rows[0];
+      return res.status(200).json({
         status: res.statusCode,
-        error: `Account with account number ${req.params.accountNumber} does not exist`,
+        data: [{
+          accountNumber: account.account_number,
+          status: account.status,
+        }],
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
       });
     }
-
-    accountDetails.status = status;
-
-    return res.status(200).json({
-      status: res.statusCode,
-      data: {
-        accountNumber: accountDetails.accountNumber,
-        status: accountDetails.status,
-      },
-    });
   }
 
   /**
