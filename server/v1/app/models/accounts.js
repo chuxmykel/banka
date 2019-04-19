@@ -26,6 +26,18 @@ class Account {
   }
 
   /**
+  * @method updateStatus
+  * @param {*} accountNumber - The accountNumber
+  * @param{*} status - The  new status of the account
+  * @returns {object} the account details
+  */
+  async updateStatus(accountNumber, status) {
+    const query = 'UPDATE accounts SET status = $1 WHERE account_number = $2 returning *;';
+    const response = db.query(query, [status, accountNumber]);
+    return response;
+  }
+
+  /**
   * @method getOne
   * @description returns the account details if it the account number exists
   * @param {*} accountNumber - The accountNumber
