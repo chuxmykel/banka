@@ -32,7 +32,7 @@ class Account {
   * @returns {object} the account details
   */
   async updateStatus(accountNumber, status) {
-    const query = 'UPDATE accounts SET status = $1 WHERE account_number = $2 returning *;';
+    const query = 'UPDATE accounts SET status = $1 WHERE account_number = $2 RETURNING *;';
     const response = db.query(query, [status, accountNumber]);
     return response;
   }
@@ -60,11 +60,13 @@ class Account {
   /**
   * @method delete
   * @description Deletes an account
-  * @param {object} index - The Response Object
+  * @param {*} accountNumber - The Response Object
   * @returns {object} JSON API Response
   */
-  delete(index) {
-    accounts.splice(index, 1);
+  delete(accountNumber) {
+    const query = 'DELETE FROM accounts WHERE account_number=$1';
+    const response = db.query(query, [accountNumber]);
+    return response;
   }
 }
 
