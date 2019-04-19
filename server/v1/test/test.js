@@ -505,7 +505,7 @@ describe('Account Tests', () => {
           .send(login)
           .end((loginErr, loginRes) => {
             const token = `Bearer ${loginRes.body.data[0].token}`;
-            const accountNumber = 7456321485;
+            const accountNumber = 1758964523;
 
             chai.request(app)
               .delete(`${apiEndPoint}accounts/${accountNumber}`)
@@ -529,7 +529,7 @@ describe('Account Tests', () => {
           .send(login)
           .end((loginErr, loginRes) => {
             const token = `Bearer ${loginRes.body.data[0].token}`;
-            const accountNumber = 7456321485;
+            const accountNumber = 1758964523;
 
             chai.request(app)
               .delete(`${apiEndPoint}accounts/${accountNumber}`)

@@ -8,7 +8,7 @@ import accounts from '../models/accounts';
 class AccountController {
   /**
   * @method createAccount
-  * @description Adds a user's bank account to the data structure
+  * @description Adds a user's bank account to the database
   * @param {object} req - The Request Object
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
@@ -71,27 +71,31 @@ class AccountController {
 
   /**
   * @method deleteAccount
-  * @description Deletes an account from the data structure
+  * @description Deletes an account from the database
   * @param {object} req - The Request Object
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  deleteAccount(req, res) {
-    const { accountExists, accountIndex } = accounts
-      .getOne(parseInt(req.params.accountNumber, 10));
-
-    if (accountExists === false) {
-      return res.status(404).json({
+  async deleteAccount(req, res) {
+    try {
+      const accountNumber = parseInt(req.params.accountNumber, 10);
+      const response = await accounts.delete(accountNumber);
+      if (response.rowCount < 1) {
+        return res.status(404).json({
+          status: res.statusCode,
+          error: `Account with account number ${accountNumber} does not exist`,
+        });
+      }
+      return res.status(200).json({
         status: res.statusCode,
-        error: `Account with account number ${req.params.accountNumber} does not exist`,
+        message: 'Account successfully deleted',
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
       });
     }
-    accounts.delete(accountIndex);
-
-    return res.status(200).json({
-      status: res.statusCode,
-      message: 'Account successfully deleted',
-    });
   }
 }
 
