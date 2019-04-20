@@ -1,5 +1,4 @@
 import transactions from '../models/transactions';
-// import emailHandler from '../helpers/emailHandler';
 import accounts from '../models/accounts';
 
 /**
@@ -96,42 +95,35 @@ class TransactionController {
     }
   }
 
-  // /**
-  // * @method generateMail
-  // * @description Generates the mail message to be sent to the user
-  // * @param {object} transaction - The transaction Object
-  // * @returns {object} the message object
-  // */
-  // static generateMail(transaction) {
-  //   const userId = accounts.find(item => item.accountNumber === transaction.accountNumber).id;
-  //   const user = users.find(item => item.id === userId);
-  //   const subject = `BeNS Transaction Alert [${transaction.type}:${transaction
-  //  .type === 'debit' ? '-' : ''}${transaction.amount}]`;
-  //   const body = `<p>
-  //                 Dear <em>${user.firstName} ${user.lastName}</em>, <br>
-  //               BANKA electronic Notification Service (BeNS) ${transaction.type} alert notice<br>
-  //                 A transaction just occured in your account with the details below
-  //                 <table style="border: 1px solid">
-  //                   <tr>
-  //                     <td style="border: 1px solid">Account Number</td>
-  //                     <td style="border: 1px solid">${transaction.accountNumber}</td>
-  //                   </tr>
-  //                   <tr>
-  //                     <td style="border: 1px solid">Transaction Time</td>
-  //                     <td style="border: 1px solid">${transaction.createdOn}</td>
-  //                   </tr>
-  //                   <tr>
-  //                     <td style="border: 1px solid">Amount</td>
-  //                     <td style="border: 1px solid">${transaction.amount}</td>
-  //                   </tr>
-  //                   <tr>
-  //                     <td style="border: 1px solid">Balance</td>
-  //                     <td style="border: 1px solid">${transaction.newBalance}</td>
-  //                   </tr>
-  //                 </table>
-  //               </p>`;
-  //   return { subject, body, email: user.email };
-  // }
+  /**
+  * @method getOne
+  * @description fetches a specific transaction
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  async getOne(req, res) {
+    try {
+      const { rows } = await transactions.getOne(req);
+
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: res.statusCode,
+          error: `transaction with id ${req.params.id} not found`,
+        });
+      }
+
+      return res.status(200).json({
+        status: res.statusCode,
+        data: rows,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
+      });
+    }
+  }
 }
 
 const transactionController = new TransactionController();
