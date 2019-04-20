@@ -18,7 +18,7 @@ const queryString = `
     client_id INTEGER REFERENCES users(id),
     type VARCHAR(7) NOT NULL,
     status VARCHAR(7) DEFAULT 'draft',
-    balance NUMERIC(200, 2) DEFAULT 0.00
+    balance NUMERIC(200, 2) DEFAULT 0.00 CONSTRAINT positive_balance CHECK (balance > -1)
   );
 
   CREATE TABLE IF NOT EXISTS transactions(
@@ -29,7 +29,7 @@ const queryString = `
     cashier INTEGER REFERENCES users(id),
     amount NUMERIC(200, 2) NOT NULL,
     old_balance NUMERIC(200, 2) NOT NULL,
-    new_balance NUMERIC(200, 2) NOT NULL
+    new_balance NUMERIC(200, 2) NOT NULL CHECK (new_balance > -1)
   );  
 `;
 

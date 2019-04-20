@@ -1,5 +1,4 @@
 import moment from 'moment';
-import accounts from './data/accounts';
 import AccountNumber from '../helpers/accountNumber';
 import db from '../migrations/db';
 
@@ -35,26 +34,6 @@ class Account {
     const query = 'UPDATE accounts SET status = $1 WHERE account_number = $2 RETURNING *;';
     const response = db.query(query, [status, accountNumber]);
     return response;
-  }
-
-  /**
-  * @method getOne
-  * @description returns the account details if it the account number exists
-  * @param {*} accountNumber - The accountNumber
-  * @returns {object} the account details
-  */
-  getOne(accountNumber) {
-    let accountExists = false;
-    let accountDetails;
-    let accountIndex;
-    accounts.forEach((account) => {
-      if (account.accountNumber === accountNumber) {
-        accountExists = true;
-        accountDetails = account;
-        accountIndex = accounts.indexOf(account);
-      }
-    });
-    return { accountDetails, accountExists, accountIndex };
   }
 
   /**
