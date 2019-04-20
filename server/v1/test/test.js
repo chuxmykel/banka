@@ -734,3 +734,85 @@ describe('Transaction Tests', () => {
     });
   });
 });
+
+describe('Transaction history Tests', () => {
+  describe(`GET ${apiEndPoint}accounts/:accountNumber`, () => {
+    it('Should fetch account transaction history successfully', (done) => {
+      const login = {
+        email: 'kcmykairl@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}accounts/3254125869/transactions`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('array');
+              res.body.data[0].should.have.property('transactionid');
+              res.body.data[0].should.have.property('createdon');
+              res.body.data[0].should.have.property('type');
+              res.body.data[0].should.have.property('accountnumber');
+              res.body.data[0].should.have.property('amount');
+              res.body.data[0].should.have.property('oldbalance');
+              res.body.data[0].should.have.property('newbalance');
+              done();
+            });
+        });
+    });
+    it('Should return 404 and an error message if a non existing account is provided', (done) => {
+      const login = {
+        email: 'kcmykairl@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}accounts/2354125869/transactions`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(404);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
+    it('Should return 403 and an error message if user tries to access an account that is not his', (done) => {
+      const login = {
+        email: 'kcmykairl@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}accounts/8745521633/transactions`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
+  });
+});
