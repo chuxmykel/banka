@@ -68,6 +68,31 @@ class Account {
     const response = db.query(query, [accountNumber]);
     return response;
   }
+
+  /**
+  * @method updateBalance
+  * @description Updates the account balance
+  * @param {*} accountNumber - The accountNumber
+  * @param{*} balance - The  new balance of the account
+  * @returns {object} the account details
+  */
+  async updateBalance(accountNumber, balance) {
+    const query = 'UPDATE accounts SET balance = $1 WHERE account_number = $2 returning *;';
+    const response = db.query(query, [balance, accountNumber]);
+    return response;
+  }
+
+  /**
+  * @method find
+  * @description Finds and returns  account details that match the fiven account number
+  * @param {*} accountNumber - The accountNumber
+  * @returns {object} the account details
+  */
+  find(accountNumber) {
+    const query = 'SELECT * FROM accounts WHERE account_number=$1;';
+    const response = db.query(query, [accountNumber]);
+    return response;
+  }
 }
 
 const account = new Account();
