@@ -701,7 +701,7 @@ describe('Transaction Tests', () => {
             .set('Authorization', token)
             .send({ amount: 200000000 })
             .end((err, res) => {
-              res.should.have.status(400);
+              res.should.have.status(409);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
               done();
