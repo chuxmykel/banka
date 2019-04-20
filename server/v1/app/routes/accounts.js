@@ -19,4 +19,8 @@ accountRoutes.delete('/:accountNumber',
   AuthenticateUser.verifyAdmin,
   AccountController.deleteAccount);
 
+accountRoutes.get('/:accountNumber/transactions',
+  AuthenticateUser.verifyUser,
+  AccountController.getHistory);
+
 export default accountRoutes;

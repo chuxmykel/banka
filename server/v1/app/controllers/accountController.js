@@ -1,4 +1,5 @@
 import accounts from '../models/accounts';
+import transactions from '../models/transactions';
 
 /**
  * @class AccountController
@@ -89,6 +90,42 @@ class AccountController {
       return res.status(200).json({
         status: res.statusCode,
         message: 'Account successfully deleted',
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
+      });
+    }
+  }
+
+  /**
+  * @method getHistory
+  * @description Fetches the transaction history for an account Number
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  async getHistory(req, res) {
+    try {
+      const accountNumber = parseInt(req.params.accountNumber, 10);
+      const transaction = await transactions.findInTransactions(accountNumber);
+      if (transaction.rowCount < 1) {
+        return res.status(404).json({
+          status: res.statusCode,
+          error: `Account Number ${accountNumber} either doesnt exist or has no transaction history`,
+        });
+      }
+      const response = await transactions.getAllHistory(req, accountNumber);
+      if (response.rowCount < 1) {
+        return res.status(403).json({
+          status: res.statusCode,
+          error: 'You are not authorized to view the transaction history of this account',
+        });
+      }
+      return res.status(200).json({
+        status: res.statusCode,
+        data: response.rows,
       });
     } catch (error) {
       return res.status(400).json({

@@ -38,6 +38,40 @@ class Transaction {
     const debit = parseFloat((parseFloat(accountBalance) - parseFloat(amount)).toFixed(2));
     return type === 'credit' ? credit : debit;
   }
+
+  /**
+  * @method getAllHistory
+  * @description Fetches all transactions on a particular account number
+  * @param {object} req - The request object
+  * @param {object} accountNumber - The account number
+  * @returns {object} JSON API Response
+
+  */
+  getAllHistory(req, accountNumber) {
+    const queryText = `
+    SELECT transactions.id AS transactionId, transactions.createdon AS createdOn,
+    transactions.type, transactions.account_number AS accountNumber, amount,
+    old_balance AS oldBalance, new_balance AS newBalance 
+    FROM transactions
+    JOIN accounts ON accounts.account_number = transactions.account_number 
+    WHERE accounts.client_id = $1 AND transactions.account_number = $2;`;
+    const values = [req.user.id, accountNumber];
+    const response = db.query(queryText, values);
+    return response;
+  }
+
+  /**
+  * @method findInTransactions
+  * @description Checks if there has been any transaction on an account
+  * @param {object} accountNumber - The account number
+  * @returns {object} JSON API Response
+
+  */
+  findInTransactions(accountNumber) {
+    const queryText = 'SELECT account_number FROM transactions WHERE account_number = $1';
+    const response = db.query(queryText, [accountNumber]);
+    return response;
+  }
 }
 
 const transaction = new Transaction();
