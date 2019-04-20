@@ -10,9 +10,9 @@ transactionRoutes.post('/:accountNumber/credit',
   AuthenticateUser.verifyStaff,
   TransactionController.creditAccount);
 
-transactionRoutes.post('/:accountNumber/debit',
-  InputValidator.validateAmount,
-  AuthenticateUser.verifyStaff,
-  TransactionController.debitAccount);
+// transactionRoutes.post('/:accountNumber/debit',
+//   InputValidator.validateAmount,
+//   AuthenticateUser.verifyStaff,
+//   TransactionController.debitAccount);
 
 export default transactionRoutes;
