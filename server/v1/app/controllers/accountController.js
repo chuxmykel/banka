@@ -211,14 +211,7 @@ class AccountController {
   async getAllAccounts(req, res) {
     try {
       if (req.query.status) {
-        const acceptedQuery = 'active' || 'dormant' || 'draft';
         const { rows } = await accounts.getByStatus(req.query.status);
-        if (!acceptedQuery) {
-          return res.status(400).json({
-            status: res.statusCode,
-            error: 'Accepted query parameters are \'active\', \'dormant\' or \'draft\'',
-          });
-        }
         return res.status(200).json({
           status: res.statusCode,
           data: rows,

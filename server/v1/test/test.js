@@ -1112,7 +1112,7 @@ describe('View All Accounts Tests', () => {
     });
   });
   describe(`GET ${apiEndPoint}acccounts/?status=draft`, () => {
-    it('Should fetch all active accounts successfully', (done) => {
+    it('Should fetch all draft accounts successfully', (done) => {
       const login = {
         email: 'kenny_g@gmail.com',
         password: 'password',
