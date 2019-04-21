@@ -170,6 +170,36 @@ class AccountController {
       });
     }
   }
+
+  /**
+  * @method viewUserAccounts
+  * @description Fetches all accounts owned by a user
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  async viewUserAccounts(req, res) {
+    try {
+      const { rows } = await accounts.getAll(req.params.email);
+
+      if (!rows[0]) {
+        return res.status(404).json({
+          status: res.statusCode,
+          error: `No account record found for the account with email ${req.params.email}`,
+        });
+      }
+
+      return res.status(200).json({
+        status: res.statusCode,
+        accounts: rows,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
+      });
+    }
+  }
 }
 
 const accountController = new AccountController();

@@ -872,7 +872,7 @@ describe('Transaction history Tests', () => {
     });
   });
 });
-// ///////////////////////////////////////////////////////////////
+
 describe('Account Details Tests', () => {
   describe(`GET ${apiEndPoint}accounts/:accountNumber`, () => {
     it('Should fetch account transaction history successfully', (done) => {
@@ -946,6 +946,63 @@ describe('Account Details Tests', () => {
             .set('Authorization', token)
             .end((err, res) => {
               res.should.have.status(403);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
+  });
+});
+
+describe('View All User\'s Accounts Tests', () => {
+  describe(`GET ${apiEndPoint}user/:email/acccounts`, () => {
+    it('Should fetch all user accounts successfully', (done) => {
+      const login = {
+        email: 'ngwobiachukwudi@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}user/kcmykairl@gmail.com/accounts`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('accounts');
+              res.body.accounts.should.be.a('array');
+              res.body.accounts[0].should.have.property('createdon');
+              res.body.accounts[0].should.have.property('accountnumber');
+              res.body.accounts[0].should.have.property('type');
+              res.body.accounts[0].should.have.property('status');
+              res.body.accounts[0].should.have.property('balance');
+              done();
+            });
+        });
+    });
+    it('Should return 404 and an error message if a non existing email is provided', (done) => {
+      const login = {
+        email: 'ngwobiachukwudi@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}user/nonexistingmail@test.com/accounts`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(404);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
               done();
