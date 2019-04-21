@@ -6,7 +6,7 @@ const otherRoutes = express.Router();
 
 otherRoutes.get('/:email/accounts',
   AuthenticateUser.verifyAdmin,
-  AccountController.viewUserAccounts);
+  AccountController.getUserAccounts);
 
 
 export default otherRoutes;

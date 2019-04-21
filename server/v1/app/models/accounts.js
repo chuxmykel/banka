@@ -94,11 +94,26 @@ class Account {
 
   /**
   * @method getAll
+  * @description Finds and returns all accounts in the database
+  * @returns {object} the account details
+  */
+  getAll() {
+    const query = `
+    SELECT accounts.createdon, accounts.account_number AS accountnumber,
+    users.email AS owneremail, accounts.type, accounts.status, accounts.balance
+    FROM accounts
+    JOIN users ON accounts.client_id = users.id`;
+    const response = db.query(query);
+    return response;
+  }
+
+  /**
+  * @method getAllForUser
   * @description Finds and returns all accounts owned by a particular user
   * @param {*} email - The email of the user who;'s account details should be fetched
   * @returns {object} the account details
   */
-  getAll(email) {
+  getAllForUser(email) {
     const query = `
       SELECT accounts.createdon, accounts.account_number AS accountnumber,
       accounts.type, accounts.status, accounts.balance
