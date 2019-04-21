@@ -55,7 +55,7 @@ class Account {
   * @param{*} balance - The  new balance of the account
   * @returns {object} the account details
   */
-  async updateBalance(accountNumber, balance) {
+  updateBalance(accountNumber, balance) {
     const query = 'UPDATE accounts SET balance = $1 WHERE account_number = $2 returning *;';
     const response = db.query(query, [balance, accountNumber]);
     return response;
@@ -69,6 +69,25 @@ class Account {
   */
   find(accountNumber) {
     const query = 'SELECT * FROM accounts WHERE account_number=$1;';
+    const response = db.query(query, [accountNumber]);
+    return response;
+  }
+
+  /**
+  * @method getOne
+  * @description Finds and returns  account details and user
+  * details that match the fiven account number
+  * @param {*} accountNumber - The accountNumber
+  * @returns {object} the account details
+  */
+  getOne(accountNumber) {
+    const query = `
+    SELECT users.id AS owner, accounts.createdon, accounts.account_number AS accountnumber,
+    users.email AS ownerEmail, accounts.type, accounts.status,
+    balance
+    FROM accounts
+    JOIN users ON accounts.client_id = users.id 
+    WHERE accounts.account_number = $1`;
     const response = db.query(query, [accountNumber]);
     return response;
   }
