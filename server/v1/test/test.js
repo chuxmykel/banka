@@ -1011,3 +1011,38 @@ describe('View All User\'s Accounts Tests', () => {
     });
   });
 });
+
+describe('View All Accounts Tests', () => {
+  describe(`GET ${apiEndPoint}acccounts`, () => {
+    it('Should fetch all accounts successfully', (done) => {
+      const login = {
+        email: 'kenny_g@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}accounts`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('array');
+              res.body.data[0].should.have.property('createdon');
+              res.body.data[0].should.have.property('accountnumber');
+              res.body.data[0].should.have.property('owneremail');
+              res.body.data[0].should.have.property('type');
+              res.body.data[0].should.have.property('status');
+              res.body.data[0].should.have.property('balance');
+              done();
+            });
+        });
+    });
+  });
+});

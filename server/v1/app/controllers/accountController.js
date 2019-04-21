@@ -178,9 +178,9 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async viewUserAccounts(req, res) {
+  async getUserAccounts(req, res) {
     try {
-      const { rows } = await accounts.getAll(req.params.email);
+      const { rows } = await accounts.getAllForUser(req.params.email);
 
       if (!rows[0]) {
         return res.status(404).json({
@@ -192,6 +192,29 @@ class AccountController {
       return res.status(200).json({
         status: res.statusCode,
         accounts: rows,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
+      });
+    }
+  }
+
+  /**
+  * @method viewUserAccounts
+  * @description Fetches all accounts owned by a user
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  async getAllAccounts(req, res) {
+    try {
+      const { rows } = await accounts.getAll();
+
+      return res.status(200).json({
+        status: res.statusCode,
+        data: rows,
       });
     } catch (error) {
       return res.status(400).json({

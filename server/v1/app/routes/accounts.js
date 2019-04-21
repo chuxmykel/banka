@@ -27,4 +27,8 @@ accountRoutes.get('/:accountNumber',
   AuthenticateUser.verifyUser,
   AccountController.getAccountDetails);
 
+accountRoutes.get('/',
+  AuthenticateUser.verifyUser,
+  AccountController.getAllAccounts);
+
 export default accountRoutes;
