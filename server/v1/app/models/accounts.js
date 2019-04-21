@@ -99,11 +99,28 @@ class Account {
   */
   getAll() {
     const query = `
-    SELECT accounts.createdon, accounts.account_number AS accountnumber,
-    users.email AS owneremail, accounts.type, accounts.status, accounts.balance
-    FROM accounts
-    JOIN users ON accounts.client_id = users.id`;
+      SELECT accounts.createdon, accounts.account_number AS accountnumber,
+      users.email AS owneremail, accounts.type, accounts.status, accounts.balance
+      FROM accounts
+      JOIN users ON accounts.client_id = users.id`;
     const response = db.query(query);
+    return response;
+  }
+
+  /**
+  * @method getActive
+  * @description Finds and returns all accounts based on the specified status
+  * @param {string} status - a string specifying the status of the account group to be fetched
+  * @returns {object} the account details
+  */
+  getByStatus(status) {
+    const query = `
+      SELECT accounts.createdon, accounts.account_number AS accountnumber,
+      users.email AS owneremail, accounts.type, accounts.status, accounts.balance
+      FROM accounts
+      JOIN users ON accounts.client_id = users.id
+      WHERE accounts.status = $1`;
+    const response = db.query(query, [status]);
     return response;
   }
 

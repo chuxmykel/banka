@@ -1045,4 +1045,103 @@ describe('View All Accounts Tests', () => {
         });
     });
   });
+  describe(`GET ${apiEndPoint}acccounts/?status=active`, () => {
+    it('Should fetch all active accounts successfully', (done) => {
+      const login = {
+        email: 'kenny_g@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}accounts/?status=active`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('array');
+              res.body.data[0].should.have.property('createdon');
+              res.body.data[0].should.have.property('accountnumber');
+              res.body.data[0].should.have.property('owneremail');
+              res.body.data[0].should.have.property('type');
+              res.body.data[0].should.have.property('status');
+              res.body.data[0].status.should.equal('active');
+              res.body.data[0].should.have.property('balance');
+              done();
+            });
+        });
+    });
+  });
+  describe(`GET ${apiEndPoint}acccounts/?status=dormant`, () => {
+    it('Should fetch all dormant accounts successfully', (done) => {
+      const login = {
+        email: 'kenny_g@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}accounts/?status=dormant`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('array');
+              res.body.data[0].should.have.property('createdon');
+              res.body.data[0].should.have.property('accountnumber');
+              res.body.data[0].should.have.property('owneremail');
+              res.body.data[0].should.have.property('type');
+              res.body.data[0].should.have.property('status');
+              res.body.data[0].status.should.equal('dormant');
+              res.body.data[0].should.have.property('balance');
+              done();
+            });
+        });
+    });
+  });
+  describe(`GET ${apiEndPoint}acccounts/?status=draft`, () => {
+    it('Should fetch all draft accounts successfully', (done) => {
+      const login = {
+        email: 'kenny_g@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .get(`${apiEndPoint}accounts/?status=draft`)
+            .set('Authorization', token)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.should.have.property('data');
+              res.body.data.should.be.a('array');
+              res.body.data[0].should.have.property('createdon');
+              res.body.data[0].should.have.property('accountnumber');
+              res.body.data[0].should.have.property('owneremail');
+              res.body.data[0].should.have.property('type');
+              res.body.data[0].should.have.property('status');
+              res.body.data[0].status.should.equal('draft');
+              res.body.data[0].should.have.property('balance');
+              done();
+            });
+        });
+    });
+  });
 });

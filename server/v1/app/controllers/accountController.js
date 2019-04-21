@@ -172,7 +172,7 @@ class AccountController {
   }
 
   /**
-  * @method viewUserAccounts
+  * @method getUserAccounts
   * @description Fetches all accounts owned by a user
   * @param {object} req - The Request Object
   * @param {object} res - The Response Object
@@ -202,16 +202,22 @@ class AccountController {
   }
 
   /**
-  * @method viewUserAccounts
-  * @description Fetches all accounts owned by a user
+  * @method getAllAccounts
+  * @description Fetches all accounts from the database
   * @param {object} req - The Request Object
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
   async getAllAccounts(req, res) {
     try {
+      if (req.query.status) {
+        const { rows } = await accounts.getByStatus(req.query.status);
+        return res.status(200).json({
+          status: res.statusCode,
+          data: rows,
+        });
+      }
       const { rows } = await accounts.getAll();
-
       return res.status(200).json({
         status: res.statusCode,
         data: rows,
