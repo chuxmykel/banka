@@ -82,13 +82,31 @@ class Account {
   */
   getOne(accountNumber) {
     const query = `
-    SELECT users.id AS owner, accounts.createdon, accounts.account_number AS accountnumber,
-    users.email AS ownerEmail, accounts.type, accounts.status,
-    balance
-    FROM accounts
-    JOIN users ON accounts.client_id = users.id 
-    WHERE accounts.account_number = $1`;
+      SELECT users.id AS owner, accounts.createdon, accounts.account_number AS accountnumber,
+      users.email AS ownerEmail, accounts.type, accounts.status,
+      balance
+      FROM accounts
+      JOIN users ON accounts.client_id = users.id 
+      WHERE accounts.account_number = $1`;
     const response = db.query(query, [accountNumber]);
+    return response;
+  }
+
+  /**
+  * @method getAll
+  * @description Finds and returns all accounts owned by a particular user
+  * @param {*} email - The email of the user who;'s account details should be fetched
+  * @returns {object} the account details
+  */
+  getAll(email) {
+    const query = `
+      SELECT accounts.createdon, accounts.account_number AS accountnumber,
+      accounts.type, accounts.status, accounts.balance
+      FROM accounts
+      JOIN users ON accounts.client_id = users.id 
+      WHERE users.email = $1
+      ORDER BY accounts.id ASC`;
+    const response = db.query(query, [email]);
     return response;
   }
 }

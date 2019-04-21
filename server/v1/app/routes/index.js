@@ -2,6 +2,7 @@ import express from 'express';
 import userRoutes from './users';
 import accountRoutes from './accounts';
 import transactionRoutes from './transactions';
+import otherRoutes from './others';
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.get('/v1', (req, res) => res.status(200).json({
 router.use('/v1/auth', userRoutes);
 router.use('/v1/accounts', accountRoutes);
 router.use('/v1/transactions', transactionRoutes);
+router.use('/v1/user', otherRoutes);
 
 export default router;
