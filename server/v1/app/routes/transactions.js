@@ -15,4 +15,8 @@ transactionRoutes.post('/:accountNumber/debit',
   AuthenticateUser.verifyStaff,
   TransactionController.debitAccount);
 
+transactionRoutes.get('/:id',
+  AuthenticateUser.verifyUser,
+  TransactionController.getOne);
+
 export default transactionRoutes;
