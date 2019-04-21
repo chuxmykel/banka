@@ -113,7 +113,7 @@ class AccountController {
       if (transaction.rowCount < 1) {
         return res.status(404).json({
           status: res.statusCode,
-          error: `Account Number ${accountNumber} either doesnt exist or has no transaction history`,
+          error: `Account Number ${accountNumber} either does not exist or has no transaction history`,
         });
       }
       const response = await transactions.getAllHistory(req, accountNumber);
@@ -126,6 +126,42 @@ class AccountController {
       return res.status(200).json({
         status: res.statusCode,
         data: response.rows,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: error.detail,
+      });
+    }
+  }
+
+  /**
+  * @method getAccountDetails
+  * @description Fetches a specific account details
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  async getAccountDetails(req, res) {
+    try {
+      const accountNumber = parseInt(req.params.accountNumber, 10);
+      const response = await accounts.find(accountNumber);
+      if (response.rowCount < 1) {
+        return res.status(404).json({
+          status: res.statusCode,
+          error: `Account Number ${accountNumber} does not exist!`,
+        });
+      }
+      const { rows } = await accounts.getOne(accountNumber);
+      if (rows[0].owner !== req.user.id) {
+        return res.status(403).json({
+          status: res.statusCode,
+          error: 'You are not authorized to view this account\'s details',
+        });
+      }
+      return res.status(200).json({
+        status: res.statusCode,
+        data: rows,
       });
     } catch (error) {
       return res.status(400).json({

@@ -23,4 +23,8 @@ accountRoutes.get('/:accountNumber/transactions',
   AuthenticateUser.verifyUser,
   AccountController.getHistory);
 
+accountRoutes.get('/:accountNumber',
+  AuthenticateUser.verifyUser,
+  AccountController.getAccountDetails);
+
 export default accountRoutes;
