@@ -46,7 +46,7 @@ class Schema {
         .required(),
       password: Joi.string().min(5).required(),
     };
-    return Joi.validate(user, schema);
+    return Joi.validate(user, schema, { abortEarly: false });
   }
 
   /**
@@ -61,7 +61,7 @@ class Schema {
         .required(),
       password: Joi.string().min(5).required(),
     };
-    return Joi.validate(login, schema);
+    return Joi.validate(login, schema, { abortEarly: false });
   }
 
   /**
@@ -76,7 +76,7 @@ class Schema {
         .required(),
       initialDeposit: Joi.number().greater(5000).required(),
     };
-    return Joi.validate(account, schema);
+    return Joi.validate(account, schema, { abortEarly: false });
   }
 
   /**
@@ -90,7 +90,7 @@ class Schema {
       status: Joi.string().trim().lowercase().valid('active', 'dormant')
         .required(),
     };
-    return Joi.validate(account, schema);
+    return Joi.validate(account, schema, { abortEarly: false });
   }
 
   /**
@@ -103,7 +103,7 @@ class Schema {
     const schema = {
       amount: Joi.number().required(),
     };
-    return Joi.validate(amount, schema);
+    return Joi.validate(amount, schema, { abortEarly: false });
   }
 }
 

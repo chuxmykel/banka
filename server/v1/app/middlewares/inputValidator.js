@@ -22,7 +22,7 @@ class InputValidator {
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
     req.body = value;
@@ -45,7 +45,7 @@ class InputValidator {
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
     req.body = value;
@@ -68,7 +68,7 @@ class InputValidator {
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
     req.body = value;
@@ -91,7 +91,7 @@ class InputValidator {
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
     req.body = value;
@@ -114,7 +114,7 @@ class InputValidator {
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
     req.body = value;
