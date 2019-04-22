@@ -27,17 +27,17 @@ class TransactionController {
       const accountDetails = { ...accountResponse.rows[0] };
       const response = await transactions.create(req, accountDetails, 'credit');
       const transaction = response.rows[0];
-      accounts.updateBalance(accountNumber, transaction.new_balance);
+      accounts.updateBalance(accountNumber, transaction.newBalance);
 
       return res.status(201).json({
         status: res.statusCode,
         data: [{
           transactionId: transaction.id,
-          accountNumber: transaction.account_number,
-          amount: transaction.amount,
+          accountNumber: transaction.accountNumber,
+          amount: parseFloat(transaction.amount),
           cashier: transaction.cashier,
           transactionType: transaction.type,
-          accountBalance: transaction.new_balance,
+          accountBalance: transaction.newBalance,
         }],
       });
     } catch (error) {
@@ -68,17 +68,17 @@ class TransactionController {
       const accountDetails = { ...accountResponse.rows[0] };
       const response = await transactions.create(req, accountDetails, 'debit');
       const transaction = response.rows[0];
-      accounts.updateBalance(accountNumber, transaction.new_balance);
+      accounts.updateBalance(accountNumber, transaction.newBalance);
 
       return res.status(201).json({
         status: res.statusCode,
         data: [{
           transactionId: transaction.id,
-          accountNumber: transaction.account_number,
-          amount: transaction.amount,
+          accountNumber: transaction.accountNumber,
+          amount: parseFloat(transaction.amount),
           cashier: transaction.cashier,
           transactionType: transaction.type,
-          accountBalance: transaction.new_balance,
+          accountBalance: transaction.newBalance,
         }],
       });
     } catch (error) {

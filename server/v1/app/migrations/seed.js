@@ -3,18 +3,18 @@ import query from './index';
 import Auth from '../auth/auth';
 
 const queryString = `
-  INSERT INTO users (firstname, lastname, email, password, type, isAdmin) 
+  INSERT INTO users ("firstName", "lastName", email, password, type, "isAdmin") 
   VALUES ('Chukwudi', 'Ngwobia', 'ngwobiachukwudi@gmail.com', '${Auth.hashPassword('password')}', 'staff', true),
          ('Kenneth', 'Godwin', 'kenny_g@gmail.com', '${Auth.hashPassword('password')}', 'staff', false);
          
-  INSERT INTO users (firstname, lastname, email, password) 
+  INSERT INTO users ("firstName", "lastName", email, password) 
   VALUES ('Kenneth', 'Godwin', 'tedykeny@gmail.com', '${Auth.hashPassword('password')}'),
          ('Ikechukwu', 'Ngwobia', 'doniyke44@gmail.com', '${Auth.hashPassword('password')}'),
          ('Kelechi', 'Ngwobia', 'kcmykairl@gmail.com', '${Auth.hashPassword('password')}'),
          ('Chisom', 'Peperenpe', 'peperenpe@gmail.com', '${Auth.hashPassword('password')}'),
          ('Victor', 'Godwin', 'vog@gmail.com', '${Auth.hashPassword('password')}');
          
-  INSERT INTO accounts(account_number, createdon, client_id, type, status, balance) 
+  INSERT INTO accounts("accountNumber", "createdOn", owner, type, status, balance) 
   VALUES(1758964523, '${moment(new Date())}', 3, 'savings', 'active', 800000.58),
         (7596841530, '${moment(new Date())}', 7, 'current', 'active', 50000.56),
         (3254125869, '${moment(new Date())}', 5, 'current', 'dormant', 25000.25),
@@ -22,7 +22,7 @@ const queryString = `
         (8745521633, '${moment(new Date())}', 6, 'current', 'active', 5387.74),
         (5823642528, '${moment(new Date())}', 4, 'savings', 'active', 320087.98);
         
-  INSERT INTO transactions(createdon, type, account_number, cashier, amount, old_balance, new_balance) 
+  INSERT INTO transactions("createdOn", type, "accountNumber", cashier, amount, "oldBalance", "newBalance")
   VALUES('${moment(new Date())}', 'credit', 8745521633, 2, 25000.00, 800000.58, 825000.4),
         ('${moment(new Date())}', 'credit', 1758964523, 2, 300000.00, 258750.22, 558750.22),
         ('${moment(new Date())}', 'credit', 5823642528, 2, 0.50, 25080.58, 25081.08),

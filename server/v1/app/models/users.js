@@ -11,8 +11,8 @@ class User {
    * @returns { object } user object
    */
   create(data) {
-    const queryText = `INSERT INTO users (firstname, lastname, email,
-      password) VALUES ($1, $2, $3, $4) RETURNING id, firstname, lastname, email;`;
+    const queryText = `INSERT INTO users ("firstName", "lastName", email,
+      password) VALUES ($1, $2, $3, $4) RETURNING id, "firstName", "lastName", email;`;
 
     const {
       firstName, lastName, email, password,

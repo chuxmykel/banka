@@ -1,5 +1,8 @@
+import debug from 'debug';
 import accounts from '../models/accounts';
 import transactions from '../models/transactions';
+
+const log = debug('pg');
 
 /**
  * @class AccountController
@@ -20,9 +23,9 @@ class AccountController {
       return res.status(201).json({
         status: res.statusCode,
         data: [{
-          accountNumber: rows[0].account_number,
-          firstName: req.user.firstname,
-          lastName: req.user.lastname,
+          accountNumber: rows[0].accountNumber,
+          firstName: req.user.firstName,
+          lastName: req.user.lastName,
           email: req.user.email,
           type: rows[0].type,
           openingBalance: rows[0].balance,
@@ -58,7 +61,7 @@ class AccountController {
       return res.status(200).json({
         status: res.statusCode,
         data: [{
-          accountNumber: account.account_number,
+          accountNumber,
           status: account.status,
         }],
       });
@@ -116,6 +119,7 @@ class AccountController {
           error: `Account Number ${accountNumber} either does not exist or has no transaction history`,
         });
       }
+
       const response = await transactions.getAllHistory(req, accountNumber);
       if (response.rowCount < 1) {
         return res.status(403).json({
@@ -164,10 +168,7 @@ class AccountController {
         data: rows,
       });
     } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
-      });
+      log(error);
     }
   }
 

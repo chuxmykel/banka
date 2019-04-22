@@ -17,7 +17,7 @@ class InputValidator {
   validateUser(req, res, next) {
     const user = { ...req.body };
     const validate = Schema.createUserSchema(user);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
@@ -25,6 +25,7 @@ class InputValidator {
         error: error.details[0].message,
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -39,7 +40,7 @@ class InputValidator {
   validateLogin(req, res, next) {
     const login = { ...req.body };
     const validate = Schema.loginSchema(login);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
@@ -47,6 +48,7 @@ class InputValidator {
         error: error.details[0].message,
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -61,7 +63,7 @@ class InputValidator {
   validateAccount(req, res, next) {
     const type = { ...req.body };
     const validate = Schema.createAccountSchema(type);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
@@ -69,6 +71,7 @@ class InputValidator {
         error: error.details[0].message,
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -83,7 +86,7 @@ class InputValidator {
   validateStatus(req, res, next) {
     const type = { ...req.body };
     const validate = Schema.editAccountSchema(type);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
@@ -91,6 +94,7 @@ class InputValidator {
         error: error.details[0].message,
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -105,7 +109,7 @@ class InputValidator {
   validateAmount(req, res, next) {
     const amount = { ...req.body };
     const validate = Schema.transactionSchema(amount);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
@@ -113,6 +117,7 @@ class InputValidator {
         error: error.details[0].message,
       });
     }
+    req.body = value;
     return next();
   }
 }

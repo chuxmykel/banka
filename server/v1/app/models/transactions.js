@@ -15,8 +15,9 @@ class Transaction {
   * @returns {object} JSON API Response
   */
   create(req, account, type) {
-    const queryText = `INSERT INTO transactions(createdon, type,
-      account_number, cashier, amount, old_balance, new_balance) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *;`;
+    const queryText = `INSERT INTO transactions("createdOn", type,
+      "accountNumber", cashier, amount, "oldBalance", "newBalance") VALUES($1, $2, $3, $4, $5, $6, $7) 
+      RETURNING id, "accountNumber", amount, cashier, type, "newBalance";`;
     const accountNumber = parseInt(req.params.accountNumber, 10);
     const newBalance = Transaction.getBalance(account.balance, req.body.amount, type);
     const values = [moment(new Date()), type, accountNumber,
@@ -48,12 +49,12 @@ class Transaction {
   */
   getAllHistory(req, accountNumber) {
     const queryText = `
-      SELECT transactions.id AS transactionId, transactions.createdon AS createdOn,
-      transactions.type, transactions.account_number AS accountNumber, amount,
-      old_balance AS oldBalance, new_balance AS newBalance 
+      SELECT transactions.id AS "transactionId", transactions."createdOn",
+      transactions.type, transactions."accountNumber"::FLOAT, amount::FLOAT,
+      "oldBalance"::FLOAT, "newBalance"::FLOAT
       FROM transactions
-      JOIN accounts ON accounts.account_number = transactions.account_number 
-      WHERE accounts.client_id = $1 AND transactions.account_number = $2;`;
+      JOIN accounts ON accounts."accountNumber" = transactions."accountNumber" 
+      WHERE accounts.owner = $1 AND transactions."accountNumber" = $2;`;
     const values = [req.user.id, accountNumber];
     const response = db.query(queryText, values);
     return response;
@@ -67,12 +68,12 @@ class Transaction {
   */
   getOne(req) {
     const queryText = `
-      SELECT transactions.id AS transactionId, transactions.createdon AS createdOn,
-      transactions.type, transactions.account_number AS accountNumber, amount,
-      old_balance AS oldBalance, new_balance AS newBalance 
+      SELECT transactions.id AS "transactionId", transactions."createdOn",
+      transactions.type, transactions."accountNumber"::FLOAT, amount::FLOAT,
+      "oldBalance"::FLOAT, "newBalance"::FLOAT
       FROM transactions
-      JOIN accounts ON accounts.account_number = transactions.account_number 
-      WHERE transactions.id = $1 AND accounts.client_id = $2`;
+      JOIN accounts ON accounts."accountNumber" = transactions."accountNumber" 
+      WHERE transactions.id = $1 AND accounts.owner = $2`;
     const values = [req.params.id, req.user.id];
     const response = db.query(queryText, values);
     return response;
@@ -85,7 +86,7 @@ class Transaction {
   * @returns {object} JSON API Response
   */
   findInTransactions(accountNumber) {
-    const queryText = 'SELECT account_number FROM transactions WHERE account_number = $1';
+    const queryText = 'SELECT "accountNumber" FROM transactions WHERE "accountNumber" = $1';
     const response = db.query(queryText, [accountNumber]);
     return response;
   }
