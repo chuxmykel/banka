@@ -1,5 +1,8 @@
+import debug from 'debug';
 import users from '../models/users';
 import Auth from '../auth/auth';
+
+const log = debug('dev');
 
 /**
  * @class UserController
@@ -23,10 +26,7 @@ class UserController {
         status: res.statusCode,
         data: [{
           token,
-          id: user.id,
-          firstName: user.firstname,
-          lastName: user.lastname,
-          email: user.email,
+          ...user,
         }],
       });
     } catch (error) {
@@ -36,10 +36,7 @@ class UserController {
           error: 'email is already taken',
         });
       }
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
-      });
+      log(error);
     }
   }
 
@@ -68,8 +65,8 @@ class UserController {
       data: [{
         token,
         id: user.id,
-        firstName: user.firstname,
-        lastName: user.lastname,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
       }],
     });

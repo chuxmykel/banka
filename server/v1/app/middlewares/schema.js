@@ -14,14 +14,39 @@ class Schema {
   */
   createUserSchema(user) {
     const schema = {
-      firstName: Joi.string().min(5).max(12).required()
-        .regex(/^[a-zA-Z]+$/),
-      lastName: Joi.string().min(5).max(12).required()
-        .regex(/^[a-zA-Z]+$/),
-      email: Joi.string().email({ minDomainAtoms: 2 }).required(),
-      password: Joi.string().min(5).max(30).required(),
+      firstName: Joi.string().trim().required()
+        .regex(/^[a-zA-Z]+$/)
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'string.regex.base':
+                err.message = 'firstName can only contain letters';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+      lastName: Joi.string().trim().required()
+        .regex(/^[a-zA-Z]+$/)
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'string.regex.base':
+                err.message = 'lastName can only contain letters';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+      email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
+        .required(),
+      password: Joi.string().min(5).required(),
     };
-    return Joi.validate(user, schema);
+    return Joi.validate(user, schema, { abortEarly: false });
   }
 
   /**
@@ -32,10 +57,11 @@ class Schema {
   */
   loginSchema(login) {
     const schema = {
-      email: Joi.string().email({ minDomainAtoms: 2 }).required(),
-      password: Joi.string().min(5).max(30).required(),
+      email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
+        .required(),
+      password: Joi.string().min(5).required(),
     };
-    return Joi.validate(login, schema);
+    return Joi.validate(login, schema, { abortEarly: false });
   }
 
   /**
@@ -46,11 +72,11 @@ class Schema {
   */
   createAccountSchema(account) {
     const schema = {
-      type: Joi.string().length(7).required()
-        .regex(/^savings$|^current$/),
+      type: Joi.string().trim().lowercase().valid('savings', 'current')
+        .required(),
       initialDeposit: Joi.number().greater(5000).required(),
     };
-    return Joi.validate(account, schema);
+    return Joi.validate(account, schema, { abortEarly: false });
   }
 
   /**
@@ -61,10 +87,10 @@ class Schema {
   */
   editAccountSchema(account) {
     const schema = {
-      status: Joi.string().required()
-        .regex(/^active$|^dormant$/),
+      status: Joi.string().trim().lowercase().valid('active', 'dormant')
+        .required(),
     };
-    return Joi.validate(account, schema);
+    return Joi.validate(account, schema, { abortEarly: false });
   }
 
   /**
@@ -77,7 +103,7 @@ class Schema {
     const schema = {
       amount: Joi.number().required(),
     };
-    return Joi.validate(amount, schema);
+    return Joi.validate(amount, schema, { abortEarly: false });
   }
 }
 

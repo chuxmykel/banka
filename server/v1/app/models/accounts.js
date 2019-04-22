@@ -16,8 +16,8 @@ class Account {
   * @returns {object} JSON API Response
   */
   create(data, req) {
-    const queryText = `INSERT INTO accounts(account_number, createdon, client_id,
-      type, status, balance) VALUES ($1, $2, $3, $4, $5, $6) RETURNING account_number, type, balance;`;
+    const queryText = `INSERT INTO accounts("accountNumber", "createdOn", owner,
+      type, status, balance) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "accountNumber"::FLOAT, type, balance::FLOAT;`;
     const values = [AccountNumber.generateAccountNumber(), moment(new Date()),
       req.user.id, data.type, 'draft', parseFloat(data.initialDeposit, 10)];
     const response = db.query(queryText, values);
@@ -31,7 +31,7 @@ class Account {
   * @returns {object} the account details
   */
   async updateStatus(accountNumber, status) {
-    const query = 'UPDATE accounts SET status = $1 WHERE account_number = $2 RETURNING *;';
+    const query = 'UPDATE accounts SET status = $1 WHERE "accountNumber" = $2 RETURNING status;';
     const response = db.query(query, [status, accountNumber]);
     return response;
   }
@@ -43,7 +43,7 @@ class Account {
   * @returns {object} JSON API Response
   */
   delete(accountNumber) {
-    const query = 'DELETE FROM accounts WHERE account_number=$1';
+    const query = 'DELETE FROM accounts WHERE "accountNumber" = $1';
     const response = db.query(query, [accountNumber]);
     return response;
   }
@@ -56,7 +56,7 @@ class Account {
   * @returns {object} the account details
   */
   updateBalance(accountNumber, balance) {
-    const query = 'UPDATE accounts SET balance = $1 WHERE account_number = $2 returning *;';
+    const query = 'UPDATE accounts SET balance = $1 WHERE "accountNumber" = $2 RETURNING *;';
     const response = db.query(query, [balance, accountNumber]);
     return response;
   }
@@ -68,7 +68,7 @@ class Account {
   * @returns {object} the account details
   */
   find(accountNumber) {
-    const query = 'SELECT * FROM accounts WHERE account_number=$1;';
+    const query = 'SELECT * FROM accounts WHERE "accountNumber" = $1;';
     const response = db.query(query, [accountNumber]);
     return response;
   }
@@ -82,12 +82,12 @@ class Account {
   */
   getOne(accountNumber) {
     const query = `
-      SELECT users.id AS owner, accounts.createdon, accounts.account_number AS accountnumber,
-      users.email AS ownerEmail, accounts.type, accounts.status,
-      balance
+      SELECT users.id AS owner, accounts."createdOn", accounts."accountNumber"::FLOAT,
+      users.email AS "ownerEmail", accounts.type, accounts.status,
+      balance::FLOAT
       FROM accounts
-      JOIN users ON accounts.client_id = users.id 
-      WHERE accounts.account_number = $1`;
+      JOIN users ON accounts.owner = users.id 
+      WHERE accounts."accountNumber" = $1`;
     const response = db.query(query, [accountNumber]);
     return response;
   }
@@ -99,10 +99,10 @@ class Account {
   */
   getAll() {
     const query = `
-      SELECT accounts.createdon, accounts.account_number AS accountnumber,
-      users.email AS owneremail, accounts.type, accounts.status, accounts.balance
+      SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
+      users.email AS "ownerEmail", accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
-      JOIN users ON accounts.client_id = users.id`;
+      JOIN users ON accounts."owner" = users.id`;
     const response = db.query(query);
     return response;
   }
@@ -115,10 +115,10 @@ class Account {
   */
   getByStatus(status) {
     const query = `
-      SELECT accounts.createdon, accounts.account_number AS accountnumber,
-      users.email AS owneremail, accounts.type, accounts.status, accounts.balance
+      SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
+      users.email AS "ownerEmail", accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
-      JOIN users ON accounts.client_id = users.id
+      JOIN users ON accounts.owner = users.id
       WHERE accounts.status = $1`;
     const response = db.query(query, [status]);
     return response;
@@ -132,10 +132,10 @@ class Account {
   */
   getAllForUser(email) {
     const query = `
-      SELECT accounts.createdon, accounts.account_number AS accountnumber,
-      accounts.type, accounts.status, accounts.balance
+      SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
+      accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
-      JOIN users ON accounts.client_id = users.id 
+      JOIN users ON accounts.owner = users.id 
       WHERE users.email = $1
       ORDER BY accounts.id ASC`;
     const response = db.query(query, [email]);
