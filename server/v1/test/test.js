@@ -1016,7 +1016,7 @@ describe('View All Accounts Tests', () => {
   describe(`GET ${apiEndPoint}acccounts`, () => {
     it('Should fetch all accounts successfully', (done) => {
       const login = {
-        email: 'kenny_g@gmail.com',
+        email: 'ngwobiachukwudi@gmail.com',
         password: 'password',
       };
 
@@ -1048,7 +1048,7 @@ describe('View All Accounts Tests', () => {
   describe(`GET ${apiEndPoint}acccounts/?status=active`, () => {
     it('Should fetch all active accounts successfully', (done) => {
       const login = {
-        email: 'kenny_g@gmail.com',
+        email: 'ngwobiachukwudi@gmail.com',
         password: 'password',
       };
 
@@ -1081,7 +1081,7 @@ describe('View All Accounts Tests', () => {
   describe(`GET ${apiEndPoint}acccounts/?status=dormant`, () => {
     it('Should fetch all dormant accounts successfully', (done) => {
       const login = {
-        email: 'kenny_g@gmail.com',
+        email: 'ngwobiachukwudi@gmail.com',
         password: 'password',
       };
 
@@ -1114,7 +1114,7 @@ describe('View All Accounts Tests', () => {
   describe(`GET ${apiEndPoint}acccounts/?status=draft`, () => {
     it('Should fetch all draft accounts successfully', (done) => {
       const login = {
-        email: 'kenny_g@gmail.com',
+        email: 'ngwobiachukwudi@gmail.com',
         password: 'password',
       };
 
