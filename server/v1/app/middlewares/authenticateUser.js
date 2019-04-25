@@ -19,6 +19,12 @@ class AuthenticateUser {
       const token = req.headers.authorization.split(' ')[1];
       const decoded = Auth.verifyToken(token);
 
+      if (decoded.type !== 'client') {
+        return res.status(403).json({
+          status: res.statusCode,
+          error: 'Please sign in with a client account to access this endpoint',
+        });
+      }
       req.user = decoded;
 
       return next();
@@ -48,7 +54,38 @@ class AuthenticateUser {
       if (req.user.type !== 'staff') {
         return res.status(403).send({
           status: res.statusCode,
-          error: 'You are not authorized to view this endpoint',
+          error: 'You are not authorized to access this endpoint',
+        });
+      }
+
+      return next();
+    } catch (error) {
+      return res.status(401).send({
+        status: res.statusCode,
+        error: 'Authentication Failed',
+      });
+    }
+  }
+
+  /**
+   * @method verifyCashier
+   * @description verifies the user token to determine if the user is a cashier
+   * @param {object} req - The Request Object
+   * @param {object} res - The Response Object
+   * @param {object} next - The next Object
+   * @returns {object} JSON API Response
+   */
+  verifyCashier(req, res, next) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = Auth.verifyToken(token);
+
+      req.user = decoded;
+
+      if (req.user.type !== 'staff' || req.user.isAdmin) {
+        return res.status(403).send({
+          status: res.statusCode,
+          error: 'You are not authorized to access this endpoint',
         });
       }
 
@@ -79,7 +116,7 @@ class AuthenticateUser {
       if (!req.user.isAdmin) {
         return res.status(403).send({
           status: res.statusCode,
-          error: 'You are not authorized to view this endpoint',
+          error: 'You are not authorized to access this endpoint',
         });
       }
 

@@ -2,7 +2,7 @@ import moment from 'moment';
 import db from '../migrations/db';
 
 /**
- * @exports transaction
+ * @exports Transaction
  * @class Transaction
  */
 class Transaction {
@@ -14,7 +14,7 @@ class Transaction {
   * @param {string} type - A string representing the type of transaction
   * @returns {object} JSON API Response
   */
-  create(req, account, type) {
+  static create(req, account, type) {
     const queryText = `INSERT INTO transactions("createdOn", type,
       "accountNumber", cashier, amount, "oldBalance", "newBalance") VALUES($1, $2, $3, $4, $5, $6, $7) 
       RETURNING id, "accountNumber", amount, cashier, type, "newBalance";`;
@@ -47,7 +47,7 @@ class Transaction {
   * @param {object} accountNumber - The account number
   * @returns {object} JSON API Response
   */
-  getAllHistory(req, accountNumber) {
+  static getAllHistory(req, accountNumber) {
     const queryText = `
       SELECT transactions.id AS "transactionId", transactions."createdOn",
       transactions.type, transactions."accountNumber"::FLOAT, amount::FLOAT,
@@ -66,7 +66,7 @@ class Transaction {
   * @param {object} req - The request object
   * @returns {object} JSON API Response
   */
-  getOne(req) {
+  static getOne(req) {
     const queryText = `
       SELECT transactions.id AS "transactionId", transactions."createdOn",
       transactions.type, transactions."accountNumber"::FLOAT, amount::FLOAT,
@@ -85,12 +85,11 @@ class Transaction {
   * @param {object} accountNumber - The account number
   * @returns {object} JSON API Response
   */
-  findInTransactions(accountNumber) {
+  static findInTransactions(accountNumber) {
     const queryText = 'SELECT "accountNumber" FROM transactions WHERE "accountNumber" = $1';
     const response = db.query(queryText, [accountNumber]);
     return response;
   }
 }
 
-const transaction = new Transaction();
-export default transaction;
+export default Transaction;

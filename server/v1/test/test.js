@@ -563,7 +563,7 @@ describe('Transaction Tests', () => {
             .set('Authorization', token)
             .send({ amount: 2000 })
             .end((err, res) => {
-              res.should.have.status(201);
+              res.should.have.status(200);
               res.body.should.be.a('object');
               res.body.should.have.property('data');
               res.body.data.should.be.a('array');
@@ -644,7 +644,7 @@ describe('Transaction Tests', () => {
             .set('Authorization', token)
             .send({ amount: 2000 })
             .end((err, res) => {
-              res.should.have.status(201);
+              res.should.have.status(200);
               res.body.should.be.a('object');
               res.body.should.have.property('data');
               res.body.data.should.be.a('array');
@@ -659,6 +659,30 @@ describe('Transaction Tests', () => {
         });
     });
 
+    it('Should not debit an account beyond it\'s available funds', (done) => {
+      const login = {
+        email: 'kenny_g@gmail.com',
+        password: 'password',
+      };
+
+      chai.request(app)
+        .post(`${userEndPoint}signin`)
+        .send(login)
+        .end((loginErr, loginRes) => {
+          const token = `Bearer ${loginRes.body.data[0].token}`;
+
+          chai.request(app)
+            .post(`${apiEndPoint}transactions/5823642528/debit`)
+            .set('Authorization', token)
+            .send({ amount: 20000000000 })
+            .end((err, res) => {
+              res.should.have.status(409);
+              res.body.should.be.a('object');
+              res.body.should.have.property('error');
+              done();
+            });
+        });
+    });
     it('Should return a 404 error if account number does not exist', (done) => {
       const login = {
         email: 'kenny_g@gmail.com',

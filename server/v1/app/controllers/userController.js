@@ -1,13 +1,10 @@
-import debug from 'debug';
 import users from '../models/users';
 import Auth from '../auth/auth';
-
-const log = debug('dev');
 
 /**
  * @class UserController
  * @description Contains methods for each user related endpoint
- * @exports userController
+ * @exports UserController
  */
 class UserController {
   /**
@@ -17,7 +14,7 @@ class UserController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async signUp(req, res) {
+  static async signUp(req, res) {
     try {
       const response = await users.create(req.body);
       const user = response.rows[0];
@@ -36,7 +33,6 @@ class UserController {
           error: 'email is already taken',
         });
       }
-      log(error);
     }
   }
 
@@ -47,7 +43,7 @@ class UserController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async signIn(req, res) {
+  static async signIn(req, res) {
     const { email, password } = req.body;
     const response = await users.find(email);
 
@@ -57,22 +53,24 @@ class UserController {
         error: 'Authentication Failed',
       });
     }
-    const user = { ...response.rows[0] };
-    const token = Auth.generateToken(user);
+    const {
+      id, firstName, lastName, type, isAdmin,
+    } = response.rows[0];
+    const token = Auth.generateToken({
+      id, email, firstName, lastName, type, isAdmin,
+    });
 
     return res.status(200).json({
       status: 200,
       data: [{
         token,
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
+        id,
+        firstName,
+        lastName,
+        email,
       }],
     });
   }
 }
 
-const userController = new UserController();
-
-export default userController;
+export default UserController;

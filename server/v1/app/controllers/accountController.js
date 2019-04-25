@@ -1,13 +1,10 @@
-import debug from 'debug';
 import accounts from '../models/accounts';
 import transactions from '../models/transactions';
-
-const log = debug('pg');
 
 /**
  * @class AccountController
  * @description Contains controller methods for each account related endpoint
- * @exports accountController
+ * @exports AccountController
  */
 class AccountController {
   /**
@@ -17,26 +14,19 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async createAccount(req, res) {
-    try {
-      const { rows } = await accounts.create(req.body, req);
-      return res.status(201).json({
-        status: res.statusCode,
-        data: [{
-          accountNumber: rows[0].accountNumber,
-          firstName: req.user.firstName,
-          lastName: req.user.lastName,
-          email: req.user.email,
-          type: rows[0].type,
-          openingBalance: rows[0].balance,
-        }],
-      });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
-      });
-    }
+  static async createAccount(req, res) {
+    const { rows } = await accounts.create(req.body, req);
+    return res.status(201).json({
+      status: res.statusCode,
+      data: [{
+        accountNumber: rows[0].accountNumber,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        email: req.user.email,
+        type: rows[0].type,
+        openingBalance: rows[0].balance,
+      }],
+    });
   }
 
   /**
@@ -46,31 +36,24 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async changeAccountStatus(req, res) {
-    try {
-      const accountNumber = parseInt(req.params.accountNumber, 10);
-      const response = await accounts.updateStatus(accountNumber, req.body.status);
-      if (response.rowCount < 1) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `Account with account number ${accountNumber} does not exist`,
-        });
-      }
-
-      const account = response.rows[0];
-      return res.status(200).json({
+  static async changeAccountStatus(req, res) {
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+    const response = await accounts.updateStatus(accountNumber, req.body.status);
+    if (response.rowCount < 1) {
+      return res.status(404).json({
         status: res.statusCode,
-        data: [{
-          accountNumber,
-          status: account.status,
-        }],
-      });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
+        error: `Account with account number ${accountNumber} does not exist`,
       });
     }
+
+    const account = response.rows[0];
+    return res.status(200).json({
+      status: res.statusCode,
+      data: [{
+        accountNumber,
+        status: account.status,
+      }],
+    });
   }
 
   /**
@@ -80,26 +63,19 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async deleteAccount(req, res) {
-    try {
-      const accountNumber = parseInt(req.params.accountNumber, 10);
-      const response = await accounts.delete(accountNumber);
-      if (response.rowCount < 1) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `Account with account number ${accountNumber} does not exist`,
-        });
-      }
-      return res.status(200).json({
+  static async deleteAccount(req, res) {
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+    const response = await accounts.delete(accountNumber);
+    if (response.rowCount < 1) {
+      return res.status(404).json({
         status: res.statusCode,
-        message: 'Account successfully deleted',
-      });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
+        error: `Account with account number ${accountNumber} does not exist`,
       });
     }
+    return res.status(200).json({
+      status: res.statusCode,
+      message: 'Account successfully deleted',
+    });
   }
 
   /**
@@ -109,34 +85,27 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async getHistory(req, res) {
-    try {
-      const accountNumber = parseInt(req.params.accountNumber, 10);
-      const transaction = await transactions.findInTransactions(accountNumber);
-      if (transaction.rowCount < 1) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `Account Number ${accountNumber} either does not exist or has no transaction history`,
-        });
-      }
-
-      const response = await transactions.getAllHistory(req, accountNumber);
-      if (response.rowCount < 1) {
-        return res.status(403).json({
-          status: res.statusCode,
-          error: 'You are not authorized to view the transaction history of this account',
-        });
-      }
-      return res.status(200).json({
+  static async getHistory(req, res) {
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+    const transaction = await transactions.findInTransactions(accountNumber);
+    if (transaction.rowCount < 1) {
+      return res.status(404).json({
         status: res.statusCode,
-        data: response.rows,
-      });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
+        error: `Account Number ${accountNumber} either does not exist or has no transaction history`,
       });
     }
+
+    const response = await transactions.getAllHistory(req, accountNumber);
+    if (response.rowCount < 1) {
+      return res.status(403).json({
+        status: res.statusCode,
+        error: 'You are not authorized to view the transaction history of this account',
+      });
+    }
+    return res.status(200).json({
+      status: res.statusCode,
+      data: response.rows,
+    });
   }
 
   /**
@@ -146,30 +115,26 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async getAccountDetails(req, res) {
-    try {
-      const accountNumber = parseInt(req.params.accountNumber, 10);
-      const response = await accounts.find(accountNumber);
-      if (response.rowCount < 1) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `Account Number ${accountNumber} does not exist!`,
-        });
-      }
-      const { rows } = await accounts.getOne(accountNumber);
-      if (rows[0].owner !== req.user.id) {
-        return res.status(403).json({
-          status: res.statusCode,
-          error: 'You are not authorized to view this account\'s details',
-        });
-      }
-      return res.status(200).json({
+  static async getAccountDetails(req, res) {
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+    const response = await accounts.find(accountNumber);
+    if (response.rowCount < 1) {
+      return res.status(404).json({
         status: res.statusCode,
-        data: rows,
+        error: `Account Number ${accountNumber} does not exist!`,
       });
-    } catch (error) {
-      log(error);
     }
+    const { rows } = await accounts.getOne(accountNumber);
+    if (rows[0].owner !== req.user.id) {
+      return res.status(403).json({
+        status: res.statusCode,
+        error: 'You are not authorized to view this account\'s details',
+      });
+    }
+    return res.status(200).json({
+      status: res.statusCode,
+      data: rows,
+    });
   }
 
   /**
@@ -179,27 +144,20 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async getUserAccounts(req, res) {
-    try {
-      const { rows } = await accounts.getAllForUser(req.params.email);
+  static async getUserAccounts(req, res) {
+    const { rows } = await accounts.getAllForUser(req.params.email);
 
-      if (!rows[0]) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `No account record found for the account with email ${req.params.email}`,
-        });
-      }
-
-      return res.status(200).json({
+    if (!rows[0]) {
+      return res.status(404).json({
         status: res.statusCode,
-        accounts: rows,
-      });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
+        error: `No account record found for the account with email ${req.params.email}`,
       });
     }
+
+    return res.status(200).json({
+      status: res.statusCode,
+      accounts: rows,
+    });
   }
 
   /**
@@ -209,29 +167,20 @@ class AccountController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async getAllAccounts(req, res) {
-    try {
-      if (req.query.status) {
-        const { rows } = await accounts.getByStatus(req.query.status);
-        return res.status(200).json({
-          status: res.statusCode,
-          data: rows,
-        });
-      }
-      const { rows } = await accounts.getAll();
+  static async getAllAccounts(req, res) {
+    if (req.query.status) {
+      const { rows } = await accounts.getByStatus(req.query.status);
       return res.status(200).json({
         status: res.statusCode,
         data: rows,
       });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
-      });
     }
+    const { rows } = await accounts.getAll();
+    return res.status(200).json({
+      status: res.statusCode,
+      data: rows,
+    });
   }
 }
 
-const accountController = new AccountController();
-
-export default accountController;
+export default AccountController;
