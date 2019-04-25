@@ -2,7 +2,6 @@ import moment from 'moment';
 import AccountNumber from '../helpers/accountNumber';
 import db from '../migrations/db';
 
-
 /**
  * @exports account
  * @class Account
@@ -15,7 +14,7 @@ class Account {
   * @param {object} req - The Request Object
   * @returns {object} JSON API Response
   */
-  create(data, req) {
+  static create(data, req) {
     const queryText = `INSERT INTO accounts("accountNumber", "createdOn", owner,
       type, status, balance) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "accountNumber"::FLOAT, type, balance::FLOAT;`;
     const values = [AccountNumber.generateAccountNumber(), moment(new Date()),
@@ -30,7 +29,7 @@ class Account {
   * @param{*} status - The  new status of the account
   * @returns {object} the account details
   */
-  async updateStatus(accountNumber, status) {
+  static updateStatus(accountNumber, status) {
     const query = 'UPDATE accounts SET status = $1 WHERE "accountNumber" = $2 RETURNING status;';
     const response = db.query(query, [status, accountNumber]);
     return response;
@@ -42,7 +41,7 @@ class Account {
   * @param {*} accountNumber - The Response Object
   * @returns {object} JSON API Response
   */
-  delete(accountNumber) {
+  static delete(accountNumber) {
     const query = 'DELETE FROM accounts WHERE "accountNumber" = $1';
     const response = db.query(query, [accountNumber]);
     return response;
@@ -55,7 +54,7 @@ class Account {
   * @param{*} balance - The  new balance of the account
   * @returns {object} the account details
   */
-  updateBalance(accountNumber, balance) {
+  static updateBalance(accountNumber, balance) {
     const query = 'UPDATE accounts SET balance = $1 WHERE "accountNumber" = $2 RETURNING *;';
     const response = db.query(query, [balance, accountNumber]);
     return response;
@@ -67,7 +66,7 @@ class Account {
   * @param {*} accountNumber - The accountNumber
   * @returns {object} the account details
   */
-  find(accountNumber) {
+  static find(accountNumber) {
     const query = 'SELECT * FROM accounts WHERE "accountNumber" = $1;';
     const response = db.query(query, [accountNumber]);
     return response;
@@ -80,7 +79,7 @@ class Account {
   * @param {*} accountNumber - The accountNumber
   * @returns {object} the account details
   */
-  getOne(accountNumber) {
+  static getOne(accountNumber) {
     const query = `
       SELECT users.id AS owner, accounts."createdOn", accounts."accountNumber"::FLOAT,
       users.email AS "ownerEmail", accounts.type, accounts.status,
@@ -97,7 +96,7 @@ class Account {
   * @description Finds and returns all accounts in the database
   * @returns {object} the account details
   */
-  getAll() {
+  static getAll() {
     const query = `
       SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
       users.email AS "ownerEmail", accounts.type, accounts.status, accounts.balance::FLOAT
@@ -113,7 +112,7 @@ class Account {
   * @param {string} status - a string specifying the status of the account group to be fetched
   * @returns {object} the account details
   */
-  getByStatus(status) {
+  static getByStatus(status) {
     const query = `
       SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
       users.email AS "ownerEmail", accounts.type, accounts.status, accounts.balance::FLOAT
@@ -130,7 +129,7 @@ class Account {
   * @param {*} email - The email of the user who;'s account details should be fetched
   * @returns {object} the account details
   */
-  getAllForUser(email) {
+  static getAllForUser(email) {
     const query = `
       SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
       accounts.type, accounts.status, accounts.balance::FLOAT
@@ -143,5 +142,4 @@ class Account {
   }
 }
 
-const account = new Account();
-export default account;
+export default Account;

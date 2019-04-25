@@ -12,9 +12,9 @@ class Schema {
   * @param {object} user - The user object to be validated
   * @returns {object} An object specifying weather the input was valid or not.
   */
-  createUserSchema(user) {
+  static createUserSchema(user) {
     const schema = {
-      firstName: Joi.string().trim().required()
+      firstName: Joi.string().lowercase().trim().required()
         .regex(/^[a-zA-Z]+$/)
         .error((errors) => {
           errors.forEach((err) => {
@@ -28,7 +28,7 @@ class Schema {
           });
           return errors;
         }),
-      lastName: Joi.string().trim().required()
+      lastName: Joi.string().lowercase().trim().required()
         .regex(/^[a-zA-Z]+$/)
         .error((errors) => {
           errors.forEach((err) => {
@@ -55,7 +55,7 @@ class Schema {
   * @param {object} login - The login object to be validated
   * @returns {object} An object specifying weather the input was valid or not.
   */
-  loginSchema(login) {
+  static loginSchema(login) {
     const schema = {
       email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
         .required(),
@@ -70,11 +70,11 @@ class Schema {
   * @param {object} account - The account object to be validated
   * @returns {object} An object specifying weather the input was valid or not.
   */
-  createAccountSchema(account) {
+  static createAccountSchema(account) {
     const schema = {
       type: Joi.string().trim().lowercase().valid('savings', 'current')
         .required(),
-      initialDeposit: Joi.number().greater(5000).required(),
+      initialDeposit: Joi.number().min(5000).required(),
     };
     return Joi.validate(account, schema, { abortEarly: false });
   }
@@ -85,7 +85,7 @@ class Schema {
   * @param {object} account - The account object to be validated
   * @returns {object} An object specifying weather the input was valid or not.
   */
-  editAccountSchema(account) {
+  static editAccountSchema(account) {
     const schema = {
       status: Joi.string().trim().lowercase().valid('active', 'dormant')
         .required(),
@@ -99,14 +99,101 @@ class Schema {
   * @param {object} amount - The figure to be validated
   * @returns {object} An object specifying weather the input was valid or not.
   */
-  transactionSchema(amount) {
+  static transactionSchema(amount) {
     const schema = {
-      amount: Joi.number().required(),
+      amount: Joi.number().positive().required(),
     };
     return Joi.validate(amount, schema, { abortEarly: false });
   }
+
+  /**
+  * @method accountSchema
+  * @description Validates account numbers from the req.params object
+  * @param {integer} accountNumber - The account number to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  static accountSchema(accountNumber) {
+    const schema = {
+      accountNumber: Joi.string().required()
+        .regex(/^[0-9]{10}$/)
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'string.regex.base':
+                err.message = 'Invalid account number, please provide a valid account number (10 digit integer)';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+    };
+    const value = {
+      accountNumber,
+    };
+    return Joi.validate(value, schema, { abortEarly: false });
+  }
+
+
+  /**
+  * @method idSchema
+  * @description Validates ids from the req.params object
+  * @param {integer} id - The id to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  static idSchema(id) {
+    const schema = {
+      id: Joi.string().required()
+        .regex(/^[1-9][0-9]*$/)
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'string.regex.base':
+                err.message = 'Invalid ID, please provide a valid id (digit from 1 and above)';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+    };
+    const value = {
+      id,
+    };
+    return Joi.validate(value, schema, { abortEarly: false });
+  }
+
+  /**
+  * @method emailSchema
+  * @description Validates email addresses from the req.params object
+  * @param {string} email - The email to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  static emailSchema(email) {
+    const schema = {
+      email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
+        .required(),
+    };
+    const value = {
+      email,
+    };
+    return Joi.validate(value, schema, { abortEarly: false });
+  }
+
+  /**
+  * @method querySchema
+  * @description the query from the req.query object
+  * @param {string} query - The query object to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  static querySchema(query) {
+    const schema = {
+      status: Joi.string().trim().lowercase().valid('active', 'dormant', 'draft'),
+    };
+    return Joi.validate(query, schema, { abortEarly: true });
+  }
 }
 
-const schema = new Schema();
-
-export default schema;
+export default Schema;

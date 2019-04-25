@@ -10,7 +10,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
 /**
  * @class Auth
  * @description Contains methods for each user related endpoint
- * @exports auth
+ * @exports Auth
  */
 class Auth {
   /**
@@ -19,7 +19,7 @@ class Auth {
   * @param {string} password - The user password to be hashed
   * @returns {string} A string of the hashed password
   */
-  hashPassword(password) {
+  static hashPassword(password) {
     return bcrypt.hashSync(password, saltRounds);
   }
 
@@ -31,7 +31,7 @@ class Auth {
   * @param {string} hashedPassword - Stored hashed password to compare against
   * @returns {boolean} Booelean indicating success or failure
   */
-  verifyPassword(plainTextPassword, hashedPassword) {
+  static verifyPassword(plainTextPassword, hashedPassword) {
     return bcrypt.compareSync(plainTextPassword, hashedPassword);
   }
 
@@ -41,8 +41,8 @@ class Auth {
   * @param {string} payload - The user payload for generating the token
   * @returns {string} A string which is the token
   */
-  generateToken(payload) {
-    const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+  static generateToken(payload) {
+    const token = jwt.sign(payload, secretKey, { expiresIn: '7 days' });
     return token;
   }
 
@@ -52,12 +52,10 @@ class Auth {
   * @param {string} token - The token to be verified
   * @returns {object} The payload of the token
   */
-  verifyToken(token) {
+  static verifyToken(token) {
     const decoded = jwt.verify(token, secretKey);
     return decoded;
   }
 }
 
-const auth = new Auth();
-
-export default auth;
+export default Auth;

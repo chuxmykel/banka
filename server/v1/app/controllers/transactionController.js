@@ -4,7 +4,7 @@ import accounts from '../models/accounts';
 /**
  * @class TransactionController
  * @description Contains controller methods for each transaction related endpoint
- * @exports transactionController
+ * @exports TransactionController
  */
 class TransactionController {
   /**
@@ -14,38 +14,31 @@ class TransactionController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async creditAccount(req, res) {
-    try {
-      const accountNumber = parseInt(req.params.accountNumber, 10);
-      const accountResponse = await accounts.find(accountNumber);
-      if (accountResponse.rowCount < 1) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `Account with account number ${accountNumber} does not exist`,
-        });
-      }
-      const accountDetails = { ...accountResponse.rows[0] };
-      const response = await transactions.create(req, accountDetails, 'credit');
-      const transaction = response.rows[0];
-      accounts.updateBalance(accountNumber, transaction.newBalance);
-
-      return res.status(201).json({
+  static async creditAccount(req, res) {
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+    const accountResponse = await accounts.find(accountNumber);
+    if (accountResponse.rowCount < 1) {
+      return res.status(404).json({
         status: res.statusCode,
-        data: [{
-          transactionId: transaction.id,
-          accountNumber: transaction.accountNumber,
-          amount: parseFloat(transaction.amount),
-          cashier: transaction.cashier,
-          transactionType: transaction.type,
-          accountBalance: transaction.newBalance,
-        }],
-      });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
+        error: `Account with account number ${accountNumber} does not exist`,
       });
     }
+    const accountDetails = { ...accountResponse.rows[0] };
+    const response = await transactions.create(req, accountDetails, 'credit');
+    const transaction = response.rows[0];
+    accounts.updateBalance(accountNumber, transaction.newBalance);
+
+    return res.status(200).json({
+      status: res.statusCode,
+      data: [{
+        transactionId: transaction.id,
+        accountNumber: transaction.accountNumber,
+        amount: parseFloat(transaction.amount),
+        cashier: transaction.cashier,
+        transactionType: transaction.type,
+        accountBalance: transaction.newBalance,
+      }],
+    });
   }
 
   /**
@@ -55,7 +48,7 @@ class TransactionController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async debitAccount(req, res) {
+  static async debitAccount(req, res) {
     try {
       const accountNumber = parseInt(req.params.accountNumber, 10);
       const accountResponse = await accounts.find(accountNumber);
@@ -70,7 +63,7 @@ class TransactionController {
       const transaction = response.rows[0];
       accounts.updateBalance(accountNumber, transaction.newBalance);
 
-      return res.status(201).json({
+      return res.status(200).json({
         status: res.statusCode,
         data: [{
           transactionId: transaction.id,
@@ -88,10 +81,6 @@ class TransactionController {
           error: 'insufficient funds',
         });
       }
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
-      });
     }
   }
 
@@ -102,30 +91,21 @@ class TransactionController {
   * @param {object} res - The Response Object
   * @returns {object} JSON API Response
   */
-  async getOne(req, res) {
-    try {
-      const { rows } = await transactions.getOne(req);
+  static async getOne(req, res) {
+    const { rows } = await transactions.getOne(req);
 
-      if (!rows[0]) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `transaction with id ${req.params.id} not found`,
-        });
-      }
-
-      return res.status(200).json({
+    if (!rows[0]) {
+      return res.status(404).json({
         status: res.statusCode,
-        data: rows,
-      });
-    } catch (error) {
-      return res.status(400).json({
-        status: res.statusCode,
-        error: error.detail,
+        error: `transaction with id ${req.params.id} not found`,
       });
     }
+
+    return res.status(200).json({
+      status: res.statusCode,
+      data: rows,
+    });
   }
 }
 
-const transactionController = new TransactionController();
-
-export default transactionController;
+export default TransactionController;

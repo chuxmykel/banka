@@ -2,7 +2,7 @@ import Auth from '../auth/auth';
 import db from '../migrations/db';
 
 /**
- * @exports
+ * @exports User
  * @class User
  */
 class User {
@@ -10,7 +10,7 @@ class User {
    * @param {*} data
    * @returns { object } user object
    */
-  create(data) {
+  static create(data) {
     const queryText = `INSERT INTO users ("firstName", "lastName", email,
       password) VALUES ($1, $2, $3, $4) RETURNING id, "firstName", "lastName", email;`;
 
@@ -28,11 +28,11 @@ class User {
    * @param {*} email
    * @returns { object } user object
    */
-  find(email) {
+  static find(email) {
     const query = 'SELECT * FROM users WHERE email=$1';
     const response = db.query(query, [email]);
     return response;
   }
 }
 
-export default new User();
+export default User;
