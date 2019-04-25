@@ -36,6 +36,7 @@ class TransactionController {
         amount: parseFloat(transaction.amount),
         cashier: transaction.cashier,
         transactionType: transaction.type,
+        oldBalance: accountDetails.balance,
         accountBalance: transaction.newBalance,
       }],
     });
@@ -71,6 +72,7 @@ class TransactionController {
           amount: parseFloat(transaction.amount),
           cashier: transaction.cashier,
           transactionType: transaction.type,
+          oldBalance: accountDetails.balance,
           accountBalance: transaction.newBalance,
         }],
       });
