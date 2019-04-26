@@ -1,9 +1,14 @@
-import Auth from '../auth/auth';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const secretKey = process.env.SECRET_KEY;
 
 /**
  * @class AuthenticateUser
  * @description Contains methods for user authentication
- * @exports auth
+ * @exports AuthenticateUser
  */
 class AuthenticateUser {
   /**
@@ -14,26 +19,25 @@ class AuthenticateUser {
    * @param {object} next - The next Object
    * @returns {object} JSON API Response
    */
-  verifyUser(req, res, next) {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = Auth.verifyToken(token);
-
-      if (decoded.type !== 'client') {
-        return res.status(403).json({
+  static verifyUser(req, res, next) {
+    const token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
           status: res.statusCode,
-          error: 'Please sign in with a client account to access this endpoint',
+          error: 'Authentication Failed',
         });
       }
       req.user = decoded;
-
-      return next();
-    } catch (error) {
-      return res.status(401).send({
+    });
+    if (req.user.type !== 'client') {
+      return res.status(403).json({
         status: res.statusCode,
-        error: 'Authentication Failed',
+        error: 'Please sign in with a client account to access this endpoint',
       });
     }
+
+    return next();
   }
 
   /**
@@ -44,27 +48,24 @@ class AuthenticateUser {
    * @param {object} next - The next Object
    * @returns {object} JSON API Response
    */
-  verifyStaff(req, res, next) {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = Auth.verifyToken(token);
-
-      req.user = decoded;
-
-      if (req.user.type !== 'staff') {
-        return res.status(403).send({
+  static verifyStaff(req, res, next) {
+    const token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
           status: res.statusCode,
-          error: 'You are not authorized to access this endpoint',
+          error: 'Authentication Failed',
         });
       }
-
-      return next();
-    } catch (error) {
-      return res.status(401).send({
+      req.user = decoded;
+    });
+    if (req.user.type !== 'staff') {
+      return res.status(403).send({
         status: res.statusCode,
-        error: 'Authentication Failed',
+        error: 'You are not authorized to access this endpoint',
       });
     }
+    return next();
   }
 
   /**
@@ -75,27 +76,24 @@ class AuthenticateUser {
    * @param {object} next - The next Object
    * @returns {object} JSON API Response
    */
-  verifyCashier(req, res, next) {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = Auth.verifyToken(token);
-
-      req.user = decoded;
-
-      if (req.user.type !== 'staff' || req.user.isAdmin) {
-        return res.status(403).send({
+  static verifyCashier(req, res, next) {
+    const token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
           status: res.statusCode,
-          error: 'You are not authorized to access this endpoint',
+          error: 'Authentication Failed',
         });
       }
-
-      return next();
-    } catch (error) {
-      return res.status(401).send({
+      req.user = decoded;
+    });
+    if (req.user.type !== 'staff' || req.user.isAdmin) {
+      return res.status(403).send({
         status: res.statusCode,
-        error: 'Authentication Failed',
+        error: 'You are not authorized to access this endpoint',
       });
     }
+    return next();
   }
 
   /**
@@ -106,30 +104,25 @@ class AuthenticateUser {
    * @param {object} next - The next Object
    * @returns {object} JSON API Response
    */
-  verifyAdmin(req, res, next) {
-    try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = Auth.verifyToken(token);
-
-      req.user = decoded;
-
-      if (!req.user.isAdmin) {
-        return res.status(403).send({
+  static verifyAdmin(req, res, next) {
+    const token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
           status: res.statusCode,
-          error: 'You are not authorized to access this endpoint',
+          error: 'Authentication Failed',
         });
       }
-
-      return next();
-    } catch (error) {
-      return res.status(401).send({
+      req.user = decoded;
+    });
+    if (!req.user.isAdmin) {
+      return res.status(403).send({
         status: res.statusCode,
-        error: 'Authentication Failed',
+        error: 'You are not authorized to access this endpoint',
       });
     }
+    return next();
   }
 }
 
-const authenticateUser = new AuthenticateUser();
-
-export default authenticateUser;
+export default AuthenticateUser;

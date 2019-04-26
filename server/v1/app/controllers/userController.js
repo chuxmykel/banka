@@ -15,25 +15,23 @@ class UserController {
   * @returns {object} JSON API Response
   */
   static async signUp(req, res) {
-    try {
-      const response = await users.create(req.body);
-      const user = response.rows[0];
-      const token = Auth.generateToken({ id: user.id, email: user.email });
-      return res.status(201).json({
+    const findUser = await users.find(req.body.email);
+    if (findUser.rowCount > 0) {
+      return res.status(422).json({
         status: res.statusCode,
-        data: [{
-          token,
-          ...user,
-        }],
+        error: 'email is already taken',
       });
-    } catch (error) {
-      if (error.code === '23505') {
-        return res.status(422).json({
-          status: res.statusCode,
-          error: 'email is already taken',
-        });
-      }
     }
+    const response = await users.create(req.body);
+    const user = response.rows[0];
+    const token = Auth.generateToken({ id: user.id, email: user.email });
+    return res.status(201).json({
+      status: res.statusCode,
+      data: [{
+        token,
+        ...user,
+      }],
+    });
   }
 
   /**
@@ -50,7 +48,7 @@ class UserController {
     if (response.rowCount < 1 || !Auth.verifyPassword(password, response.rows[0].password)) {
       return res.status(401).json({
         status: res.statusCode,
-        error: 'Authentication Failed',
+        error: 'The email and password you entered did not match our records. Please double-check and try again.',
       });
     }
     const {

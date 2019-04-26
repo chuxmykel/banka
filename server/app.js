@@ -3,8 +3,8 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import debug from 'debug';
 import morgan from 'morgan';
-import errorHandler from 'errorhandler';
 import router from './v1/app/routes';
+import ErrorHandler from './v1/app/middlewares/erroHandler';
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -23,7 +23,7 @@ app.use('*', (req, res) => res.status(404).json({
   error: 'Oops! Endpoint not found. Please check that you are making the correct request',
 }));
 
-app.use(errorHandler());
+app.use(ErrorHandler.sendError);
 
 app.listen(port, log(`app is live and listening on port ${port}`));
 

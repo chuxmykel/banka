@@ -72,7 +72,7 @@ class Schema {
   */
   static createAccountSchema(account) {
     const schema = {
-      type: Joi.string().trim().lowercase().valid('savings', 'current')
+      type: Joi.string().trim().lowercase().valid('savings', 'current', 'loan')
         .required(),
       initialDeposit: Joi.number().min(5000).required(),
     };
@@ -101,7 +101,19 @@ class Schema {
   */
   static transactionSchema(amount) {
     const schema = {
-      amount: Joi.number().positive().required(),
+      amount: Joi.number().positive().required()
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'number.positive':
+                err.message = 'Invalid amount';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
     };
     return Joi.validate(amount, schema, { abortEarly: false });
   }

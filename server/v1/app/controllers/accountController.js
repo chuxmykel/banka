@@ -38,14 +38,21 @@ class AccountController {
   */
   static async changeAccountStatus(req, res) {
     const accountNumber = parseInt(req.params.accountNumber, 10);
-    const response = await accounts.updateStatus(accountNumber, req.body.status);
-    if (response.rowCount < 1) {
+    const findAccount = await accounts.find(accountNumber);
+    if (findAccount.rowCount < 1) {
       return res.status(404).json({
         status: res.statusCode,
-        error: `Account with account number ${accountNumber} does not exist`,
+        error: 'Account does not exist',
       });
     }
-
+    const accountDetails = findAccount.rows[0];
+    if (accountDetails.status === 'draft' && req.body.status === 'dormant') {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: 'You can\'t deactivate a draft account',
+      });
+    }
+    const response = await accounts.updateStatus(accountNumber, req.body.status);
     const account = response.rows[0];
     return res.status(200).json({
       status: res.statusCode,
@@ -69,7 +76,7 @@ class AccountController {
     if (response.rowCount < 1) {
       return res.status(404).json({
         status: res.statusCode,
-        error: `Account with account number ${accountNumber} does not exist`,
+        error: 'Account does not exist',
       });
     }
     return res.status(200).json({
@@ -87,11 +94,18 @@ class AccountController {
   */
   static async getHistory(req, res) {
     const accountNumber = parseInt(req.params.accountNumber, 10);
-    const transaction = await transactions.findInTransactions(accountNumber);
-    if (transaction.rowCount < 1) {
+    const account = await accounts.find(accountNumber);
+    if (account.rowCount < 1) {
       return res.status(404).json({
         status: res.statusCode,
-        error: `Account Number ${accountNumber} either does not exist or has no transaction history`,
+        error: 'Account does not exist',
+      });
+    }
+    const transaction = await transactions.findInTransactions(accountNumber);
+    if (transaction.rowCount < 1) {
+      return res.status(200).json({
+        status: res.statusCode,
+        message: 'No transaction records for this account number',
       });
     }
 
@@ -121,7 +135,7 @@ class AccountController {
     if (response.rowCount < 1) {
       return res.status(404).json({
         status: res.statusCode,
-        error: `Account Number ${accountNumber} does not exist!`,
+        error: 'Accountdoes not exist!',
       });
     }
     const { rows } = await accounts.getOne(accountNumber);
@@ -150,7 +164,7 @@ class AccountController {
     if (!rows[0]) {
       return res.status(404).json({
         status: res.statusCode,
-        error: `No account record found for the account with email ${req.params.email}`,
+        error: 'No account record found',
       });
     }
 

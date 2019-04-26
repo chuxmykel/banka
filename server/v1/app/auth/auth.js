@@ -42,19 +42,8 @@ class Auth {
   * @returns {string} A string which is the token
   */
   static generateToken(payload) {
-    const token = jwt.sign(payload, secretKey, { expiresIn: '7 days' });
+    const token = jwt.sign(payload, secretKey, { expiresIn: '1 day' });
     return token;
-  }
-
-  /**
-  * @method verifyToken
-  * @description verifies the given token
-  * @param {string} token - The token to be verified
-  * @returns {object} The payload of the token
-  */
-  static verifyToken(token) {
-    const decoded = jwt.verify(token, secretKey);
-    return decoded;
   }
 }
 
