@@ -180,7 +180,7 @@ describe('Authentication Tests', () => {
             res.should.have.status(401);
             res.body.should.be.a('object');
             res.body.should.have.property('error');
-            res.body.error.should.equal('Authentication Failed');
+            res.body.error.should.equal('The email and password you entered did not match our records. Please double-check and try again.');
             done();
           });
       });
@@ -197,7 +197,7 @@ describe('Authentication Tests', () => {
             res.should.have.status(401);
             res.body.should.be.a('object');
             res.body.should.have.property('error');
-            res.body.error.should.equal('Authentication Failed');
+            res.body.error.should.equal('The email and password you entered did not match our records. Please double-check and try again.');
             done();
           });
       });
@@ -701,31 +701,6 @@ describe('Transaction Tests', () => {
             .send({ amount: 2000 })
             .end((err, res) => {
               res.should.have.status(404);
-              res.body.should.be.a('object');
-              res.body.should.have.property('error');
-              done();
-            });
-        });
-    });
-
-    it('Should return a 400 error if there isn\t sufficient funds in the account to debit', (done) => {
-      const login = {
-        email: 'kenny_g@gmail.com',
-        password: 'password',
-      };
-
-      chai.request(app)
-        .post(`${userEndPoint}signin`)
-        .send(login)
-        .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data[0].token}`;
-
-          chai.request(app)
-            .post(`${apiEndPoint}transactions/5823642528/debit`)
-            .set('Authorization', token)
-            .send({ amount: 200000000 })
-            .end((err, res) => {
-              res.should.have.status(409);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
               done();

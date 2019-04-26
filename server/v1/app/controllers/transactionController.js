@@ -22,10 +22,16 @@ class TransactionController {
     if (accountResponse.rowCount < 1) {
       return res.status(404).json({
         status: res.statusCode,
-        error: `Account with account number ${accountNumber} does not exist`,
+        error: 'Account does not exist',
       });
     }
     const accountDetails = { ...accountResponse.rows[0] };
+    if (accountDetails.status === 'draft') {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: 'Transaction failed: Account is yet to be activated',
+      });
+    }
     const response = await transactions.create(req, accountDetails, 'credit');
     const transaction = response.rows[0];
     accounts.updateBalance(accountNumber, transaction.newBalance);
@@ -53,41 +59,44 @@ class TransactionController {
   * @returns {object} JSON API Response
   */
   static async debitAccount(req, res) {
-    try {
-      const accountNumber = parseInt(req.params.accountNumber, 10);
-      const accountResponse = await accounts.find(accountNumber);
-      if (accountResponse.rowCount < 1) {
-        return res.status(404).json({
-          status: res.statusCode,
-          error: `Account with account number ${accountNumber} does not exist`,
-        });
-      }
-      const accountDetails = { ...accountResponse.rows[0] };
-      const response = await transactions.create(req, accountDetails, 'debit');
-      const transaction = response.rows[0];
-      accounts.updateBalance(accountNumber, transaction.newBalance);
-      emailHandler.notify(TransactionController.generateMail(transaction, accountDetails));
-
-      return res.status(200).json({
+    const accountNumber = parseInt(req.params.accountNumber, 10);
+    const accountResponse = await accounts.find(accountNumber);
+    if (accountResponse.rowCount < 1) {
+      return res.status(404).json({
         status: res.statusCode,
-        data: [{
-          transactionId: transaction.id,
-          accountNumber: transaction.accountNumber,
-          amount: parseFloat(transaction.amount),
-          cashier: transaction.cashier,
-          transactionType: transaction.type,
-          oldBalance: accountDetails.balance,
-          accountBalance: transaction.newBalance,
-        }],
+        error: 'Account does not exist',
       });
-    } catch (error) {
-      if (error.code === '23514') {
-        return res.status(409).json({
-          status: res.statusCode,
-          error: 'insufficient funds',
-        });
-      }
     }
+    const accountDetails = { ...accountResponse.rows[0] };
+    if (accountDetails.status === 'draft') {
+      return res.status(400).json({
+        status: res.statusCode,
+        error: 'Transaction failed: Account is yet to be activated',
+      });
+    }
+    if (req.body.amount > accountDetails.balance) {
+      return res.status(409).json({
+        status: res.statusCode,
+        error: 'insufficient funds',
+      });
+    }
+    const response = await transactions.create(req, accountDetails, 'debit');
+    const transaction = response.rows[0];
+    accounts.updateBalance(accountNumber, transaction.newBalance);
+    emailHandler.notify(TransactionController.generateMail(transaction, accountDetails));
+
+    return res.status(200).json({
+      status: res.statusCode,
+      data: [{
+        transactionId: transaction.id,
+        accountNumber: transaction.accountNumber,
+        amount: parseFloat(transaction.amount),
+        cashier: transaction.cashier,
+        transactionType: transaction.type,
+        oldBalance: accountDetails.balance,
+        accountBalance: transaction.newBalance,
+      }],
+    });
   }
 
   /**
@@ -103,7 +112,7 @@ class TransactionController {
     if (!rows[0]) {
       return res.status(404).json({
         status: res.statusCode,
-        error: `transaction with id ${req.params.id} not found`,
+        error: 'transaction not found',
       });
     }
 

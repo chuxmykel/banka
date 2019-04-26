@@ -3,7 +3,7 @@ import Schema from './schema';
 /**
  * @class ParamValidator
  * @description Validates all request paramaters
- * @exports paramValidator
+ * @exports ParamValidator
  */
 class ParamValidator {
   /**
@@ -14,7 +14,7 @@ class ParamValidator {
     * @param {function} next - The next function to point to the next middleware
     * @returns {function} next() - The next function
     */
-  validateAccNumber(req, res, next) {
+  static validateAccNumber(req, res, next) {
     const { accountNumber } = req.params;
     const validate = Schema.accountSchema(accountNumber);
     const { error, value } = validate;
@@ -37,7 +37,7 @@ class ParamValidator {
     * @param {function} next - The next function to point to the next middleware
     * @returns {function} next() - The next function
     */
-  validateIdParams(req, res, next) {
+  static validateIdParams(req, res, next) {
     const { id } = req.params;
     const validate = Schema.idSchema(id);
     const { error, value } = validate;
@@ -60,7 +60,7 @@ class ParamValidator {
     * @param {function} next - The next function to point to the next middleware
     * @returns {function} next() - The next function
     */
-  validateEmailParams(req, res, next) {
+  static validateEmailParams(req, res, next) {
     const { email } = req.params;
     const validate = Schema.emailSchema(email);
     const { error, value } = validate;
@@ -83,7 +83,7 @@ class ParamValidator {
     * @param {function} next - The next function to point to the next middleware
     * @returns {function} next() - The next function
     */
-  validateQueryParams(req, res, next) {
+  static validateQueryParams(req, res, next) {
     const validate = Schema.querySchema(req.query);
     const { error, value } = validate;
 
@@ -98,6 +98,4 @@ class ParamValidator {
   }
 }
 
-const paramValidator = new ParamValidator();
-
-export default paramValidator;
+export default ParamValidator;
