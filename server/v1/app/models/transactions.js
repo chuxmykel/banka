@@ -17,7 +17,7 @@ class Transaction {
   static create(req, account, type) {
     const queryText = `INSERT INTO transactions("createdOn", type,
       "accountNumber", cashier, amount, "oldBalance", "newBalance") VALUES($1, $2, $3, $4, $5, $6, $7) 
-      RETURNING id, "accountNumber", amount, cashier, type, "newBalance";`;
+      RETURNING id, "accountNumber", amount, cashier, type, "newBalance", "createdOn";`;
     const accountNumber = parseInt(req.params.accountNumber, 10);
     const newBalance = Transaction.getBalance(account.balance, req.body.amount, type);
     const values = [moment(new Date()), type, accountNumber,

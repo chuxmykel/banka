@@ -1,5 +1,7 @@
 import transactions from '../models/transactions';
 import accounts from '../models/accounts';
+import users from '../models/users';
+import emailHandler from '../helpers/emailHandler';
 
 /**
  * @class TransactionController
@@ -27,6 +29,7 @@ class TransactionController {
     const response = await transactions.create(req, accountDetails, 'credit');
     const transaction = response.rows[0];
     accounts.updateBalance(accountNumber, transaction.newBalance);
+    emailHandler.notify(TransactionController.generateMail(transaction, accountDetails));
 
     return res.status(200).json({
       status: res.statusCode,
@@ -63,6 +66,7 @@ class TransactionController {
       const response = await transactions.create(req, accountDetails, 'debit');
       const transaction = response.rows[0];
       accounts.updateBalance(accountNumber, transaction.newBalance);
+      emailHandler.notify(TransactionController.generateMail(transaction, accountDetails));
 
       return res.status(200).json({
         status: res.statusCode,
@@ -107,6 +111,42 @@ class TransactionController {
       status: res.statusCode,
       data: rows,
     });
+  }
+
+  /**
+  * @method generateMail
+  * @description Generates the mail message to be sent to the user
+  * @param {object} transaction - The transaction Object
+  * @param {object} accountDetails The account details
+  * @returns {object} the message object
+  */
+  static async generateMail(transaction, accountDetails) {
+    const { rows } = await users.findById(accountDetails.owner);
+    const subject = `BeNS Transaction Alert [${transaction.type}:${transaction.type === 'debit' ? '-' : ''}${transaction.amount}]`;
+    const body = `<p>
+                Dear <em style="text-transform: capitalize">${rows[0].firstName} ${rows[0].lastName}</em>, <br>
+                BANKA electronic Notification Service (BeNS) ${transaction.type} alert notice<br>
+                A transaction just occured in your account with the details below
+                <table style="border: 1px solid">
+                  <tr>
+                    <td style="border: 1px solid">Account Number</td>
+                    <td style="border: 1px solid">${transaction.accountNumber}</td> 
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid">Transaction Time</td>
+                    <td style="border: 1px solid">${transaction.createdOn}</td> 
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid">Amount</td>
+                    <td style="border: 1px solid">${transaction.amount}</td> 
+                  </tr>
+                  <tr>
+                    <td style="border: 1px solid">Balance</td>
+                    <td style="border: 1px solid">${transaction.newBalance}</td> 
+                  </tr>
+                </table>
+              </p>`;
+    return { subject, body, email: rows[0].email };
   }
 }
 
