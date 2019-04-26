@@ -135,7 +135,7 @@ class AccountController {
     if (response.rowCount < 1) {
       return res.status(404).json({
         status: res.statusCode,
-        error: 'Accountdoes not exist!',
+        error: 'Account does not exist!',
       });
     }
     const { rows } = await accounts.getOne(accountNumber);

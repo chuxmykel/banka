@@ -62,7 +62,7 @@ class AuthenticateUser {
     if (req.user.type !== 'staff') {
       return res.status(403).send({
         status: res.statusCode,
-        error: 'You are not authorized to access this endpoint',
+        error: 'Unauthorized',
       });
     }
     return next();
@@ -90,7 +90,7 @@ class AuthenticateUser {
     if (req.user.type !== 'staff' || req.user.isAdmin) {
       return res.status(403).send({
         status: res.statusCode,
-        error: 'You are not authorized to access this endpoint',
+        error: 'Unauthorized',
       });
     }
     return next();
@@ -118,7 +118,7 @@ class AuthenticateUser {
     if (!req.user.isAdmin) {
       return res.status(403).send({
         status: res.statusCode,
-        error: 'You are not authorized to access this endpoint',
+        error: 'Unauthorized',
       });
     }
     return next();
