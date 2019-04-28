@@ -43,6 +43,17 @@ class User {
     const response = db.query(query, [id]);
     return response;
   }
+
+  /**
+   * @param {*} password
+   *  @param {*} id
+   * @returns {object} user object
+   */
+  static updatePassword(password, id) {
+    const query = 'UPDATE users SET password = $1 WHERE id = $2';
+    const response = db.query(query, [Auth.hashPassword(password), id]);
+    return response;
+  }
 }
 
 export default User;
