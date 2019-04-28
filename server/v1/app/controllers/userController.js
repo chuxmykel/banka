@@ -199,7 +199,7 @@ class UserController {
     const body = `
     <h1>Password Reset Form</h1>
     <p>Enter a new password</p>
-    <form action="https://a-bank.herokuapp.com/api/v1/auth/resetpassword" method="PATCH">
+    <form action="https://a-bank.herokuapp.com/api/v1/auth/resetpassword" method="POST">
       <input type="hidden" name="id" value="${payload.id}" />
       <input type="hidden" name="token" value="${token}" />
       <input type="password" name="password" value="" placeholder="Enter your new password..."/>
