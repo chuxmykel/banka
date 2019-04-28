@@ -38,11 +38,23 @@ class Auth {
   /**
   * @method generateToken
   * @description Generates a token for the user
-  * @param {string} payload - The user payload for generating the token
+  * @param {object} payload - The user payload for generating the token
   * @returns {string} A string which is the token
   */
   static generateToken(payload) {
     const token = jwt.sign(payload, secretKey, { expiresIn: '1 day' });
+    return token;
+  }
+
+  /**
+  * @method generateToken
+  * @description Generates a token for the user
+  * @param {object} payload - The user payload for generating the token
+  *  @param {string} otp - The one time password genereted from the user's hashed password
+  * @returns {string} A string which is the token
+  */
+  static getOneTimeToken(payload, otp) {
+    const token = jwt.sign(payload, otp, { expiresIn: '30 mins' });
     return token;
   }
 }
