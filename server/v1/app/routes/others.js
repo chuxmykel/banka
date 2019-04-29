@@ -7,7 +7,7 @@ const otherRoutes = express.Router();
 
 otherRoutes.get('/:email/accounts',
   ParamValidator.validateEmailParams,
-  AuthenticateUser.verifyAdmin,
+  AuthenticateUser.verifyStaff,
   AccountController.getUserAccounts);
 
 
