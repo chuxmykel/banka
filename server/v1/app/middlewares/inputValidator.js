@@ -14,17 +14,18 @@ class InputValidator {
     * @param {function} next - The next function to point to the next middleware
     * @returns {function} next() - The next function
     */
-  validateUser(req, res, next) {
+  static validateUser(req, res, next) {
     const user = { ...req.body };
     const validate = Schema.createUserSchema(user);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -36,17 +37,18 @@ class InputValidator {
   * @param {function} next - The next function to point to the next middleware
   * @returns {function} next() - The next function
   */
-  validateLogin(req, res, next) {
+  static validateLogin(req, res, next) {
     const login = { ...req.body };
     const validate = Schema.loginSchema(login);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -58,17 +60,18 @@ class InputValidator {
   * @param {function} next - The next function to point to the next middleware
   * @returns {function} next() - The next function
   */
-  validateAccount(req, res, next) {
+  static validateAccount(req, res, next) {
     const type = { ...req.body };
     const validate = Schema.createAccountSchema(type);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -80,17 +83,18 @@ class InputValidator {
   * @param {function} next - The next function to point to the next middleware
   * @returns {function} next() - The next function
   */
-  validateStatus(req, res, next) {
+  static validateStatus(req, res, next) {
     const type = { ...req.body };
     const validate = Schema.editAccountSchema(type);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
+    req.body = value;
     return next();
   }
 
@@ -102,21 +106,20 @@ class InputValidator {
   * @param {function} next - The next function to point to the next middleware
   * @returns {function} next() - The next function
   */
-  validateAmount(req, res, next) {
+  static validateAmount(req, res, next) {
     const amount = { ...req.body };
     const validate = Schema.transactionSchema(amount);
-    const { error } = validate;
+    const { error, value } = validate;
 
     if (error) {
       return res.status(400).send({
         status: res.statusCode,
-        error: error.details[0].message,
+        error: error.details.map(detail => detail.message),
       });
     }
+    req.body = value;
     return next();
   }
 }
 
-const inputValidator = new InputValidator();
-
-export default inputValidator;
+export default InputValidator;

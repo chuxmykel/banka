@@ -8,7 +8,7 @@ const log = debug('dev');
 /**
  * @class EmailHandler
  * @description Handles all the mailing needs of the app
- * @exports emailHandler
+ * @exports EmailHandler
  */
 class EmailHandler {
   /**
@@ -17,7 +17,8 @@ class EmailHandler {
   * @param {object} message - The email address, subject & body
   * @returns {*} nothing
   */
-  notify(message) {
+  static async notify(message) {
+    const response = await message;
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -28,15 +29,13 @@ class EmailHandler {
 
     const mailOptions = {
       from: process.env.SERVER_MAIL,
-      to: message.email,
-      subject: message.subject,
-      html: message.body,
+      to: response.email,
+      subject: response.subject,
+      html: response.body,
     };
 
     transporter.sendMail(mailOptions, (err, info) => (err ? log(err) : log(info)));
   }
 }
 
-const emailHandler = new EmailHandler();
-
-export default emailHandler;
+export default EmailHandler;

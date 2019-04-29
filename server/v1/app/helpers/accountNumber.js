@@ -1,7 +1,7 @@
 /**
  * @class AccountNumber
- * @description Contains methods to generate random account numbers
- * @exports accountNumber
+ * @description a class with a method to generate an account number
+ * @exports AccountNumber
  */
 class AccountNumber {
   /**
@@ -9,7 +9,7 @@ class AccountNumber {
   * @description generates a pseudorandom account number
   * @returns {integer} the generated account number
   */
-  generateAccountNumber() {
+  static generateAccountNumber() {
     let numberString = '';
 
     while (numberString.length < 10) {
@@ -19,6 +19,4 @@ class AccountNumber {
   }
 }
 
-const accountNumber = new AccountNumber();
-
-export default accountNumber;
+export default AccountNumber;

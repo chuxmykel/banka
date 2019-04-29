@@ -1,47 +1,59 @@
 import Auth from '../auth/auth';
-import users from './data/users';
+import db from '../migrations/db';
 
 /**
- * @exports
+ * @exports User
  * @class User
  */
 class User {
   /**
    * @param {*} data
-   * @param {*} res
    * @returns { object } user object
    */
-  create(data) {
-    const user = {
-      id: users.length + 1,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      type: 'client',
-      password: Auth.hashPassword(data.password),
-    };
+  static create(data) {
+    const queryText = `INSERT INTO users ("firstName", "lastName", email,
+      password) VALUES ($1, $2, $3, $4) RETURNING id, "firstName", "lastName", email;`;
 
-    users.push(user);
-    return user;
+    const {
+      firstName, lastName, email, password,
+    } = data;
+
+    const hashedPassword = Auth.hashPassword(password);
+    const values = [firstName, lastName, email, hashedPassword];
+    const response = db.query(queryText, values);
+    return response;
   }
 
   /**
-   * @param {*} data
+   * @param {*} email
    * @returns { object } user object
    */
-  login(data) {
-    const user = {
-      id: data.id,
-      firstname: data.firstName,
-      lastname: data.lastName,
-      email: data.email,
-    };
-    if (data.type !== 'client') {
-      user.isAdmin = data.isAdmin;
-      user.type = data.type;
-    }
-    return user;
+  static find(email) {
+    const query = 'SELECT * FROM users WHERE email=$1';
+    const response = db.query(query, [email]);
+    return response;
+  }
+
+  /**
+   * @param {*} id
+   * @returns { object } user object
+   */
+  static findById(id) {
+    const query = 'SELECT * FROM users WHERE id=$1';
+    const response = db.query(query, [id]);
+    return response;
+  }
+
+  /**
+   * @param {*} password
+   *  @param {*} id
+   * @returns {object} user object
+   */
+  static updatePassword(password, id) {
+    const query = 'UPDATE users SET password = $1 WHERE id = $2';
+    const response = db.query(query, [Auth.hashPassword(password), id]);
+    return response;
   }
 }
 
-export default new User();
+export default User;
