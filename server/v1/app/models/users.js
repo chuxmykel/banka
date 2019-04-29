@@ -25,6 +25,24 @@ class User {
   }
 
   /**
+   * @param {*} data
+   * @returns { object } user object
+   */
+  static createSuperUser(data) {
+    const queryText = `INSERT INTO users ("firstName", "lastName", email,
+      password, type, "isAdmin") VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, "firstName", "lastName", email;`;
+
+    const {
+      firstName, lastName, email, password, isAdmin,
+    } = data;
+
+    const hashedPassword = Auth.hashPassword(password);
+    const values = [firstName, lastName, email, hashedPassword, 'staff', isAdmin];
+    const response = db.query(queryText, values);
+    return response;
+  }
+
+  /**
    * @param {*} email
    * @returns { object } user object
    */
