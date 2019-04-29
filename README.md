@@ -10,9 +10,57 @@ creation, customer deposit and withdrawals. This app is meant to support a singl
 users can signup and create bank accounts online, but must visit the branch to withdraw or
 deposit money..
 
-## Installing / Getting started
+* [Technologies](#technologies)
+* [API Endpoints](#api-endpoints)
+* [Features](#features)
+* [Getting Started](#getting-started)
+  * [Installation](#installing)
+  * [Developing](#developing)
+  * [Licensing](#licensing)
 
-To run this application, you need to have Node.js, and git(to clone the repo) installed. Then follow the instructions to
+
+### Pivotal Tracker
+Pivotal Tracker was used in managing this project and you can find all the stories by clicking the link below
+[https://www.pivotaltracker.com/n/projects/2320369](https://www.pivotaltracker.com/n/projects/2320369)
+
+### UI Template
+UI templates is hosted at [https://chuxmykel.github.io/banka/UI/index.html](https://chuxmykel.github.io/banka/UI/index.html)
+
+## Technologies
+---
+- [NodeJs](https://https://nodejs.org) - Runtime Environment
+- [Express](https://expressjs.com) - Web Application Framework
+
+### Supporting Packages
+#### Linter
+- [ESlint](https://eslint.org) - Linter Tool
+#### Compiler
+- [Babel](https://babeljs.io) - Compiler for Next Generation Javascript
+#### Test Tools
+- [Mocha](https://mochajs.org) - JavaScript Test Framework for+ API Tests
+- [Chai](https://chaijs.com) - TDD/BDD Assertion Library
+
+
+## API Endpoints   
+#### Documentation
+Visit [https://a-bank.herokuapp.com/api/v1/docs](https://a-bank.herokuapp.com/api/v1/docs) to view API Documentation
+
+## Features
+
+* [User (client) can sign up](https://a-bank.herokuapps.com/api/v1/auth/signup)
+* [User (client) can login](https://a-bank.herokuapps.com/api/v1/auth/signin)
+* [User (client) can create an account](https://a-bank.herokuapps.com/api/v1/accounts)
+* [Staff (cashier) can debit user (client) account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/debit)
+* [Staff (cashier) can credit user (client) account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/credit)
+* [Admin/staff can activate or deactivate an account](https://a-bank.herokuapps.com/api/v1/accounts/1234567890)
+* [Admin/staff can delete a specific user account](https://a-bank.herokuapps.com/api/v1/accounts/1234567890)
+* [Integrate real time email notification upon credit/debit transaction on user account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/credit)
+
+## Getting Started
+---
+### Installing
+
+To run this application, you need to have Node.js, and git(to clone the repo) installed. Then follow the instructions to get
 it up and running
 
 - clone the repo using 
@@ -47,18 +95,6 @@ npm run build
 ```
 
 Babel then transpiles your ES6+ files to ES5 for environment compatibility
-
-
-## Features
-
-* [User (client) can sign up](https://a-bank.herokuapps.com/api/v1/auth/signup)
-* [User (client) can login](https://a-bank.herokuapps.com/api/v1/auth/signin)
-* [User (client) can create an account](https://a-bank.herokuapps.com/api/v1/accounts)
-* [Staff (cashier) can debit user (client) account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/debit)
-* [Staff (cashier) can credit user (client) account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/credit)
-* [Admin/staff can activate or deactivate an account](https://a-bank.herokuapps.com/api/v1/accounts/1234567890)
-* [Admin/staff can delete a specific user account](https://a-bank.herokuapps.com/api/v1/accounts/1234567890)
-* [Integrate real time email notification upon credit/debit transaction on user account](https://a-bank.herokuapps.com/api/v1/transactions/1234567890/credit)
 
 ## Licensing
 
