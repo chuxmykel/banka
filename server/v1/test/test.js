@@ -262,32 +262,6 @@ describe('Protected Routes Tests', () => {
         });
     });
   });
-  describe('POST requests to admin protected routes by staff', () => {
-    it('Should return 403 if token is for staff and not admin', (done) => {
-      const login = {
-        email: 'kenny_g@gmail.com',
-        password: 'password',
-      };
-
-      chai.request(app)
-        .post(`${userEndPoint}signin`)
-        .send(login)
-        .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data[0].token}`;
-          const accountNumber = 7456321485;
-
-          chai.request(app)
-            .delete(`${apiEndPoint}accounts/${accountNumber}`)
-            .set('Authorization', token)
-            .end((err, res) => {
-              res.should.have.status(403);
-              res.body.should.be.a('object');
-              res.body.should.have.property('error');
-              done();
-            });
-        });
-    });
-  });
   describe('POST requests to user protected routes', () => {
     it('Should return 401 if user token is invalid', (done) => {
       const token = `Bearer ${randomToken}`;
