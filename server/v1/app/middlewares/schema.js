@@ -44,7 +44,7 @@ class Schema {
         }),
       email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
         .required(),
-      password: Joi.string().min(5).required(),
+      password: Joi.string().min(8).required(),
     };
     return Joi.validate(user, schema, { abortEarly: false });
   }
@@ -87,7 +87,7 @@ class Schema {
         }),
       email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
         .required(),
-      password: Joi.string().min(5).required(),
+      password: Joi.string().min(8).required(),
       isAdmin: Joi.boolean().required(),
     };
     return Joi.validate(user, schema, { abortEarly: false });
@@ -103,7 +103,7 @@ class Schema {
     const schema = {
       email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
         .required(),
-      password: Joi.string().min(5).required(),
+      password: Joi.string().min(8).required(),
     };
     return Joi.validate(login, schema, { abortEarly: false });
   }

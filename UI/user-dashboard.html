@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Abel|Kumar+One+Outline" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <title>banka</title>
   </head>
   <body>
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a class="nav-link" href="./index.html"><p>home</p></a>
+      <a class="nav-link" href="./index.html"><p>log out</p></a>
     </div>
     <div id="page">
       <header>
@@ -20,7 +19,7 @@
           <p class="logo">b<span>ank</span>a</p>
         </div>
         <div class="header-links">
-          <a class="nav-link" href="./index.html"><p>home</p></a>
+          <a class="nav-link" href="./index.html"><p>log out</p></a>
         </div>
         <div id="hamburger-menu">☰</div>
       </header>
@@ -37,48 +36,61 @@
           </div>
         </div>
         <div id="profile-tab" class="tabcontent">
-          <div class="profile-item">
-            <span class="item-label">BVN:</span>
-            <span class="item-content">3524569878</span>
-          </div>
-          <div class="profile-item">
-            <span class="item-label">Email: </span>
-            <span class="item-content">kcmykairl@gmail.com</span>
-          </div>
-          <div class="profile-item">
-            <span class="item-label">Phone: </span>
-            <span class="item-content">08136418797</span>
-          </div>
-          <div class="profile-item">
-            <span class="item-label">Address:</span>
-            <span class="item-content">Old leg. qtrs. Jos, Plateau State</span>
-          </div>
-          <div class="edit">
-            <button id="edit"><i class="fas fa-user-edit"></i></button>
-          </div>
+            <table class="center profile-table">
+              <tr>
+                <td>BVN</td>
+                <td>3120123456</td> 
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>kcmykairl@gmail.com</td> 
+              </tr>
+              <tr>
+                <td>Phone</td>
+                <td>08112345678</td> 
+              </tr>
+              <tr>
+                <td>Address</td>
+                <td>Old leg. qtrs. Jos, Plateau State</td> 
+              </tr>
+            </table>
+            <div class="edit">
+              <button id="edit"><i class="fas fa-user-edit"></i></button>
+            </div>
         </div>
-        
         <div id="transaction-tab" class="tabcontent">
-          <div class="transaction-item">
-            <i class="fa fa-long-arrow-up debit"></i>
-            <span class="item-content">-NGN 4,000 | 7:15pm | 8-11-2011</span>
-          </div>
-          <div class="transaction-item">
-            <i class="fa fa-long-arrow-down credit"></i>
-            <span class="item-content">NGN 204,000 | 12:15pm | 3-09-2011</span>
-          </div>
-          <div class="transaction-item">
-            <i class="fa fa-long-arrow-down credit"></i>
-            <span class="item-content">NGN 12,000 | 11:45am | 22-07-2011</span>
-          </div>
-          <div class="transaction-item">
-            <i class="fa fa-long-arrow-up debit"></i>
-            <span class="item-content">-NGN 9,000 | 9:29am | 2-05-2011</span>
-          </div>
-          <div class="transaction-item">
-            <i class="fa fa-long-arrow-down credit"></i>
-            <span class="item-content">NGN 45,000 | 3:02pm | 28-12-2010</span>
-          </div>
+          <table class="center transaction-table">
+            <tr>
+              <th><i class="fas fa-long-arrow-alt-up credit"></i><i class="fas fa-long-arrow-alt-down debit"></i></th>
+              <th>AMOUNT</th> 
+              <th>DATE</th>
+              <th>TIME</th> 
+            </tr>
+            <tr>
+              <td><i class="fas fa-long-arrow-alt-up credit"></i></td>
+              <td>NGN 45,000</td>
+              <td>28-12-2010</td>
+              <td>3:02pm</td>
+            </tr>
+            <tr>
+              <td><i class="fas fa-long-arrow-alt-down debit"></i></td>
+              <td>NGN 5,000</td>
+              <td>20-10-2010</td>
+              <td>2:33pm</td>
+            </tr>
+            <tr>
+              <td><i class="fas fa-long-arrow-alt-down debit"></i></td>
+              <td>NGN 41,350.25</td>
+              <td>20-10-2009</td>
+              <td>8:00am</td>
+            </tr>
+            <tr>
+              <td><i class="fas fa-long-arrow-alt-up credit"></i></td>
+              <td>NGN 10,500</td>
+              <td>28-12-2009</td>
+              <td>12:18pm</td>
+            </tr>
+          </table>
         </div>
         
         <div id="account-tab" class="tabcontent">
