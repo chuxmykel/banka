@@ -106,7 +106,7 @@ describe('Authentication Tests', () => {
           });
       });
 
-      it('Should return 422 if email already exists', (done) => {
+      it('Should return 409 if email already exists', (done) => {
         const user = {
           firstName: 'Chukwudi',
           lastName: 'Ngwobia',
@@ -117,7 +117,7 @@ describe('Authentication Tests', () => {
           .post(`${userEndPoint}signup`)
           .send(user)
           .end((err, res) => {
-            res.should.have.status(422);
+            res.should.have.status(409);
             res.body.should.be.a('object');
             res.body.should.have.property('error');
             done();
@@ -650,7 +650,7 @@ describe('Transaction Tests', () => {
             .set('Authorization', token)
             .send({ amount: 20000000000 })
             .end((err, res) => {
-              res.should.have.status(409);
+              res.should.have.status(400);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
               done();

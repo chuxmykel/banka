@@ -17,6 +17,45 @@ header {
   padding: 20px 10px 15px 0;
 }
 
+.profile-table,
+.transaction-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.profile-table th,
+.profile-table td {
+  text-align: center;
+  padding: 8px;
+  color: #161b33;
+  font-weight: 600;
+  height: 45px;
+}
+
+.profile-table th:last-child, .profile-table td:last-child {
+  font-weight: 100;
+}
+
+tr:nth-child(odd){background-color: #a69cac}
+
+th {
+  background-color: #161b33;
+  color: white;
+}
+
+.transaction-table th, 
+.transaction-table td{
+  text-align: left;
+  padding: 8px;
+  color: #161b33;
+  font-weight: 600;
+  height: 45px;
+}
+
+.transaction-table th {
+  color: #a69cac;
+}
+
 .logo {
   display: inline;
   margin-left: 10px;
@@ -883,6 +922,29 @@ footer {
 
   .box {
     max-width: 700px;
+  }
+
+ table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+
+  .profile-table {
+    width: 40%;
+  }
+  
+  .profile-table th, .profile-table td {
+    text-align: right;
+    border-radius: 0;
+  }
+  
+  .profile-table th:last-child, .profile-table td:last-child {
+    text-align: left;
+  }
+  
+
+  .transaction-table{
+    width: 70%;
   }
 
   .submit-btn {

@@ -75,7 +75,7 @@ class TransactionController {
       });
     }
     if (req.body.amount > accountDetails.balance) {
-      return res.status(409).json({
+      return res.status(400).json({
         status: res.statusCode,
         error: 'insufficient funds',
       });
