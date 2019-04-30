@@ -14,12 +14,12 @@ accountRoutes.post('/',
 accountRoutes.patch('/:accountNumber',
   ParamValidator.validateAccNumber,
   InputValidator.validateStatus,
-  AuthenticateUser.verifyAdmin,
+  AuthenticateUser.verifyStaff,
   AccountController.changeAccountStatus);
 
 accountRoutes.delete('/:accountNumber',
   ParamValidator.validateAccNumber,
-  AuthenticateUser.verifyAdmin,
+  AuthenticateUser.verifyStaff,
   AccountController.deleteAccount);
 
 accountRoutes.get('/:accountNumber/transactions',
@@ -34,7 +34,7 @@ accountRoutes.get('/:accountNumber',
 
 accountRoutes.get('/',
   ParamValidator.validateQueryParams,
-  AuthenticateUser.verifyAdmin,
+  AuthenticateUser.verifyStaff,
   AccountController.getAllAccounts);
 
 export default accountRoutes;

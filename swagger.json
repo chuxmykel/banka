@@ -54,10 +54,6 @@
                 "firstName",
                 "lastName",
                 "email",
-
-
-
-
                 "password"
               ],
               "properties": {
@@ -159,6 +155,137 @@
             "description": "User not found",
             "schema": {
               "$ref": "#/definitions/userNotExists"
+            }
+          }
+        }
+      }
+    },
+    "/auth/superuser": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "security": [
+          {
+            "Bearer": [
+
+            ]
+          }
+        ],
+        "description": "Creates an account for a staff or admin user",
+        "summary": "Super User sign up",
+        "operationId": "ApiV1AuthSuperuser",
+        "deprecated": false,
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "user",
+            "description": "The user object",
+            "schema": {
+              "type": "object",
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "password",
+                "isAdmin"
+              ],
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "isAdmin": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Account successfully created",
+            "schema": {
+              "$ref": "#/definitions/userSignupResponse"
+            },
+            "headers": {
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/badRequest"
+            }
+          },
+          "422": {
+            "description": "User already exists (Unprocessible entity)",
+            "schema": {
+              "$ref": "#/definitions/userExists"
+            }
+          }
+        }
+      }
+    },
+    "/auth/passwordreset": {
+      "post": {
+        "tags": [
+          "authentication"
+        ],
+        "description": "Reset User Password",
+        "summary": "Password Reset",
+        "operationId": "ApiV1AuthPassword Reset",
+        "deprecated": false,
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "email",
+            "description": "The email of the account whose password is to be reset",
+            "schema": {
+              "type": "object",
+              "required": [
+                "email"
+              ],
+              "properties": {
+                "email": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A password reset link has been sent to your email",
+            "schema": {
+              "$ref": "#/definitions/resetResponse"
+            },
+            "headers": {
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/badRequest"
             }
           }
         }
@@ -944,7 +1071,7 @@
         "openingBalance": {
           "type": "number",
           "format": "float",
-          "example": 5000.0
+          "example": 5000
         }
       }
     },
@@ -967,6 +1094,20 @@
     },
     "deleteAccResponse": {
       "title": "updateAccResponse",
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "format": "int64",
+          "example": 200
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "resetResponse": {
+      "title": "resetResponse",
       "type": "object",
       "properties": {
         "status": {
@@ -1138,7 +1279,7 @@
         "balance": {
           "type": "number",
           "format": "float",
-          "example": 5000.0
+          "example": 5000
         }
       }
     }

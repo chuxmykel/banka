@@ -44,7 +44,51 @@ class Schema {
         }),
       email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
         .required(),
-      password: Joi.string().min(5).required(),
+      password: Joi.string().min(8).required(),
+    };
+    return Joi.validate(user, schema, { abortEarly: false });
+  }
+
+  /**
+  * @method superUserSchema
+  * @description Validates the user object from a post request
+  * @param {object} user - The user object to be validated
+  * @returns {object} An object specifying weather the input was valid or not.
+  */
+  static superUserSchema(user) {
+    const schema = {
+      firstName: Joi.string().lowercase().trim().required()
+        .regex(/^[a-zA-Z]+$/)
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'string.regex.base':
+                err.message = 'firstName can only contain letters';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+      lastName: Joi.string().lowercase().trim().required()
+        .regex(/^[a-zA-Z]+$/)
+        .error((errors) => {
+          errors.forEach((err) => {
+            switch (err.type) {
+              case 'string.regex.base':
+                err.message = 'lastName can only contain letters';
+                break;
+              default:
+                break;
+            }
+          });
+          return errors;
+        }),
+      email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
+        .required(),
+      password: Joi.string().min(8).required(),
+      isAdmin: Joi.boolean().required(),
     };
     return Joi.validate(user, schema, { abortEarly: false });
   }
@@ -59,7 +103,7 @@ class Schema {
     const schema = {
       email: Joi.string().trim().lowercase().email({ minDomainAtoms: 2 })
         .required(),
-      password: Joi.string().min(5).required(),
+      password: Joi.string().min(8).required(),
     };
     return Joi.validate(login, schema, { abortEarly: false });
   }

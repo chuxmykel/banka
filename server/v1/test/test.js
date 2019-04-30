@@ -106,7 +106,7 @@ describe('Authentication Tests', () => {
           });
       });
 
-      it('Should return 422 if email already exists', (done) => {
+      it('Should return 409 if email already exists', (done) => {
         const user = {
           firstName: 'Chukwudi',
           lastName: 'Ngwobia',
@@ -117,7 +117,7 @@ describe('Authentication Tests', () => {
           .post(`${userEndPoint}signup`)
           .send(user)
           .end((err, res) => {
-            res.should.have.status(422);
+            res.should.have.status(409);
             res.body.should.be.a('object');
             res.body.should.have.property('error');
             done();
@@ -253,32 +253,6 @@ describe('Protected Routes Tests', () => {
             .post(`${apiEndPoint}transactions/5823642528/debit`)
             .set('Authorization', token)
             .send({ amount: 2000 })
-            .end((err, res) => {
-              res.should.have.status(403);
-              res.body.should.be.a('object');
-              res.body.should.have.property('error');
-              done();
-            });
-        });
-    });
-  });
-  describe('POST requests to admin protected routes by staff', () => {
-    it('Should return 403 if token is for staff and not admin', (done) => {
-      const login = {
-        email: 'kenny_g@gmail.com',
-        password: 'password',
-      };
-
-      chai.request(app)
-        .post(`${userEndPoint}signin`)
-        .send(login)
-        .end((loginErr, loginRes) => {
-          const token = `Bearer ${loginRes.body.data[0].token}`;
-          const accountNumber = 7456321485;
-
-          chai.request(app)
-            .delete(`${apiEndPoint}accounts/${accountNumber}`)
-            .set('Authorization', token)
             .end((err, res) => {
               res.should.have.status(403);
               res.body.should.be.a('object');
@@ -676,7 +650,7 @@ describe('Transaction Tests', () => {
             .set('Authorization', token)
             .send({ amount: 20000000000 })
             .end((err, res) => {
-              res.should.have.status(409);
+              res.should.have.status(400);
               res.body.should.be.a('object');
               res.body.should.have.property('error');
               done();

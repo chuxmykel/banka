@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Abel|Kumar+One+Outline" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <title>banka</title>
   </head>
   <body>
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a class="nav-link" href="./index.html"><p>home</p></a>
+      <a class="nav-link" href="./index.html"><p>log out</p></a>
     </div>
     <div id="page">
       <header>
@@ -19,7 +19,7 @@
           <p class="logo">b<span>ank</span>a</p>
         </div>
         <div class="header-links">
-          <a class="nav-link" href="./index.html"><p>home</p></a>
+          <a class="nav-link" href="./index.html"><p>log out</p></a>
         </div>
         <div id="hamburger-menu">☰</div>
       </header>
@@ -35,21 +35,26 @@
           </div>
         </div>
         <div id="profile-tab" class="tabcontent">
-          <div class="profile-item">
-            <span class="item-label">Designation:</span>
-            <span class="item-content">admin</span>
-          </div>
-          <div class="profile-item">
-            <span class="item-label">Email: </span>
-            <span class="item-content">kalu.mike@gmail.com</span>
-          </div>
-          <div class="profile-item">
-            <span class="item-label">Phone: </span>
-            <span class="item-content">08001234567</span>
-          </div>
-          <div class="profile-item">
-            <span class="item-label">Address:</span>
-            <span class="item-content">No.4, Orimolusi Cr. Amen Estate</span>
+          <table class="center profile-table">
+            <tr>
+              <td>Designation</td>
+              <td>Admin</td> 
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>kcmykairl@gmail.com</td> 
+            </tr>
+            <tr>
+              <td>Phone</td>
+              <td>08112345678</td> 
+            </tr>
+            <tr>
+              <td>Address</td>
+              <td>Old leg. qtrs. Jos, Plateau State</td> 
+            </tr>
+          </table>
+          <div class="edit">
+            <button id="edit"><i class="fas fa-user-edit"></i></button>
           </div>
         </div>
         

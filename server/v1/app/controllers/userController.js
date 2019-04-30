@@ -19,12 +19,39 @@ class UserController {
   static async signUp(req, res) {
     const findUser = await users.find(req.body.email);
     if (findUser.rowCount > 0) {
-      return res.status(422).json({
+      return res.status(409).json({
         status: res.statusCode,
         error: 'email is already taken',
       });
     }
     const response = await users.create(req.body);
+    const user = response.rows[0];
+    const token = Auth.generateToken({ id: user.id, email: user.email });
+    return res.status(201).json({
+      status: res.statusCode,
+      data: [{
+        token,
+        ...user,
+      }],
+    });
+  }
+
+  /**
+  * @method superUser
+  * @description Adds a superuser to the database
+  * @param {object} req - The Request Object
+  * @param {object} res - The Response Object
+  * @returns {object} JSON API Response
+  */
+  static async superUser(req, res) {
+    const findUser = await users.find(req.body.email);
+    if (findUser.rowCount > 0) {
+      return res.status(422).json({
+        status: res.statusCode,
+        error: 'email is already taken',
+      });
+    }
+    const response = await users.createSuperUser(req.body);
     const user = response.rows[0];
     const token = Auth.generateToken({ id: user.id, email: user.email });
     return res.status(201).json({
