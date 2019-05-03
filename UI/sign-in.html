@@ -12,8 +12,6 @@
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
       <a class="nav-link" href="./index.html"><p>home</p></a>
       <a class="nav-link" href="./sign-up.html"><p>sign up</p></a>
-      <a class="nav-link" href="./staff.html"><p>Staff</p></a>
-      <a class="nav-link" href="./admin.html"><p>Admin</p></a>
     </div>
     <div id="page">
       <header>
@@ -21,37 +19,42 @@
           <p class="logo">b<span>ank</span>a</p>
         </div>
         <div class="header-links">
-            <a class="nav-link" href="./index.html"><p>home</p></a>
+          <a class="nav-link" href="./index.html"><p>home</p></a>
           <a class="nav-link" href="./sign-up.html"><p>sign up</p></a>
-          <a class="nav-link" href="./staff.html"><p>Staff</p></a>
-          <a class="nav-link" href="./admin.html"><p>Admin</p></a>
         </div>
         <div id="hamburger-menu">☰</div>
       </header>
       <div class="page-body">
-          <section class="box">
-              <h2 class="form-title" >Sign in</h2>
-            <br/><br/>
-            <div class="log-in">
-              <form action="" method="">
-                <div class="form-segment">
-                  <div class="form-label"><label>Email</label></div>
-                  <input class="form-input" type="email" name="email" placeholder="Enter your email">
-                </div>
-                <div class="form-segment">
-                  <div class="form-label"><label>Password</label></div>
-                  <input class="form-input" type="password" name="password" placeholder="Enter your password">
-                </div>
-              <a href="./user-dashboard.html"><button class="submit-btn" type="button" name="sign-in">Sign in</button></a>
-              </form>
-            </div>
-          </section>
-          <a href="" class="forgot-p">Forgot Password?</a>
+        <div class="loader-container"><div class="loader"></div></div>
+        <section class="box">
+            <h2 class="form-title" >Sign in</h2>
+          <br/><br/>
+          <div class="log-in">
+              <div class="errors">
+                  <ul>
+                      
+                  </ul>
+              </div>
+            <form id="signin" action="" method="POST">
+              <div class="form-segment">
+                <div class="form-label"><label>Email</label></div>
+                <input id="email" class="form-input" type="email" name="email" placeholder="Enter your email">
+              </div>
+              <div class="form-segment">
+                <div class="form-label"><label>Password</label></div>
+                <input id="password" class="form-input" type="password" name="password" placeholder="Enter your password">
+              </div>
+            <button class="submit-btn" type="submit" name="sign-in">Sign in</button>
+            </form>
+          </div>
+        </section>
+        <a href="" class="forgot-p">Forgot Password?</a>
       </div>
       <footer>
         <p>Copyright &copy; banka 2019</p>
       </footer>
     </div>
     <script src="js/main.js"></script>
+    <script src="js/signin.js"></script>
   </body>
 </html>

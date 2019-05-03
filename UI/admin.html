@@ -26,9 +26,9 @@
       <div class="page-body admin">
         <div class="profile-header">
           <div id="user-photo">
-              <img src="https://i.ibb.co/ch0Dc6b/my-profile.jpg">
+            <img src="https://via.placeholder.com/200/474973/a69cac">
           </div>
-          <h2 id="user-name">Mr. Kalu Michael</h2>
+          <h2 id="user-name"></h2>
           <div class="tab">
             <button id="profile" class="tablinks" onclick="displayInfo(event, 'profile-tab')">Profile</button>
             <button class="tablinks" onclick="displayInfo(event, 'user-accounts-tab')">User Accounts</button>
@@ -38,19 +38,19 @@
           <table class="center profile-table">
             <tr>
               <td>Designation</td>
-              <td>Admin</td> 
+              <td id="role"></td> 
             </tr>
             <tr>
               <td>Email</td>
-              <td>kcmykairl@gmail.com</td> 
+              <td id="user-email"></td> 
             </tr>
             <tr>
               <td>Phone</td>
-              <td>08112345678</td> 
+              <td>edit profile to add number</td> 
             </tr>
             <tr>
               <td>Address</td>
-              <td>Old leg. qtrs. Jos, Plateau State</td> 
+              <td>edit profile to add address</td> 
             </tr>
           </table>
           <div class="edit">
@@ -60,10 +60,29 @@
         
         <div id="user-accounts-tab" class="tabcontent">
           <div class="admin-item">
-            <span class="item-content"><button class="admin-btn" onclick="location.href='superuser.html'">Create Admin or Staff user Accounts</button></span>
+            <span id="superuser" class="item-content"><button class="admin-btn" onclick="location.href='superuser.html'">Create Admin or Staff user Accounts</button></span>
             <span class="item-content"><button class="admin-btn" onclick="location.href='accounts.html'">View all Bank Accounts</button></span>
             <span class="item-content"><button class="admin-btn" onclick="location.href='user-accounts.html'">View all User Accounts</button></span>
           </div>
+        </div>
+      </div>
+      <div id="myModal1" class="modal1">
+        <div class="modal-content">
+          <form action="" method="">
+            <div class="form-segment">
+              <div class="form-label"><label>Edit Profile</label></div>
+              <input class="form-input" type="file" name="profile-img" accept="image/x-png,image/gif,image/jpeg">
+            </div>
+            <div class="form-segment">
+              <div class="form-label"><label>Phone no.</label></div>
+              <input class="form-input" type="tel" name="phone" placeholder="Enter your phone number">
+            </div>
+            <div class="form-segment">
+              <div class="form-label"><label>Address</label></div>
+              <input class="form-input" type="text" name="address" placeholder="Enter your address">
+            </div>
+            <button class="submit-btn">Save Changes</button>
+          </form>
         </div>
       </div>
       <footer>
@@ -71,5 +90,7 @@
       </footer>
     </div>
     <script src="js/main.js"></script>
+    <script src="js/userDashboard.js"></script>
+    <script src="js/editProfile.js"></script>
   </body>
 </html>
