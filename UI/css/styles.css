@@ -733,7 +733,7 @@ button::-moz-focus-inner {
   width: 50%;
   color: #c0c0c0;
   font-size: 20px;
-  background-color: #161b33;
+  background-color: #a3a6b5;
   border: 1px solid #161b33;
   border-radius: 10px;
   margin: 0 0 10px 0;
@@ -765,6 +765,54 @@ footer {
   margin-left: 50px;
   border: none;
   float: right;
+}
+
+.errors ul {
+  list-style-type: none;
+}
+
+.errors ul li {
+  color: red;
+  margin: 1px;
+  padding: 1px;
+}
+
+.loader-container {
+  display: none;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #e0e0e0;
+  z-index: 20;
+}
+
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  margin: -30px 0 0 -30px;
+  border: 7px solid #e0e0e0; /* Light grey */
+  border-top: 7px solid #161b33; /* Blue */
+  border-bottom: 7px solid #161b33;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+#user-name {
+  text-transform: capitalize;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg) scale(1); }
+
+  65% { transform: rotate(60deg) scale(1.5); }
+
+  100% { transform: rotate(360deg) scale(1); }
 }
 
 /*############### END OF MOBILE RULES ##################*/

@@ -29,41 +29,43 @@
         <div id="hamburger-menu">☰</div>
       </header>
       <div class="page-body">
-          <section class="box">
-              <h2 class="form-title" >Sign up</h2>
-            <br/> <br/>
-            <div class="log-in">
-              <form action="" method="">
-                <div class="form-segment">
-                  <div class="form-label"><label>Firstname</label></div>
-                  <input class="form-input" type="text" name="firstname" placeholder="enter your firstname">
-                </div>
-                <div class="form-segment">
-                  <div class="form-label"><label>Lastname</label></div>
-                  <input class="form-input" type="text" name="lastname" placeholder="enter your Lastname">
-                </div>
-                <div class="form-segment">
-                  <div class="form-label"><label>Email</label></div>
-                  <input class="form-input" type="email" name="email" placeholder="enter your email">
-                </div>
-                <div class="form-segment">
-                  <div class="form-label"><label>Password</label></div>
-                  <input class="form-input" type="password" name="password" placeholder="enter your password">
-                </div>
-                <div class="form-segment">
-                  <div class="form-label"><label>Confirm password</label></div>
-                  <input class="form-input" type="password" name="confirm-password" placeholder="enter password again">
-                </div>
-                <a href="user-dashboard.html"><button class="submit-btn" type="button" name="sign-up">Sign up</button></a>
-              </form>
-            </div>
-          </section>
-    
+        <div class="loader-container"><div class="loader"></div></div>
+        <section class="box">
+            <h2 class="form-title" >Sign up</h2>
+          <br/> <br/>
+          <div class="log-in">
+              <div class="errors">
+                  <ul>
+                      
+                  </ul>
+              </div>
+            <form id="signup" action="" method="POST">
+              <div class="form-segment">
+                <div class="form-label"><label>Firstname</label></div>
+                <input id="firstname" class="form-input" type="text" name="firstame" placeholder="enter your firstname">
+              </div>
+              <div class="form-segment">
+                <div class="form-label"><label>Lastname</label></div>
+                <input id="lastname" class="form-input" type="text" name="lastname" placeholder="enter your Lastname">
+              </div>
+              <div class="form-segment">
+                <div class="form-label"><label>Email</label></div>
+                <input id="email" class="form-input" type="email" name="email" placeholder="enter your email">
+              </div>
+              <div class="form-segment">
+                <div class="form-label"><label>Password</label></div>
+                <input id="password" class="form-input" type="password" name="password" placeholder="enter your password">
+              </div>
+              <button class="submit-btn" type="submit" name="sign-up">Sign up</button>
+            </form>
+          </div>
+        </section>
       </div>
       <footer>
         <p>Copyright &copy; banka 2019</p>
       </footer>
     </div>
     <script src="js/main.js"></script>
+    <script src="js/signup.js"></script>
   </body>
 </html>
