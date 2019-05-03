@@ -12,7 +12,7 @@ class User {
    */
   static create(data) {
     const queryText = `INSERT INTO users ("firstName", "lastName", email,
-      password) VALUES ($1, $2, $3, $4) RETURNING id, "firstName", "lastName", email;`;
+      password) VALUES ($1, $2, $3, $4) RETURNING id, "firstName", "lastName", email, type, "isAdmin";`;
 
     const {
       firstName, lastName, email, password,
@@ -30,7 +30,7 @@ class User {
    */
   static createSuperUser(data) {
     const queryText = `INSERT INTO users ("firstName", "lastName", email,
-      password, type, "isAdmin") VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, "firstName", "lastName", email;`;
+      password, type, "isAdmin") VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, "firstName", "lastName", email, type, "isAdmin";`;
 
     const {
       firstName, lastName, email, password, isAdmin,
