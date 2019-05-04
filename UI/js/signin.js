@@ -7,7 +7,6 @@ const password = document.getElementById('password');
 const errorContainer = document.querySelector('.errors ul');
 const errorCont = document.querySelector('.errors');
 const loaderCont = document.querySelector('.loader-container');
-const alert = document.querySelector('.alert');
 
 const createNode = (element) => {
   return document.createElement(element);
@@ -63,6 +62,7 @@ signin.addEventListener('submit', (e) => {
             window.location = './admin.html'
           }
         }, 3000);
+        localStorage.setItem('token', response.data[0].token);
         localStorage.setItem('userDetails', JSON.stringify(response.data[0]));
         localStorage.setItem('loggedIn', true);
     }
