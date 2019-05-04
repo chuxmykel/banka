@@ -63,6 +63,7 @@ signup.addEventListener('submit', (e) => {
         setTimeout(() => {
           window.location = './user-dashboard.html'
         }, 3000);
+        localStorage.setItem('token', response.data[0].token);
         localStorage.setItem('userDetails', JSON.stringify(response.data[0]));
         localStorage.setItem('loggedIn', true);
     }

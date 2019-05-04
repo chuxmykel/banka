@@ -788,14 +788,40 @@ footer {
   z-index: 20;
 }
 
+.mini-loader-container {
+  /* display: none; */
+  height: 100%;
+  position: relative;
+  /* top: 50%;
+  right: 50%; */
+  width: 100%;
+  /* background: #e0e0e0; */
+  z-index: 2;
+}
+
+.mini-loader {
+  position: relative;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  margin: -30px 0 0 -30px;
+  border: 7px solid #e0e0e000;
+  border-top: 7px solid #161b33;
+  border-bottom: 7px solid #161b33;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
 .loader {
   position: absolute;
   left: 50%;
   top: 50%;
   z-index: 1;
   margin: -30px 0 0 -30px;
-  border: 7px solid #e0e0e0; /* Light grey */
-  border-top: 7px solid #161b33; /* Blue */
+  border: 7px solid #e0e0e000;
+  border-top: 7px solid #161b33;
   border-bottom: 7px solid #161b33;
   border-radius: 50%;
   width: 60px;

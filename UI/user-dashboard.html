@@ -121,25 +121,23 @@
       </div>
       <div id="myModal" class="modal">
         <div class="modal-content">
+          <div class="errors"><ul></ul></div>
           <span class="close">&times;</span>
-          <form action="" method="">
-              <div class="form-segment">
-                <div class="form-label"><label>Email</label></div>
-                <input class="form-input" type="email" name="email" placeholder="Enter your email">
-              </div>
-              <div class="form-segment">
-                <div class="form-label"><label>Phone no.</label></div>
-                <input class="form-input" type="tel" name="phone" placeholder="Enter your phone number">
-              </div>
-              <div class="form-segment">
-                <div class="form-label"><label>Account type</label></div>
-                <select class="form-input">
-                  <option value="current">Current</option>
-                  <option value="savings">Savings</option>
-                </select> 
-              </div>
-              <button class="submit-btn">Create Account</button>
-            </form>
+          <form id="create-acct" action="" method="">
+            <div class="form-segment">
+              <div class="form-label"><label>Account type</label></div>
+              <select id="type" class="form-input">
+                <option value="savings">Savings</option>
+                <option value="current">Current</option>
+                <option value="loan">Loan</option>
+              </select>
+            </div>
+            <div class="form-segment">
+              <div class="form-label"><label>First Deposit</label></div>
+              <input id="initial-deposit" class="form-input" type="number" step="0.01" name="initial-deposit" min="5000" value="5000" placeholder="Enter Transaction Amount">
+            </div>
+            <button class="submit-btn" type="submit">Create Account</button>
+          </form>
         </div>
       </div>
       <div id="myModal1" class="modal1">
@@ -170,8 +168,8 @@
       </footer>
     </div>
     <script src="js/main.js"></script>
-    <script src="js/userDashboard.js"></script>
     <script src="js/createAccount.js"></script>
+    <script src="js/userDashboard.js"></script>
     <script src="js/editProfile.js"></script>
   </body>
 </html>
