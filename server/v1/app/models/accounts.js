@@ -126,18 +126,19 @@ class Account {
   /**
   * @method getAllForUser
   * @description Finds and returns all accounts owned by a particular user
-  * @param {*} email - The email of the user who;'s account details should be fetched
+  * @param {*} param - The value of the  parameter which will be used to fetch the user's data
+  * @param {*} paramName - The name of the parameter to use for the query
   * @returns {object} the account details
   */
-  static getAllForUser(email) {
+  static getAllForUser(param, paramName) {
     const query = `
       SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
       accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
       JOIN users ON accounts.owner = users.id 
-      WHERE users.email = $1
+      WHERE users.${paramName} = $1
       ORDER BY accounts.id ASC`;
-    const response = db.query(query, [email]);
+    const response = db.query(query, [param]);
     return response;
   }
 }
