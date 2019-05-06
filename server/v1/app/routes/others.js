@@ -10,5 +10,8 @@ otherRoutes.get('/:email/accounts',
   AuthenticateUser.verifyStaff,
   AccountController.getUserAccounts);
 
+otherRoutes.get('/accounts',
+  AuthenticateUser.verifyUser,
+  AccountController.getUserAccounts);
 
 export default otherRoutes;

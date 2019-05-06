@@ -159,7 +159,15 @@ class AccountController {
   * @returns {object} JSON API Response
   */
   static async getUserAccounts(req, res) {
-    const { rows } = await accounts.getAllForUser(req.params.email);
+    const options = {};
+    if (req.params.email !== undefined) {
+      options.a = req.params.email;
+      options.b = 'email';
+    } else {
+      options.a = req.user.id;
+      options.b = 'id';
+    }
+    const { rows } = await accounts.getAllForUser(options.a, options.b);
 
     if (!rows[0]) {
       return res.status(404).json({
