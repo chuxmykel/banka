@@ -9,7 +9,6 @@ const errorContainer = document.querySelector('.errors ul');
 const errorCont = document.querySelector('.errors');
 const loader = document.querySelector('.loader');
 const loaderCont = document.querySelector('.loader-container');
-const alert = document.querySelector('.alert');
 
 const createNode = (element) => {
   return document.createElement(element);

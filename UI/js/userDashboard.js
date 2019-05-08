@@ -26,7 +26,7 @@ const loadProfileDetails = () => {
   }
 };
 
-const loadAccountDetails = () => {
+const loadAccounts = () => {
   fetch(accountsUrl, options)
     .then(res => res.json())
     .then(response => {
@@ -36,12 +36,17 @@ const loadAccountDetails = () => {
           htmlList += `
           <div class="account-item">
             <div class="acct">
-              <span class="item-label">${account.type} Account:</span>
-              <span class="item-content">${account.accountNumber}</span>
+              <span class="item-label">${account.type}</span>
+              <span class="item-content acc-no">${account.accountNumber}</span>
             </div>
-            <div class="acct bal">
-              <span class="item-label">Account Balance:</span>
+            <div class="acct">
+              <span class="item-label">Balance</span>
               <span class="item-content">NGN ${account.balance}</span>
+            </div>
+            <div class="info">
+              <button class="acct-details" onclick="loadAccountDetails('${account.type}', '${account.accountNumber}', '${account.balance}')">
+                <i class="fas fa-info"></i><span class="large-screen">Details</span>
+              </button>
             </div>
           </div>
           `;
@@ -65,5 +70,12 @@ const loadAccountDetails = () => {
     });
 };
 
+const loadAccountDetails = (type, accNumber, balance) => {
+  window.location = './account-details.html'
+  localStorage.setItem('accNumber', accNumber);
+  localStorage.setItem('accType', type);
+  localStorage.setItem('accBalance', balance);
+}
+
 loadProfileDetails();
-loadAccountDetails();
+loadAccounts();
