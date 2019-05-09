@@ -1,5 +1,6 @@
 const userDetails = JSON.parse(localStorage.getItem('userDetails'));
 const accountsUrl = 'https://a-bank.herokuapp.com/api/v1/user/accounts';
+const token = localStorage.getItem('token');
 
 const userName = document.getElementById('user-name');
 const userEmail = document.getElementById('user-email');
@@ -78,4 +79,7 @@ const loadAccountDetails = (type, accNumber, balance) => {
 }
 
 loadProfileDetails();
-loadAccounts();
+
+if (userDetails.type === 'client') {
+  loadAccounts();
+}

@@ -11,7 +11,7 @@ const modal = document.getElementById('myModal');
 const modalContent = document.querySelector('#myModal .modal-content');
 const btn = document.querySelector('.create');
 const close2 = document.getElementsByClassName('close')[0];
-const token = localStorage.getItem('token');
+
 
 const createNode = (element) => {
   return document.createElement(element);

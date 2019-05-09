@@ -1,4 +1,3 @@
-const btn = document.getElementById('transaction');
 const delBtn = document.getElementsByClassName('delete');
 const modal = document.getElementById('myModal');
 const delModal = document.getElementById('delete-modal');
@@ -9,7 +8,6 @@ const delConfirm = document.getElementById('del-confirm');
 const cancelDelete = document.getElementById('cancel');
 const length = delBtn.length;
 
-btn.onclick = () => transact();
 for (let index = 0; index < length; index++) {
   delBtn[index].onclick = () => deleteAcct(index);
 }

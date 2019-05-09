@@ -99,7 +99,8 @@ class Account {
   static getAll() {
     const query = `
       SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
-      users.email AS "ownerEmail", accounts.type, accounts.status, accounts.balance::FLOAT
+      users.email AS "ownerEmail", users."firstName", users."lastName",
+      accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
       JOIN users ON accounts."owner" = users.id`;
     const response = db.query(query);
@@ -115,7 +116,7 @@ class Account {
   static getByStatus(status) {
     const query = `
       SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
-      users.email AS "ownerEmail", accounts.type, accounts.status, accounts.balance::FLOAT
+      users.email AS "ownerEmail", users."firstName", users."lastName", accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
       JOIN users ON accounts.owner = users.id
       WHERE accounts.status = $1`;
