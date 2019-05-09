@@ -26,7 +26,7 @@ class UserController {
     }
     const response = await users.create(req.body);
     const user = response.rows[0];
-    const token = Auth.generateToken({ user });
+    const token = Auth.generateToken(user);
     return res.status(201).json({
       status: res.statusCode,
       data: [{
@@ -53,7 +53,7 @@ class UserController {
     }
     const response = await users.createSuperUser(req.body);
     const user = response.rows[0];
-    const token = Auth.generateToken({ user });
+    const token = Auth.generateToken(user);
     return res.status(201).json({
       status: res.statusCode,
       data: [{
