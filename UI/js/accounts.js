@@ -103,6 +103,60 @@ const changeAccountStatus = (checked, accountNumber, toggleSwitch) => {
   };
 };
 
+const deleteAccount = (accountNumber) => {
+  const url = `https://a-bank.herokuapp.com/api/v1/accounts/${accountNumber}`;
+  const options = {
+    method: 'DELETE',
+    headers: new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    })
+  };
+
+  warnContainer.style.display = 'block';
+
+  cancel.onclick = () => {
+    warnContainer.style.display = "none";
+  }
+
+  confirm.onclick = () => {
+    fetch(url, options)
+    .then(res => res.json())
+    .then(response => {
+      warningContainer.innerHTML = '<div class="mini-loader-container"><div class="mini-loader"></div></div>';
+      warningContainer.style.height = '250px';
+      if (response.status === 400) {
+        warningContainer.style.height = 'auto';
+          warningContainer.innerHTML = `
+          <span class="close" onclick="hideModal()">&times;</span>
+          <p style="font-size: 20px; padding-bottom: 25px;">Account Number is invalid.
+          This shouldn't happen. Please contact the admin for clarification</p>`;
+      }
+      if (response.status === 200) {
+        setTimeout(() => {
+          warningContainer.style.height = 'auto';
+          warningContainer.innerHTML = `
+          <span class="close" onclick="hideModal()">&times;</span>
+          <div>
+            <h3 style="text-align: center; color: #161b33; margin-top: 20px;">Account Deleted Successfully</h3>
+          </div>
+          `;
+        }, 3000);
+      }
+    })
+    .catch((error) => {
+        errorCont.style.display = 'block';
+        let msg = createNode('li');
+        msg.innerHTML = error.message || 'Error in connecting, Please check your internet connection and try again';
+        append(errorContainer, msg);
+        setTimeout(() => {
+            errorCont.style.display = 'none';
+            errorContainer.innerHTML = '';
+        }, 5000);
+    });
+  };
+};
+
 const loadAccoutns = () => {
   if (userDetails.isAdmin === true) {
     cashierBtn.style.display = 'none';
@@ -137,7 +191,7 @@ const loadAccoutns = () => {
               </div>
             </div>
             <div class="account-operations">
-              <button class="delete">Delete</button>
+              <button class="delete" onclick="deleteAccount(${account.accountNumber})">Delete</button>
               <button class="details" onclick="location.href='account-details.html'">Details</button>
             </div>
           </div>
