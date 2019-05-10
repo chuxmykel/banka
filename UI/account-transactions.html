@@ -26,11 +26,11 @@
         <div id="hamburger-menu">☰</div>
       </header>
       <div class="page-body staff">
-          <div class="errors">
-              <ul>
-                  
-              </ul>
-          </div>
+        <div class="errors">
+            <ul>
+                
+            </ul>
+        </div>
         <div id="all-accounts">
           <div><button id="transaction" class="transaction" onclick="transact()">New Transaction</button></div>
         </div>
@@ -59,10 +59,10 @@
           </form>
         </div>
       </div>
-      <div id="delete-modal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Are you sure you want to delete the account? This can not be undone</p>
+      <div id="warn-modal" class="modal">
+        <div id="warning-container" class="modal-content">
+          <span class="close" onclick="document.getElementById('warn-modal').style.display = 'none'">&times;</span>
+          <p id="warning">Are you sure you want to delete the account? This can not be undone</p>
           <button id="del-confirm" class="submit-btn danger">Delete</button>
           <button id="cancel" class="submit-btn">Cancel</button>
         </div>
