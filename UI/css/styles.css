@@ -785,11 +785,13 @@ footer {
   float: right;
 }
 
-.errors ul {
+.errors ul, 
+.modal-errors ul {
   list-style-type: none;
 }
 
-.errors ul li {
+.errors ul li,
+.modal-errors ul li {
   color: red;
   margin: 1px;
   padding: 1px;
