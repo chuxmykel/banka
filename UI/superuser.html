@@ -10,7 +10,7 @@
   <body>
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a class="nav-link" href="./index.html"><p>home</p></a>
+      <a class="nav-link" href="./index.html"><p>Log Out</p></a>
       <a class="nav-link" href="./admin.html"><p>Dashboard</p></a>
     </div>
     <div id="page">
@@ -19,7 +19,7 @@
           <p class="logo">b<span>ank</span>a</p>
         </div>
         <div class="header-links">
-          <a class="nav-link" href="./index.html"><p>home</p></a>
+          <a class="nav-link" href="./index.html"><p>Log Out</p></a>
           <a class="nav-link" href="./admin.html"><p>Dashboard</p></a>
         </div>
         <div id="hamburger-menu">☰</div>
@@ -29,38 +29,44 @@
               <h2 class="form-title">Create Admin/Staff</h2>
             <br/> <br/>
             <div class="log-in">
-              <form action="" method="">
+              <div class="errors">
+                <ul>
+                    
+                </ul>
+              </div>
+              <div class="success">
+                <ul>
+                    
+                </ul>
+              </div>
+              <form id="superuser" action="" method="">
                 <div class="form-segment">
                   <div class="form-label"><label>Firstname</label></div>
-                  <input class="form-input" type="text" name="firstname" placeholder="enter your firstname">
+                  <input id="firstname" class="form-input" required type="text" name="firstame" placeholder="enter your firstname">
                 </div>
                 <div class="form-segment">
                   <div class="form-label"><label>Lastname</label></div>
-                  <input class="form-input" type="text" name="lastname" placeholder="enter your Lastname">
+                  <input id="lastname" class="form-input" required type="text" name="lastname" placeholder="enter your Lastname">
                 </div>
                 <div class="form-segment">
                   <div class="form-label"><label>Email</label></div>
-                  <input class="form-input" type="email" name="email" placeholder="enter your email">
+                  <input id="email" class="form-input" required type="email" name="email" placeholder="enter your email">
                 </div>
                 <div class="form-segment">
                   <div class="form-label"><label>Password</label></div>
-                  <input class="form-input" type="password" name="password" placeholder="enter your password">
-                </div>
-                <div class="form-segment">
-                  <div class="form-label"><label>Confirm password</label></div>
-                  <input class="form-input" type="password" name="confirm-password" placeholder="enter password again">
+                  <input id="password" class="form-input" required type="password" name="password" placeholder="enter your password">
                 </div>
                 <div class="form-segment">
                   <div class="form-label"><label class="instruction">NOTE: Use the toggle switch below to toggle between admin and staff accounts</label></div><br/><br/><br/>
                   <div class="form-label"><label id="status">Staff</label></div>
                   <br/> <br/>
                   <label class="switch">
-                    <input onclick="changeStatus(this.checked)" class="form-input" type="checkbox" name="isadmin">
+                    <input id="is-admin" class="form-input" onclick="changeStatus(this.checked)" type="checkbox" name="isadmin">
                     <span class="slider round"></span>
                   </label>
                 </div>
                 <br><br>
-                <a href="admin.html"><button class="submit-btn" type="button" name="sign-up">Sign up</button></a>
+                <button class="submit-btn" type="submit" name="sign-up">Create Superuser</button>
               </form>
             </div>
           </section>
@@ -70,5 +76,6 @@
       </footer>
     </div>
     <script src="js/main.js"></script>
+    <script src="js/superuser.js"></script>
   </body>
 </html>

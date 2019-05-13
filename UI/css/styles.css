@@ -786,7 +786,8 @@ footer {
 }
 
 .errors ul, 
-.modal-errors ul {
+.modal-errors ul,
+.success ul {
   list-style-type: none;
 }
 
@@ -795,6 +796,14 @@ footer {
   color: red;
   margin: 1px;
   padding: 1px;
+}
+
+.success ul li{
+  color: green;
+  margin: 1px;
+  padding: 1px;
+  text-transform: capitalize;
+  font-size: 1.5rem;
 }
 
 .loader-container {

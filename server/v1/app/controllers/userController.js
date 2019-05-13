@@ -46,7 +46,7 @@ class UserController {
   static async superUser(req, res) {
     const findUser = await users.find(req.body.email);
     if (findUser.rowCount > 0) {
-      return res.status(422).json({
+      return res.status(409).json({
         status: res.statusCode,
         error: 'email is already taken',
       });
