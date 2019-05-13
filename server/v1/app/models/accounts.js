@@ -98,11 +98,12 @@ class Account {
   */
   static getAll() {
     const query = `
-      SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
+      SELECT accounts.id, accounts."createdOn", accounts."accountNumber"::FLOAT,
       users.email AS "ownerEmail", users."firstName", users."lastName",
       accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
-      JOIN users ON accounts."owner" = users.id`;
+      JOIN users ON accounts."owner" = users.id
+      ORDER BY accounts.id DESC`;
     const response = db.query(query);
     return response;
   }
@@ -115,11 +116,12 @@ class Account {
   */
   static getByStatus(status) {
     const query = `
-      SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
+      SELECT accounts.id, accounts."createdOn", accounts."accountNumber"::FLOAT,
       users.email AS "ownerEmail", users."firstName", users."lastName", accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
       JOIN users ON accounts.owner = users.id
-      WHERE accounts.status = $1`;
+      WHERE accounts.status = $1
+      ORDER BY accounts.id DESC`;
     const response = db.query(query, [status]);
     return response;
   }

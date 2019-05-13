@@ -26,31 +26,36 @@
         <div id="hamburger-menu">☰</div>
       </header>
       <div class="page-body staff">
-          <div class="errors">
-              <ul>
-                  
-              </ul>
-          </div>
+        <div class="errors">
+            <ul>
+                
+            </ul>
+        </div>
         <div id="all-accounts">
           <div><button id="transaction" class="transaction" onclick="transact()">New Transaction</button></div>
         </div>
         <div class="mini-loader-container" style="margin-top: 100px;"><div class="mini-loader"></div></div>
       </div>
       <div id="myModal" class="modal">
-        <div class="modal-content">
+        <div id="transaction-modal" class="modal-content">
           <span class="close">&times;</span>
-          <form action="" method="">
+          <div class="modal-errors">
+            <ul>
+                
+            </ul>
+          </div>
+          <form id="transact" action="" method="">
             <div class="form-segment">
               <div class="form-label"><label>Account Number</label></div>
-              <input class="form-input" type="number" name="account-number" placeholder="Enter Account Number">
+              <input id="account-number" class="form-input" type="number" required name="account-number" placeholder="Enter Account Number">
             </div>
             <div class="form-segment">
               <div class="form-label"><label>Amount</label></div>
-              <input class="form-input" type="number" name="amount" min="500" value="500" placeholder="Enter Transaction Amount">
+              <input id="amount" class="form-input" type="number" required name="amount" min="500" value="500" placeholder="Enter Transaction Amount">
             </div>
             <div class="form-segment">
               <div class="form-label"><label>Transaction type</label></div>
-              <select class="form-input">
+              <select id="type" required class="form-input">
                 <option value="credit">Credit</option>
                 <option value="debit">Debit</option>
               </select> 
@@ -59,10 +64,10 @@
           </form>
         </div>
       </div>
-      <div id="delete-modal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>Are you sure you want to delete the account? This can not be undone</p>
+      <div id="warn-modal" class="modal">
+        <div id="warning-container" class="modal-content">
+          <span class="close" onclick="document.getElementById('warn-modal').style.display = 'none'">&times;</span>
+          <p id="warning">Are you sure you want to delete this account? This can not be undone</p>
           <button id="del-confirm" class="submit-btn danger">Delete</button>
           <button id="cancel" class="submit-btn">Cancel</button>
         </div>

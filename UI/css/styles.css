@@ -785,14 +785,25 @@ footer {
   float: right;
 }
 
-.errors ul {
+.errors ul, 
+.modal-errors ul,
+.success ul {
   list-style-type: none;
 }
 
-.errors ul li {
+.errors ul li,
+.modal-errors ul li {
   color: red;
   margin: 1px;
   padding: 1px;
+}
+
+.success ul li{
+  color: green;
+  margin: 1px;
+  padding: 1px;
+  text-transform: capitalize;
+  font-size: 1.5rem;
 }
 
 .loader-container {
