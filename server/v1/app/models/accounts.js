@@ -135,7 +135,7 @@ class Account {
   */
   static getAllForUser(param, paramName) {
     const query = `
-      SELECT accounts."createdOn", accounts."accountNumber"::FLOAT,
+      SELECT accounts.id, accounts."createdOn", accounts."accountNumber"::FLOAT,
       accounts.type, accounts.status, accounts.balance::FLOAT
       FROM accounts
       JOIN users ON accounts.owner = users.id 
