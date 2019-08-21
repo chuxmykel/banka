@@ -14,6 +14,9 @@ class AccountNumber {
 
     while (numberString.length < 10) {
       numberString += Math.floor(Math.random() * 10);
+      if (numberString.charAt(0) === '0') {
+        numberString = numberString.slice(1, numberString.length);
+      }
     }
     return parseInt(numberString, 10);
   }
