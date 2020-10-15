@@ -10,7 +10,6 @@ export const pool = new Pool({
     ? process.env.TEST_DATABASE_URL : process.env.DATABASE_URL,
 });
 
-
 pool.on('connect', () => {
   log('connected to the db');
 });
@@ -24,16 +23,17 @@ pool.on('remove', () => {
   * @function query
   * @description queries the db with the specified string
   * @param {string} queryString - the query string
+  * @param {any []} values - an array with values of items replaced with parameters in the query
   * @returns {*} nothing
   */
-const query = async (queryString) => {
+const query = (queryString, values = []) => {
   try {
-    await pool.query(queryString);
-    pool.end();
+    return pool.query(queryString, values);
   } catch (err) {
     log(err);
+  } finally {
     pool.end();
   }
 };
 
-export default query;
+export default { query };

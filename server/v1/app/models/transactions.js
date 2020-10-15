@@ -1,5 +1,5 @@
 import moment from 'moment';
-import db from '../migrations/db';
+import { pool } from '../database';
 
 /**
  * @exports Transaction
@@ -23,7 +23,7 @@ class Transaction {
     const values = [moment(new Date()), type, accountNumber,
       req.user.id, parseFloat(req.body.amount), account.balance, newBalance];
 
-    const response = db.query(queryText, values);
+    const response = pool.query(queryText, values);
     return response;
   }
 
@@ -56,7 +56,7 @@ class Transaction {
       JOIN accounts ON accounts."accountNumber" = transactions."accountNumber" 
       WHERE accounts.owner = $1 AND transactions."accountNumber" = $2;`;
     const values = [req.user.id, accountNumber];
-    const response = db.query(queryText, values);
+    const response = pool.query(queryText, values);
     return response;
   }
 
@@ -75,7 +75,7 @@ class Transaction {
       JOIN accounts ON accounts."accountNumber" = transactions."accountNumber" 
       WHERE transactions.id = $1 AND accounts.owner = $2`;
     const values = [req.params.id, req.user.id];
-    const response = db.query(queryText, values);
+    const response = pool.query(queryText, values);
     return response;
   }
 
@@ -87,7 +87,7 @@ class Transaction {
   */
   static findInTransactions(accountNumber) {
     const queryText = 'SELECT "accountNumber" FROM transactions WHERE "accountNumber" = $1';
-    const response = db.query(queryText, [accountNumber]);
+    const response = pool.query(queryText, [accountNumber]);
     return response;
   }
 }

@@ -13,8 +13,8 @@
     "nyc": "nyc --reporter=lcov npm run test && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc npm test",
     "heroku-postbuild": "npm run build",
-    "migrations": "export DEBUG=dev && babel-node server/v1/app/migrations/dropTables && babel-node server/v1/app/migrations/createTables && babel-node server/v1/app/migrations/seed",
-    "heroku-migrations": "export DEBUG=dev && node build/v1/app/migrations/dropTables && node build/v1/app/migrations/createTables && node build/v1/app/migrations/seed"
+    "migrations": "export DEBUG=dev && babel-node server/v1/app/database/dropTables && babel-node server/v1/app/database/createTables && babel-node server/v1/app/database/seedTables",
+    "heroku-migrations": "export DEBUG=dev && node build/v1/app/database/dropTables && node build/v1/app/database/createTables && node build/v1/app/database/seedTables"
   },
   "repository": {
     "type": "git",

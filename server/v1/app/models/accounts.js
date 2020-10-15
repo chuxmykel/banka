@@ -1,6 +1,6 @@
 import moment from 'moment';
 import AccountNumber from '../helpers/accountNumber';
-import db from '../migrations/db';
+import { pool } from '../database';
 
 /**
  * @exports account
@@ -19,7 +19,7 @@ class Account {
       type, status, balance) VALUES ($1, $2, $3, $4, $5, $6) RETURNING "accountNumber"::FLOAT, type, balance::FLOAT;`;
     const values = [AccountNumber.generateAccountNumber(), moment(new Date()),
       req.user.id, data.type, 'draft', parseFloat(data.initialDeposit, 10)];
-    const response = db.query(queryText, values);
+    const response = pool.query(queryText, values);
     return response;
   }
 
@@ -31,7 +31,7 @@ class Account {
   */
   static updateStatus(accountNumber, status) {
     const query = 'UPDATE accounts SET status = $1 WHERE "accountNumber" = $2 RETURNING status;';
-    const response = db.query(query, [status, accountNumber]);
+    const response = pool.query(query, [status, accountNumber]);
     return response;
   }
 
@@ -43,7 +43,7 @@ class Account {
   */
   static delete(accountNumber) {
     const query = 'DELETE FROM accounts WHERE "accountNumber" = $1';
-    const response = db.query(query, [accountNumber]);
+    const response = pool.query(query, [accountNumber]);
     return response;
   }
 
@@ -56,7 +56,7 @@ class Account {
   */
   static updateBalance(accountNumber, balance) {
     const query = 'UPDATE accounts SET balance = $1 WHERE "accountNumber" = $2 RETURNING *;';
-    const response = db.query(query, [balance, accountNumber]);
+    const response = pool.query(query, [balance, accountNumber]);
     return response;
   }
 
@@ -68,7 +68,7 @@ class Account {
   */
   static find(accountNumber) {
     const query = 'SELECT * FROM accounts WHERE "accountNumber" = $1;';
-    const response = db.query(query, [accountNumber]);
+    const response = pool.query(query, [accountNumber]);
     return response;
   }
 
@@ -87,7 +87,7 @@ class Account {
       FROM accounts
       JOIN users ON accounts.owner = users.id 
       WHERE accounts."accountNumber" = $1`;
-    const response = db.query(query, [accountNumber]);
+    const response = pool.query(query, [accountNumber]);
     return response;
   }
 
@@ -104,7 +104,7 @@ class Account {
       FROM accounts
       JOIN users ON accounts."owner" = users.id
       ORDER BY accounts.id DESC`;
-    const response = db.query(query);
+    const response = pool.query(query);
     return response;
   }
 
@@ -122,7 +122,7 @@ class Account {
       JOIN users ON accounts.owner = users.id
       WHERE accounts.status = $1
       ORDER BY accounts.id DESC`;
-    const response = db.query(query, [status]);
+    const response = pool.query(query, [status]);
     return response;
   }
 
@@ -141,7 +141,7 @@ class Account {
       JOIN users ON accounts.owner = users.id 
       WHERE users.${paramName} = $1
       ORDER BY accounts.id ASC`;
-    const response = db.query(query, [param]);
+    const response = pool.query(query, [param]);
     return response;
   }
 }

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import query from './index';
+import dbClient from './index';
 import Auth from '../auth/auth';
 
 const queryString = `
@@ -37,4 +37,4 @@ const queryString = `
         ('${moment(new Date())}', 'credit', 7596841530, 2, 99850.00, 1200000.58, 1299850.58);
 `;
 
-query(queryString);
+dbClient.query(queryString);

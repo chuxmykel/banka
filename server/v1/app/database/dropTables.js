@@ -1,5 +1,5 @@
-import query from './index';
+import dbClient from './index';
 
 const queryString = 'DROP TABLE IF EXISTS users, accounts, transactions CASCADE';
 
-query(queryString);
+dbClient.query(queryString);
