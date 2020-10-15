@@ -66,5 +66,6 @@ build/
 # mac ds_store file
 .DS_Store
 
-# vscode workspace file
+# vscode files and folders
 banka.code-workspace
+.vscode/
