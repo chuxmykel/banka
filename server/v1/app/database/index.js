@@ -21,9 +21,10 @@ pool.on('remove', () => {
 
 /**
   * @function query
-  * @description queries the db with the specified string
+  * @description queries the db
   * @param {string} queryString - the query string
-  * @param {any []} values - an array with values of items replaced with parameters in the query
+  * @param {any []} values - an array with values
+  * for items specified as parameters in the query string
   * @returns {*} nothing
   */
 const query = (queryString, values = []) => {
