@@ -1,5 +1,5 @@
 import Auth from '../auth/auth';
-import db from '../migrations/db';
+import { pool } from '../database';
 
 /**
  * @exports User
@@ -20,7 +20,7 @@ class User {
 
     const hashedPassword = Auth.hashPassword(password);
     const values = [firstName, lastName, email, hashedPassword];
-    const response = db.query(queryText, values);
+    const response = pool.query(queryText, values);
     return response;
   }
 
@@ -38,7 +38,7 @@ class User {
 
     const hashedPassword = Auth.hashPassword(password);
     const values = [firstName, lastName, email, hashedPassword, 'staff', isAdmin];
-    const response = db.query(queryText, values);
+    const response = pool.query(queryText, values);
     return response;
   }
 
@@ -46,9 +46,9 @@ class User {
    * @param {*} email
    * @returns { object } user object
    */
-  static find(email) {
+  static async find(email) {
     const query = 'SELECT * FROM users WHERE email=$1';
-    const response = db.query(query, [email]);
+    const response = pool.query(query, [email]);
     return response;
   }
 
@@ -58,7 +58,7 @@ class User {
    */
   static findById(id) {
     const query = 'SELECT * FROM users WHERE id=$1';
-    const response = db.query(query, [id]);
+    const response = pool.query(query, [id]);
     return response;
   }
 
@@ -69,7 +69,7 @@ class User {
    */
   static updatePassword(password, id) {
     const query = 'UPDATE users SET password = $1 WHERE id = $2';
-    const response = db.query(query, [Auth.hashPassword(password), id]);
+    const response = pool.query(query, [Auth.hashPassword(password), id]);
     return response;
   }
 }

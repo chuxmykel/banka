@@ -1,4 +1,4 @@
-import query from './index';
+import dbClient from './index';
 
 const queryString = `
   CREATE TABLE IF NOT EXISTS users(
@@ -33,4 +33,4 @@ const queryString = `
   );  
 `;
 
-query(queryString);
+dbClient.query(queryString);
